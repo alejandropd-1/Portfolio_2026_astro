@@ -7,10 +7,10 @@ import { SyntaxCard, Tag, KeyValue } from '@/components/UI';
 
 import styles from '@/styles/pages/_home.module.scss';
 import { clsx } from 'clsx';
-import { cleanTitle } from '@/helpers/text-helpers';
+import { cleanTitle, formatTitle } from '@/helpers/text-helpers';
 import Breadcrumb from '@/components/Breadcrumb';
 
-export default function ClientHome({ projects }: { projects: any[] }) {
+export default function ClientHome({ projects, pageMeta }: { projects: any[], pageMeta?: any }) {
   const featuredProject = projects[0];
 
   return (
@@ -20,12 +20,12 @@ export default function ClientHome({ projects }: { projects: any[] }) {
         <Breadcrumb paths={['projects']} />
 
         <h1 className={styles.home__title}>
-          Compiled <span>Visions.</span>
+          {formatTitle(pageMeta?.title || "Compiled Visions.")}
         </h1>
 
         <KeyValue
           k="const mission"
-          v="UX/UI designer with over 14 years of experience."
+          v={pageMeta?.mission || "UX/UI designer with over 14 years of experience."}
           className="italic"
         />
       </section>
@@ -45,9 +45,9 @@ export default function ClientHome({ projects }: { projects: any[] }) {
             </div>
 
             <div className={styles.home__statusInfo}>
-              <KeyValue k="status" v='"available_for_hire",' />
-              <KeyValue k="location" v='"remote",' />
-              <KeyValue k="timezone" v='"EST",' />
+              <KeyValue k="status" v={`"${pageMeta?.status || 'available_for_hire'}",`} />
+              <KeyValue k="location" v={`"${pageMeta?.location || 'remote'}",`} />
+              <KeyValue k="timezone" v={`"${pageMeta?.timezone || 'EST'}",`} />
             </div>
           </SyntaxCard>
         </aside>

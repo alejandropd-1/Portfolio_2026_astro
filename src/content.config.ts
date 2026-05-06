@@ -17,6 +17,7 @@ const projectsCollection = defineCollection({
     image: z.string().optional(),
     showInResume: z.boolean().default(false),
     showInPortfolio: z.boolean().default(false),
+    points: z.array(z.string()).optional(),
   })
 });
 
@@ -25,6 +26,9 @@ const pagesCollection = defineCollection({
   schema: z.object({
     _template: z.string().optional(), // used by TinaCMS to identify the template
     title: z.string(),
+    // Home
+    titleAccent: z.string().optional(),
+    timezone: z.string().optional(),
     // About
     mission: z.string().optional(),
     // Archive

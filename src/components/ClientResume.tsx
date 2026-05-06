@@ -46,7 +46,8 @@ export default function ClientResume({ frontmatter, children, jobs }: { frontmat
       period: job.year,
       description: job.description,
       stack: job.stack || [],
-      type: job.type
+      type: job.type,
+      points: job.points
     }));
   }, [jobs]);
 

@@ -102,6 +102,12 @@ export default defineConfig({
             label: "Show in Portfolio",
           },
           {
+            type: "string",
+            name: "points",
+            label: "Experience Points (Resume)",
+            list: true,
+          },
+          {
             type: "rich-text",
             name: "body",
             label: "Body",
@@ -117,6 +123,42 @@ export default defineConfig({
         path: "src/content/pages",
         format: "mdx",
         templates: [
+          // ── Home page ────────────────────────────────────────────────────
+          {
+            name: "home",
+            label: "Home Page",
+            match: { filename: "home" },
+            fields: [
+              {
+                type: "string",
+                name: "title",
+                label: "Hero Title",
+                description: "Use // to split the accent color (e.g. Compiled // Visions.)",
+                isTitle: true,
+                required: true,
+              },
+              {
+                type: "string",
+                name: "mission",
+                label: "Mission / Headline",
+              },
+              {
+                type: "string",
+                name: "status",
+                label: "Sidebar Status",
+              },
+              {
+                type: "string",
+                name: "location",
+                label: "Sidebar Location",
+              },
+              {
+                type: "string",
+                name: "timezone",
+                label: "Sidebar Timezone",
+              },
+            ],
+          },
           // ── About page ───────────────────────────────────────────────────
           {
             name: "about",

@@ -17,16 +17,16 @@ export function formatTitle(text: string) {
 
   return lines.map((line, lineIdx) => {
     let parts: string[] = [];
-    let isAutoSplit = false;
+    let hasExplicitBreak = false;
 
     if (line.includes('//')) {
       parts = line.split('//');
+      hasExplicitBreak = true;
     } else {
       // If no // marker, automatically split at the last space to create the span
       const lastSpaceIndex = line.lastIndexOf(' ');
       if (lastSpaceIndex !== -1) {
         parts = [line.substring(0, lastSpaceIndex), line.substring(lastSpaceIndex + 1)];
-        isAutoSplit = true;
       } else {
         parts = [line];
       }
@@ -35,15 +35,9 @@ export function formatTitle(text: string) {
     return (
       <React.Fragment key={lineIdx}>
         {parts[0].trim()}
-        {parts[1] && (
+        {parts[1] !== undefined && (
           <>
-            {isAutoSplit ? (
-              ' '
-            ) : (
-              // Only add break for // if there's text before it on the same line 
-              // to avoid double breaks when combined with \n
-              parts[0].trim() !== '' ? <br /> : null
-            )}
+            {hasExplicitBreak ? <br /> : ' '}
             <span>{parts[1].trim()}</span>
           </>
         )}

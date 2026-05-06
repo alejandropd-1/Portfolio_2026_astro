@@ -5,7 +5,7 @@ import { Folder, ExternalLink, Code } from 'lucide-react';
 import { Tag } from '@/components/UI';
 import styles from '@/styles/pages/_archive.module.scss';
 import { clsx } from 'clsx';
-import { cleanTitle } from '@/helpers/text-helpers';
+import { cleanTitle, formatTitle } from '@/helpers/text-helpers';
 
 import Breadcrumb from '@/components/Breadcrumb';
 
@@ -18,7 +18,7 @@ export default function ClientArchive({ projects, pageMeta }: { projects: any[],
       <header className={styles.archive__header}>
          <Breadcrumb paths={['archive']} />
          <h1 className={styles.archive__title}>
-              {title}
+              {formatTitle(title)}
             </h1>
          <p className={styles.archive__subtitle}>
             {subtitle}

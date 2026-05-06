@@ -6,6 +6,28 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-06] — Refinamiento de CMS y Resume
+### Objetivo
+Estandarizar la edición de títulos en todas las páginas y habilitar la edición de puntos de experiencia (bullet points) en el Resume a través del CMS.
+
+### Cambios realizados
+
+#### `src/helpers/text-helpers.tsx`
+- Se mantiene `formatTitle` como el motor principal de renderizado de títulos. Soporta el marcador `//` para acentos de color y saltos de línea automáticos.
+
+#### `ClientArchive.tsx` & `ClientHome.tsx`
+- Se unificó el renderizado de títulos usando `formatTitle`.
+- Esto restaura el color de acento en la página Archive (que se aplica automáticamente a la última palabra si no hay `//`).
+
+#### `src/content/projects/` & `tina/config.ts`
+- Se añadió el campo `points` (lista de strings) a la colección de proyectos.
+- Esto permite agregar viñetas de logros/responsabilidades específicas a cada experiencia laboral que se muestra en el Resume.
+
+#### `ClientResume.tsx`
+- Se actualizó el mapeo de experiencias para incluir los `points` dinámicos desde el CMS.
+
+---
+
 ## [2026-05-06] — Soporte de Estructura de Carpetas en Proyectos
 
 ### Objetivo
