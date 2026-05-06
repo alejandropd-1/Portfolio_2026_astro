@@ -5,17 +5,23 @@ import ProjectDetailLayout from '@/components/ProjectDetailLayout';
 import customComponents from '@/components/mdx';
 
 export async function getStaticPaths() {
-  const projects = await getCollection('projects');
-  return projects.map(entry => ({
-    params: { slug: entry.id },
-    props: { entry },
-  }));
+  const allProjects = await getCollection('projects');
+  const sorted = allProjects
+    .filter(p => p.data.showInPortfolio !== false)
+    .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+  return sorted.map((entry, index) => {
+    const next = sorted[(index + 1) % sorted.length];
+    return {
+      params: { slug: entry.id },
+      props: { entry, nextSlug: next.id },
+    };
+  });
 }
 
-const { entry } = Astro.props;
+const { entry, nextSlug } = Astro.props;
 const { Content } = await render(entry);
 
-// Adapt the entry data to what ProjectDetailLayout expects
 const projectData = {
   ...entry.data,
   slug: entry.id
@@ -23,7 +29,7 @@ const projectData = {
 ---
 
 <MainLayout title={`${entry.data.title} | AleDesign`}>
-  <ProjectDetailLayout client:load project={projectData}>
+  <ProjectDetailLayout client:load project={projectData} nextLink={`/projects/${nextSlug}`}>
     <Content components={customComponents} />
   </ProjectDetailLayout>
 </MainLayout>

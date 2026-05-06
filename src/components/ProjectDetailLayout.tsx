@@ -1,6 +1,6 @@
 import { Database, ArrowRight, Code } from 'lucide-react';
 import { Tag } from '@/components/UI';
-
+import Breadcrumb from '@/components/Breadcrumb';
 
 import { formatTitle, cleanTitle } from '@/helpers/text-helpers';
 import styles from '@/styles/pages/_project-detail.module.scss';
@@ -20,6 +20,8 @@ export default function ProjectDetailLayout({ project, headerNode, nextLink, chi
     <div className={styles.projectDetail}>
       <div className="page-container">
         {headerNode}
+
+        <Breadcrumb paths={[{ name: 'projects', href: '/' }, cleanTitle(frontmatter.title)]} />
 
         {/* Header Section */}
         <header className={styles.projectDetail__header}>

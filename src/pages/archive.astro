@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '@/layouts/MainLayout.astro';
+import ClientArchive from '@/components/ClientArchive';
+
+const allProjects = await getCollection('projects');
+const projects = allProjects
+  .map(p => ({ ...p.data, slug: p.id }))
+  .sort((a, b) => {
+    const yearA = parseInt(a.year || '0');
+    const yearB = parseInt(b.year || '0');
+    return yearB - yearA;
+  });
+---
+
+<MainLayout>
+  <ClientArchive client:load projects={projects} />
+</MainLayout>
