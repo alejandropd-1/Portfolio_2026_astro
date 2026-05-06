@@ -1,7 +1,9 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import MainLayout from '@/layouts/MainLayout.astro';
 import ClientArchive from '@/components/ClientArchive';
+
+const page = await getEntry('pages', 'archive');
 
 const allProjects = await getCollection('projects');
 const projects = allProjects
@@ -13,6 +15,6 @@ const projects = allProjects
   });
 ---
 
-<MainLayout>
-  <ClientArchive client:load projects={projects} />
+<MainLayout title={page ? `Archive | ${page.data.title}` : 'Archive'}>
+  <ClientArchive client:load projects={projects} pageMeta={page?.data} />
 </MainLayout>

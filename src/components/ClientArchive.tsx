@@ -9,19 +9,19 @@ import { cleanTitle } from '@/helpers/text-helpers';
 
 import Breadcrumb from '@/components/Breadcrumb';
 
-export default function ClientArchive({ projects }: { projects: any[] }) {
+export default function ClientArchive({ projects, pageMeta }: { projects: any[], pageMeta?: any }) {
+  const title = pageMeta?.title || 'Project Archive';
+  const subtitle = pageMeta?.subtitle || 'Legacy systems, deprecated experiments, and structural blueprints from previous iteration cycles.';
+
   return (
     <div className="page-container">
       <header className={styles.archive__header}>
          <Breadcrumb paths={['archive']} />
          <h1 className={styles.archive__title}>
-              Project <span>Archive</span>
+              {title}
             </h1>
-         {/* <h1 className={styles.archive__title}>
-            <span>{"//"}</span> Project Archive
-         </h1> */}
          <p className={styles.archive__subtitle}>
-            Legacy systems, deprecated experiments, and structural blueprints from previous iteration cycles.
+            {subtitle}
          </p>
       </header>
 

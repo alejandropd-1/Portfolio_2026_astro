@@ -1,6 +1,5 @@
 import { defineConfig } from "tinacms";
 
-// Your hosting provider likely exposes this as an environment variable
 const branch =
   process.env.GITHUB_BRANCH ||
   process.env.VERCEL_GIT_COMMIT_REF ||
@@ -9,10 +8,7 @@ const branch =
 
 export default defineConfig({
   branch,
-
-  // Get this from tina.io
   clientId: process.env.TINA_CLIENT_ID,
-  // Get this from tina.io
   token: process.env.TINA_TOKEN,
 
   build: {
@@ -25,9 +21,9 @@ export default defineConfig({
       publicFolder: "",
     },
   },
-  // See docs on content modeling for more info: https://tina.io/docs/schema/
   schema: {
     collections: [
+      // ─── PROJECTS ──────────────────────────────────────────────────────────
       {
         name: "projects",
         label: "Projects",
@@ -43,13 +39,8 @@ export default defineConfig({
           },
           {
             type: "string",
-            name: "description",
-            label: "Description",
-          },
-          {
-            type: "image",
-            name: "coverImage",
-            label: "Cover Image",
+            name: "year",
+            label: "Year",
           },
           {
             type: "datetime",
@@ -58,24 +49,49 @@ export default defineConfig({
           },
           {
             type: "string",
-            name: "tags",
-            label: "Tags",
+            name: "type",
+            label: "Type",
+          },
+          {
+            type: "string",
+            name: "description",
+            label: "Description",
+          },
+          {
+            type: "string",
+            name: "stack",
+            label: "Tech Stack",
             list: true,
           },
           {
             type: "string",
-            name: "category",
-            label: "Category",
+            name: "role",
+            label: "Role",
+          },
+          {
+            type: "string",
+            name: "client",
+            label: "Client / Company",
+          },
+          {
+            type: "number",
+            name: "order",
+            label: "Order",
+          },
+          {
+            type: "image",
+            name: "image",
+            label: "Cover Image",
           },
           {
             type: "boolean",
-            name: "featured",
-            label: "Featured",
+            name: "showInResume",
+            label: "Show in Resume",
           },
           {
             type: "boolean",
-            name: "draft",
-            label: "Draft",
+            name: "showInPortfolio",
+            label: "Show in Portfolio",
           },
           {
             type: "rich-text",
@@ -85,29 +101,168 @@ export default defineConfig({
           },
         ],
       },
+
+      // ─── PAGES ─────────────────────────────────────────────────────────────
       {
         name: "pages",
         label: "Pages",
         path: "src/content/pages",
         format: "mdx",
-        fields: [
+        templates: [
+          // ── About page ───────────────────────────────────────────────────
           {
-            type: "string",
-            name: "title",
-            label: "Title",
-            isTitle: true,
-            required: true,
+            name: "about",
+            label: "About Page",
+            match: { filename: "about" },
+            fields: [
+              {
+                type: "string",
+                name: "title",
+                label: "Page Title",
+                isTitle: true,
+                required: true,
+              },
+              {
+                type: "string",
+                name: "mission",
+                label: "Mission / Tagline",
+              },
+              {
+                type: "rich-text",
+                name: "body",
+                label: "Bio Text",
+                isBody: true,
+              },
+            ],
           },
+
+          // ── Archive page ─────────────────────────────────────────────────
           {
-            type: "string",
-            name: "description",
-            label: "Description",
+            name: "archive",
+            label: "Archive Page",
+            match: { filename: "archive" },
+            fields: [
+              {
+                type: "string",
+                name: "title",
+                label: "Page Title",
+                isTitle: true,
+                required: true,
+              },
+              {
+                type: "string",
+                name: "subtitle",
+                label: "Subtitle / Description",
+              },
+              {
+                type: "rich-text",
+                name: "body",
+                label: "Body",
+                isBody: true,
+              },
+            ],
           },
+
+          // ── Resume page ──────────────────────────────────────────────────
           {
-            type: "rich-text",
-            name: "body",
-            label: "Body",
-            isBody: true,
+            name: "resume",
+            label: "Resume Page",
+            match: { filename: "resume" },
+            fields: [
+              {
+                type: "string",
+                name: "title",
+                label: "Job Title / Headline",
+                isTitle: true,
+                required: true,
+              },
+              {
+                type: "string",
+                name: "location",
+                label: "Location",
+              },
+              {
+                type: "string",
+                name: "email",
+                label: "Email",
+              },
+              {
+                type: "string",
+                name: "status",
+                label: "Availability Status",
+              },
+              // ── Skills ──────────────────────────────────────────────────
+              {
+                type: "object",
+                name: "skillGroups",
+                label: "Skill Groups (Section 02)",
+                list: true,
+                ui: {
+                  itemProps: (item: any) => ({ label: item?.category || "Skill Group" }),
+                },
+                fields: [
+                  {
+                    type: "string",
+                    name: "category",
+                    label: "Category Name",
+                    required: true,
+                  },
+                  {
+                    type: "object",
+                    name: "items",
+                    label: "Skills",
+                    list: true,
+                    ui: {
+                      itemProps: (item: any) => ({ label: item?.name || "Skill" }),
+                    },
+                    fields: [
+                      {
+                        type: "string",
+                        name: "name",
+                        label: "Skill Name",
+                        required: true,
+                      },
+                      {
+                        type: "string",
+                        name: "value",
+                        label: "Proficiency (e.g. 95% or Yes)",
+                        required: true,
+                      },
+                    ],
+                  },
+                ],
+              },
+              // ── Education ────────────────────────────────────────────────
+              {
+                type: "object",
+                name: "education",
+                label: "Education (Section 03)",
+                fields: [
+                  {
+                    type: "string",
+                    name: "degree",
+                    label: "Degree / Program",
+                  },
+                  {
+                    type: "string",
+                    name: "institution",
+                    label: "Institution",
+                  },
+                  {
+                    type: "string",
+                    name: "year",
+                    label: "Year / Class of",
+                  },
+                ],
+              },
+              // ── Body ─────────────────────────────────────────────────────
+              {
+                type: "rich-text",
+                name: "body",
+                label: "Short Bio / Intro",
+                isBody: true,
+              },
+            ],
           },
         ],
       },

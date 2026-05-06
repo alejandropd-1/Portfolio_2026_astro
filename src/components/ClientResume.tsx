@@ -10,35 +10,8 @@ import { clsx } from 'clsx';
 import { formatTitle } from '@/helpers/text-helpers';
 import Breadcrumb from '@/components/Breadcrumb';
 
-const experiences = [
-  {
-    role: 'Lead Product Designer',
-    company: 'TechNova Inc;',
-    period: '2021 — Present',
-    description: 'Spearheaded the redesign of the core enterprise dashboard, leading a team of 4 designers and collaborating closely with front-end engineers to establish a scalable React-based component library.',
-    points: [
-      "Developed 'The Compiled Soul' design system, reducing design-to-dev handoff time by 40% and increasing visual consistency across 5 product lines.",
-      "Conducted extensive user research, translating complex data structures into intuitive, asymmetric layouts that improved user task completion rates by 25%."
-    ],
-    stack: ['Figma', 'Design Systems', 'React', 'SASS']
-  },
-  {
-    role: 'Senior UX Designer',
-    company: 'Creative Logic;',
-    period: '2018 — 2021',
-    type: 'Agency',
-    stack: ['Prototyping', 'User Research', 'UI/UX']
-  },
-  {
-    role: 'UI Developer',
-    company: 'DataStream;',
-    period: '2015 — 2018',
-    type: 'Startup',
-    stack: ['HTML/CSS', 'JavaScript', 'Web Dev']
-  }
-];
 
-const skills = [
+const DEFAULT_SKILLS = [
   { category: 'DESIGN ARCHITECTURE', items: [
     { name: 'Design Systems', value: '95%' },
     { name: 'Interaction Design', value: '90%' },
@@ -59,6 +32,12 @@ const skills = [
   ]}
 ];
 
+const DEFAULT_EDUCATION = {
+  degree: 'Bachelor of Fine Arts in Interaction Design',
+  institution: 'California College of the Arts',
+  year: 'Class of 2015',
+};
+
 export default function ClientResume({ frontmatter, children, jobs }: { frontmatter: any, children?: React.ReactNode, jobs: any[] }) {
   const experiences = useMemo(() => {
     return jobs.map(job => ({
@@ -70,6 +49,15 @@ export default function ClientResume({ frontmatter, children, jobs }: { frontmat
       type: job.type
     }));
   }, [jobs]);
+
+  // Use CMS data if available, fall back to defaults
+  const skills = (frontmatter.skillGroups && frontmatter.skillGroups.length > 0)
+    ? frontmatter.skillGroups
+    : DEFAULT_SKILLS;
+
+  const education = frontmatter.education?.degree
+    ? frontmatter.education
+    : DEFAULT_EDUCATION;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTags, setActiveTags] = useState<string[]>([]);
@@ -332,12 +320,12 @@ export default function ClientResume({ frontmatter, children, jobs }: { frontmat
 
             <SyntaxCard className={styles.resume__eduCard}>
                <div className={styles.resume__eduCardHeader}>
-                  <h3>Bachelor of Fine Arts in Interaction Design</h3>
-                  <span>Class of 2015</span>
+                  <h3>{education.degree}</h3>
+                  <span>{education.year}</span>
                </div>
                <div className={styles.resume__expCardCompany}>
                   <span>Institution =</span>
-                  <span>California College of the Arts;</span>
+                  <span>{education.institution};</span>
                </div>
             </SyntaxCard>
           </section>

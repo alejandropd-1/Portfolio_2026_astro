@@ -22,11 +22,30 @@ const projectsCollection = defineCollection({
 const pagesCollection = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/pages" }),
   schema: z.object({
+    _template: z.string().optional(), // used by TinaCMS to identify the template
     title: z.string(),
+    // About
+    mission: z.string().optional(),
+    // Archive
+    subtitle: z.string().optional(),
+    // Resume – contact
     location: z.string().optional(),
     email: z.string().optional(),
     status: z.string().optional(),
-    mission: z.string().optional(),
+    // Resume – skills
+    skillGroups: z.array(z.object({
+      category: z.string(),
+      items: z.array(z.object({
+        name: z.string(),
+        value: z.string(),
+      })),
+    })).optional(),
+    // Resume – education
+    education: z.object({
+      degree: z.string().optional(),
+      institution: z.string().optional(),
+      year: z.string().optional(),
+    }).optional(),
   })
 });
 
