@@ -2,8 +2,9 @@ import { z, defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const projectsCollection = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/projects" }),
+  loader: glob({ pattern: "**/[^.]*.{md,mdx}", base: "./src/content/projects" }),
   schema: z.object({
+    _template: z.string().optional(), // used by TinaCMS
     title: z.string(),
     year: z.string().optional(),
     date: z.string().or(z.date()), // Para el formato YYYY-MM-DD

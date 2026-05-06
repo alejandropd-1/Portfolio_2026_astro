@@ -6,6 +6,37 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-06] — Soporte de Estructura de Carpetas en Proyectos
+
+### Objetivo
+Permitir la organización de proyectos en subcarpetas dentro de `src/content/projects/` para facilitar la co-locación de activos multimedia y una mejor gestión de archivos.
+
+### Cambios realizados
+
+#### `src/pages/projects/[...slug].astro`
+- Se renombró el archivo de ruta de `[slug].astro` a `[...slug].astro`.
+- Este cambio permite capturar rutas anidadas (ej: `/projects/img/mi-proyecto`), habilitando el acceso a archivos dentro de subdirectorios.
+
+#### `src/content.config.ts`
+- Se actualizó el loader de la colección `projects` para ignorar archivos ocultos del sistema (como `.gitkeep`) mediante el patrón glob: `**/[^.]*.{md,mdx}`.
+- Se añadió el campo `_template: z.string().optional()` al esquema de validación de proyectos para mantener la paridad con los metadatos generados por TinaCMS.
+
+#### `tina/config.ts`
+- Se añadió un campo oculto `_template` en la colección `projects`. Esto asegura que cada nuevo archivo MDX creado desde el CMS incluya este metadato, necesario para la identificación del esquema en Astro.
+
+#### `src/components/ProjectDetailLayout.tsx`
+- Se refactorizó la lógica de **Breadcrumbs** para que sea dinámica. Ahora analiza el `id` (slug) del proyecto y genera niveles de navegación automáticos basados en los nombres de las carpetas.
+- Ejemplo: `projects / Folder Name / Project Title`.
+
+#### Limpieza de archivos
+- Se eliminó el archivo `src/content/projects/img/.gitkeep.mdx`, ya que estaba causando un error de renderizado ("undefined is not a function") al intentar ser cargado como un proyecto válido por Astro.
+
+### Impacto en SEO y Navegación
+- Las URLs de los proyectos ahora reflejan su estructura de carpetas real en disco.
+- Los metadatos de SEO se mantienen intactos, ya que siguen consumiendo el frontmatter original sin importar la profundidad del archivo.
+
+---
+
 ## [2026-05-06] — Integración de TinaCMS (Panel Clásico)
 
 ### Objetivo

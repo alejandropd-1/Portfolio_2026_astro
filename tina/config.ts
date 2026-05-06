@@ -32,6 +32,14 @@ export default defineConfig({
         fields: [
           {
             type: "string",
+            name: "_template",
+            label: "Template ID",
+            ui: {
+              component: "hidden",
+            },
+          },
+          {
+            type: "string",
             name: "title",
             label: "Title",
             isTitle: true,

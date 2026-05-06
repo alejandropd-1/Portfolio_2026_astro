@@ -46,7 +46,7 @@ Portfolio_2026_astro/
 │   │   ├── about.astro
 │   │   ├── resume.astro
 │   │   ├── archive.astro
-│   │   └── projects/[slug].astro
+│   │   └── projects/[...slug].astro # Rutas dinámicas con soporte para carpetas
 │   └── styles/              # Arquitectura SASS
 │       ├── abstracts/       # Variables, tokens, mixins (auto-injected via astro.config.mjs)
 │       ├── base/            # Resets y estilos globales
@@ -115,6 +115,7 @@ Ruta: `src/content/projects/*.mdx`
 | `image` | image | Cover del proyecto |
 | `showInResume` | boolean | Aparece en la página Resume |
 | `showInPortfolio` | boolean | Aparece en Home y Archive |
+| `_template` | string | Metadato técnico de TinaCMS |
 | `body` | rich-text | Cuerpo MDX del proyecto |
 
 ### Colección: `pages` (con templates)
@@ -206,6 +207,7 @@ npx astro check   # TypeScript diagnostics
 | No Next.js imports | Nunca usar `next/navigation` u otras APIs de Next |
 | ID en vez de slug | En Astro v6, usar `entry.id` (no `entry.slug`) |
 | Schema sync | Cambios en `tina/config.ts` → reflejar en `content.config.ts` |
+| Nested Projects | Usar `[...slug].astro` para soportar subcarpetas en proyectos |
 | Template field | Todo MDX en `pages/` necesita `_template: nombre_template` en el frontmatter |
 
 ### Flujo para agregar un nuevo proyecto
