@@ -1,0 +1,62 @@
+---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/roboto-mono/400.css';
+
+import "@/styles/main.scss";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = "AleDesign | Alejandro Delgado - Multimedia Designer", 
+  description = "Portfolio of Alejandro Delgado, a Multimedia Designer and Creative Developer specializing in high-end digital experiences, editorial design, and technical precision." 
+} = Astro.props;
+---
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="Multimedia Designer, Creative Developer, UX/UI Design, Portfolio, Editorial Design, Alejandro Delgado, AleDesign, Motion Design, Web Development" />
+    <meta name="author" content="Alejandro Delgado" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+    
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://aledesign.dev" />
+    <meta property="og:site_name" content="AleDesign" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/banner-background.png" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/banner-background.png" />
+
+    <style is:global>
+      :root {
+        --font-sans: 'Inter', sans-serif;
+        --font-mono: 'Roboto Mono', monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <Navigation client:load pathname={Astro.url.pathname} />
+    <main>
+      <slot />
+    </main>
+    <Footer client:idle />
+  </body>
+</html>

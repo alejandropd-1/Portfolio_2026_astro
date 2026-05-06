@@ -1,0 +1,61 @@
+@use "../abstracts" as *;
+
+.mdx-grid {
+  display: grid;
+  gap: $size-8;
+  margin-top: $size-16;
+  margin-bottom: $size-16;
+
+  @include mq(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.mdx-card {
+  @include syntax-card;
+  padding: $size-8;
+  border-radius: $radius-soft;
+}
+
+.mdx-badge {
+  margin-bottom: $size-4;
+  padding: $size-2;
+  width: fit-content;
+  border-radius: $radius-soft;
+
+  &--primary {
+    color: $clr-brand-primary;
+    background-color: rgba(var(--clr-brand-primary-rgb), 0.1);
+  }
+
+  &--tertiary {
+    color: $clr-brand-tertiary;
+    background-color: rgba(var(--clr-brand-tertiary-rgb), 0.1);
+  }
+}
+
+.mdx-title {
+  font-size: $fs-xl;
+  font-weight: $fw-bold;
+  margin-bottom: $size-4;
+}
+
+.mdx-text {
+  font-size: $fs-sm;
+  color: $clr-brand-on-surface-variant;
+  line-height: 1.6;
+}
+
+.mdx-image-wrapper {
+  margin-top: $size-10;
+  margin-bottom: $size-10;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: $radius-soft;
+  overflow: hidden;
+}
+
+.mdx-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}

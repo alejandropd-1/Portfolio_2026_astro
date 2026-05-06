@@ -1,0 +1,19 @@
+{
+  "exclude": [
+    "src/content/**/*.mdx",
+    "src/styles/**/*.scss"
+  ],
+  "rules": {
+    "unused-dependencies": {
+      "ignore": [
+        "sass"
+      ]
+    },
+    "unused-exports": {
+      "ignore": [
+        "**/*.scss",
+        "**/*.module.scss"
+      ]
+    }
+  }
+}

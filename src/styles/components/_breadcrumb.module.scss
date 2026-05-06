@@ -1,0 +1,35 @@
+@use "../abstracts" as *;
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: $size-3;
+  color: $clr-brand-tertiary;
+  padding-top: $size-20;
+  padding-bottom: $size-8;
+  font-family: $mono-font;
+  font-size: $fs-xs;
+  font-weight: $fw-bold;
+
+  &__list {
+    display: flex;
+    align-items: center;
+  }
+
+  &__link {
+    transition: color 0.2s ease;
+    cursor: pointer;
+    &:hover {
+      color: $clr-brand-primary;
+    }
+  }
+
+  &__separator {
+    opacity: 0.5;
+    margin: 0 $size-2;
+  }
+
+  &__current {
+    color: $clr-brand-primary;
+  }
+}

@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '@/layouts/MainLayout.astro';
+import ClientHome from '@/components/ClientHome';
+
+const allProjects = await getCollection('projects');
+const projects = allProjects
+  .filter(p => p.data.showInPortfolio !== false)
+  .map(p => ({ ...p.data, slug: p.id }))
+  .sort((a, b) => (a.order || 0) - (b.order || 0));
+---
+
+<MainLayout>
+  <ClientHome client:load projects={projects} />
+</MainLayout>

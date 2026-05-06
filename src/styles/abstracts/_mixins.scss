@@ -1,0 +1,112 @@
+// src/styles/abstracts/_mixins.scss
+@use "colors" as *;
+@use "sizes" as *;
+@use "typography" as *;
+@use "breakpoints" as *;
+
+@mixin glass($color-rgb: "--clr-brand-on-surface-rgb", $angle: 135deg) {
+  // Frosted glass: dark translucent base + color bloom from corner
+  background:
+    linear-gradient($angle,
+      rgba(var(#{$color-rgb}), 0.28) 0%,
+      rgba(var(#{$color-rgb}), 0.10) 40%,
+      rgba(0, 0, 0, 0) 70%
+    ),
+    rgba(var(--clr-brand-surface-rgb), 0.6);
+  backdrop-filter: blur(28px) saturate(1.6) brightness(0.95);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6) brightness(0.95);
+  border: 1px solid rgba(var(#{$color-rgb}), 0.25);
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(var(#{$color-rgb}), 0.22),
+    inset 0 0 0 1px rgba(var(--clr-brand-on-surface-rgb), 0.04);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('/grain.png');
+    background-repeat: repeat;
+    background-size: 700px;
+    opacity: 0.4;
+    mix-blend-mode: hard-light;
+    pointer-events: none;
+    z-index: -1;
+    border-radius: inherit;
+
+    :global(.light) & {
+      // Soften grain inversion or remove if it affects patterns poorly
+      filter: invert(0.8); 
+      opacity: 0.15;
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('/banner-background.png');
+    background-position: top;
+    background-repeat: repeat;
+    background-size: cover;
+    background-color: rgba(var(--clr-brand-surface-rgb), 0.3);
+    backdrop-filter: saturate(150%) blur(25px);
+    opacity: 1;
+    pointer-events: none;
+    z-index: -2;
+    border-radius: inherit;
+
+    :global(.light) & {
+      background-color: rgba(var(--clr-brand-surface-low-rgb), 0.4);
+      backdrop-filter: saturate(140%) blur(25px) brightness(0.98);
+      opacity: 0.7;
+    }
+  }
+}
+
+@mixin syntax-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%);
+  background-color: var(--clr-brand-surface-low);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: $radius-soft;
+}
+
+@mixin ghost-border {
+  border: 1px solid rgba(var(--clr-brand-on-surface-rgb), $ghost-border-opacity);
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin page-title {
+  font-size: $fs-5xl;
+  font-weight: $fw-bold;
+  line-height: 1.1;
+  letter-spacing: $ls-tighter;
+
+  @include mq(md) {
+    font-size: $fs-8xl;
+  }
+
+  span {
+    color: $clr-brand-primary;
+    display: inline-block;
+    font-style: normal;
+  }
+}
+
+@mixin page-subtitle {
+  font-size: $fs-xl;
+  color: $clr-brand-on-surface-variant;
+  line-height: $lh-relaxed;
+
+  @include mq(md) {
+    font-size: $fs-2xl;
+  }
+}

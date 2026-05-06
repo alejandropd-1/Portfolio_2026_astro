@@ -1,0 +1,124 @@
+// src/styles/base/_globals.scss
+@use "../abstracts" as *;
+
+:root {
+  // Dark Theme (Default)
+  --clr-brand-surface-rgb: 13, 19, 28;         // #0D131C (Surface base)
+  --clr-brand-surface-low-rgb: 21, 27, 36;     // #151B24 (Surface Container Low)
+  --clr-brand-on-surface-rgb: 217, 231, 252;   // #D9E7FC (Text)
+  --clr-brand-on-surface-variant-rgb: 158, 172, 192; // #9EACC0 (Muted Text)
+  --clr-brand-primary-rgb: 176, 255, 146;      // #B0FF92 (Neon Green)
+  --clr-brand-secondary-rgb: 255, 159, 28;     // #FF9F1C (Flame Orange)
+  --clr-brand-tertiary-rgb: 76, 201, 240;      // #4CC9F0 (Cyan)
+
+  --clr-brand-surface: rgb(var(--clr-brand-surface-rgb));
+  --clr-brand-surface-low: rgb(var(--clr-brand-surface-low-rgb));
+  --clr-brand-on-surface: rgb(var(--clr-brand-on-surface-rgb));
+  --clr-brand-on-surface-variant: rgb(var(--clr-brand-on-surface-variant-rgb));
+  --clr-brand-primary: rgb(var(--clr-brand-primary-rgb));
+  --clr-brand-on-primary: #145b00;
+  --clr-brand-secondary: rgb(var(--clr-brand-secondary-rgb));
+  --clr-brand-tertiary: rgb(var(--clr-brand-tertiary-rgb));
+  --clr-brand-danger: #ff716c;
+}
+
+.light {
+  // Light Theme (Editorial Soft Blue)
+  --clr-brand-surface-rgb: 220, 232, 248;     // Soft Blue background
+  --clr-brand-surface-low-rgb: 205, 217, 233; // Darker Blue for containers in Light mode
+  --clr-brand-on-surface-rgb: 73, 86, 103;    // #495667 (Inverse On Surface)
+  --clr-brand-on-surface-variant-rgb: 105, 119, 137; // #697789 (Outline/Muted)
+  --clr-brand-primary-rgb: 38, 109, 17;       // #266D11 (Deep Green for readability)
+  --clr-brand-secondary-rgb: 137, 81, 0;      // #895100 (Deep Orange)
+  --clr-brand-tertiary-rgb: 0, 72, 90;        // #00485A (Deep Cyan)
+
+  --clr-brand-surface: rgb(var(--clr-brand-surface-rgb));
+  --clr-brand-surface-low: rgb(var(--clr-brand-surface-low-rgb));
+  --clr-brand-on-surface: rgb(var(--clr-brand-on-surface-rgb));
+  --clr-brand-on-surface-variant: rgb(var(--clr-brand-on-surface-variant-rgb));
+  --clr-brand-primary: rgb(var(--clr-brand-primary-rgb));
+  --clr-brand-on-primary: #ffffff;
+  --clr-brand-secondary: rgb(var(--clr-brand-secondary-rgb));
+  --clr-brand-tertiary: rgb(var(--clr-brand-tertiary-rgb));
+  --clr-brand-danger: #dc2626;
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+body {
+  background-color: $body-bg;
+  color: $body-text;
+  font-family: $body-font;
+  font-size: $fs-base;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $heading-font;
+  font-weight: $heading-font-weight;
+  letter-spacing: $heading-letter-spacing;
+  line-height: 1.1;
+}
+
+main {
+  // padding-top: calc(#{$nav-height} + #{$size-24});
+  min-height: calc(100vh - #{$nav-height});
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container {
+  width: 100%;
+  max-width: $container-max;
+  margin: 0 auto;
+  padding: $size-16 $size-6 $size-32; // Increased top/bottom padding
+
+  @include mq(md) {
+    padding: $size-24 $size-12 $size-48; // Increased top/bottom padding for desktop
+  }
+}
+
+.bold { font-weight: $fw-bold; }
+.italic { font-style: italic; }
+.primary-text, .text-primary { color: $clr-brand-primary; }
+.secondary-text, .text-secondary { color: $clr-brand-secondary; }
+.tertiary-text, .text-tertiary { color: $clr-brand-tertiary; }
+.mono { font-family: $mono-font; }
+
+
+// Basic MDX Content Styling (Prose)
+article {
+  h2 {
+    font-size: $fs-4xl;
+    margin-top: $size-10;
+    margin-bottom: $size-8;
+    color: $clr-brand-on-surface;
+  }
+
+  h3 {
+    font-size: $fs-2xl;
+    margin-top: $size-6;
+    margin-bottom: $size-6;
+    color: $clr-brand-on-surface;
+  }
+
+  p {
+    margin-bottom: $size-8;
+    line-height: $lh-relaxed;
+    color: $clr-brand-on-surface-variant;
+    font-size: $fs-lg;
+  }
+
+  ul {
+    margin-bottom: $size-8;
+    padding-left: $size-6;
+    list-style: disc;
+
+    li {
+      margin-bottom: $size-4;
+      color: $clr-brand-on-surface-variant;
+    }
+  }
+}

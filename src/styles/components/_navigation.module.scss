@@ -1,0 +1,334 @@
+@use "../abstracts" as *;
+
+// ──────────────────────────────────────────────
+// NAV BAR
+// ──────────────────────────────────────────────
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $nav-height;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 $size-6;
+  background: rgba(var(--clr-brand-surface-rgb), 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(white, 0.05);
+  z-index: 200;
+
+  @include mq(md) {
+    padding: 0 $size-12;
+  }
+
+  // ── Logo ──
+  &__logo {
+    display: flex;
+    align-items: center;
+    font-size: $fs-lg;
+    letter-spacing: $ls-tight;
+    font-weight: $fw-bold;
+    color: $clr-brand-primary;
+    z-index: 210; // stays above overlay
+
+    span:first-child {
+      color: $clr-brand-on-surface;
+      font-weight: $fw-bold;
+    }
+
+    span:last-child {
+      display: none;
+    }
+
+    &--overlay {
+      font-size: $fs-xl;
+    }
+  }
+
+  // ── Desktop links ──
+  &__links {
+    display: none;
+    align-items: center;
+    gap: $size-8;
+
+    @include mq(md) {
+      display: flex;
+    }
+  }
+
+  &__link {
+    position: relative;
+    font-family: $mono-font;
+    font-size: $fs-xs;
+    font-weight: $fw-bold;
+    letter-spacing: $ls-wide;
+    color: $clr-brand-on-surface-variant;
+    transition: color 0.3s ease;
+    padding: $size-2 0;
+
+    &:hover {
+      color: $clr-brand-on-surface;
+    }
+
+    &--active {
+      color: $clr-brand-primary;
+    }
+  }
+
+  &__pill {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: $clr-brand-primary;
+  }
+
+  // ── Action buttons row ──
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $size-4;
+  }
+
+  &__btn {
+    background: none;
+    border: none;
+    color: $clr-brand-on-surface-variant;
+    cursor: pointer;
+    padding: $size-2;
+    border-radius: $radius-soft;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: $clr-brand-on-surface;
+      background: rgba(var(--clr-brand-on-surface-rgb), 0.05);
+    }
+
+    // Hidden on mobile — shown only on desktop
+    &--desktop {
+      display: none;
+
+      @include mq(md) {
+        display: inline-flex;
+      }
+    }
+
+    // Inside overlay — row with icon + label
+    &--overlay {
+      display: inline-flex;
+      align-items: center;
+      gap: $size-2;
+      font-family: $mono-font;
+      font-size: $fs-xs;
+      letter-spacing: $ls-wide;
+      padding: $size-3 $size-4;
+      border-radius: $radius-soft;
+      border: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.12);
+
+      &:hover {
+        border-color: rgba(var(--clr-brand-primary-rgb, 163, 241, 133), 0.35);
+        color: $clr-brand-primary;
+      }
+    }
+  }
+
+  // ── Terminal trigger button >_ ──
+  &__terminal_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: rgba(var(--clr-brand-surface-rgb), 0.6);
+    border: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.15);
+    border-radius: $radius-soft;
+    cursor: pointer;
+    color: $clr-brand-primary;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    z-index: 210;
+
+    &--active {
+      background: rgba(var(--clr-brand-surface-rgb), 0.9);
+      border-color: $clr-brand-primary;
+    }
+
+    // Only show on mobile
+    @include mq(md) {
+      display: none;
+    }
+  }
+}
+
+// ── Terminal icon text ──
+.terminal_icon {
+  font-family: $mono-font;
+  font-size: $fs-xs;
+  font-weight: $fw-bold;
+  letter-spacing: $ls-wide;
+  display: inline-block;
+  line-height: 1;
+  user-select: none;
+}
+
+// ──────────────────────────────────────────────
+// MOBILE FULL-SCREEN OVERLAY
+// ──────────────────────────────────────────────
+.mobile_overlay {
+  // Glass base — same mixin as cards
+  @include glass();
+
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh; // exact viewport height, no overflow
+  overflow: hidden;
+  overscroll-behavior: none; // blocks pull-to-refresh and bounce on iOS
+  touch-action: none;         // prevents touch scroll bleed-through on iOS Safari
+
+  // Additional deep overlay tinting
+  background-color: rgba(var(--clr-brand-surface-rgb), 0.97);
+
+  // Visible only below md
+  @include mq(md) {
+    display: none;
+  }
+
+  // ── Header row ──
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: $size-1;
+    padding: $size-3 $size-6;
+    padding-top: calc(#{$nav-height} + #{$size-2}); // clear the fixed nav
+    border-bottom: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.07);
+    flex-shrink: 0;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: $size-1;
+    margin-top: $size-2;
+  }
+
+  // ── Nav links list ──
+  &__nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: $size-2 $size-6;
+    gap: 0;
+  }
+
+    &__container_link{
+    border-bottom: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.06);
+    border-top: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.06);
+    &:first-child {
+      border-top: none;
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: baseline;
+    gap: $size-3;
+    padding: $size-4 0;  // reduced from $size-6 for better fit
+    text-decoration: none;
+    color: $clr-brand-on-surface-variant;
+    font-family: $mono-font;
+    font-size: $fs-xl;  // reduced from $fs-2xl for tighter vertical rhythm
+    font-weight: $fw-bold;
+    letter-spacing: $ls-wide;
+    transition: color 0.25s ease, padding-left 0.25s ease;
+
+    &:hover {
+      color: $clr-brand-on-surface;
+      padding-left: $size-2;
+    }
+
+    &--active {
+      color: $clr-brand-primary;
+
+      .mobile_overlay__index {
+        color: $clr-brand-primary;
+      }
+    }
+  }
+
+
+  &__index {
+    font-size: $fs-xs;
+    color: $clr-brand-primary;
+    font-weight: $fw-bold;
+    letter-spacing: $ls-widest;
+    flex-shrink: 0;
+    opacity: 0.8;
+    transition: opacity 0.25s ease;
+  }
+
+  &__name {
+    flex: 1;
+  }
+
+  // ── Footer ──
+  &__footer {
+    padding: $size-3 $size-6 $size-4;
+    border-top: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.07);
+    display: flex;
+    flex-direction: column;
+    gap: $size-3;
+    flex-shrink: 0;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $size-3;
+    flex-wrap: wrap;
+  }
+
+  &__status {
+    display: flex;
+    flex-direction: column;
+    gap: $size-1;
+    font-family: $mono-font;
+    font-size: 0.6rem;
+    letter-spacing: $ls-widest;
+    color: $clr-brand-on-surface-variant;
+    opacity: 0.5;
+  }
+}
+
+// ── Metadata labels ──
+.meta {
+  &__label {
+    font-family: $mono-font;
+    font-size: $fs-xs;
+    letter-spacing: $ls-wide;
+    color: $clr-brand-on-surface-variant;
+    opacity: 0.6;
+  }
+
+  &__title {
+    font-family: $mono-font;
+    font-size: $fs-lg;
+    font-weight: $fw-bold;
+    letter-spacing: $ls-wide;
+    color: $clr-brand-primary;
+    font-style: italic;
+  }
+}
+
+.status {
+  &__uuid {
+    opacity: 0.7;
+  }
+}

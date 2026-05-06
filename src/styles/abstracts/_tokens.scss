@@ -1,0 +1,20 @@
+// src/styles/abstracts/_tokens.scss
+@use "colors" as *;
+@use "typography" as *;
+@use "sizes" as *;
+
+$body-bg: $clr-brand-surface;
+$body-text: $clr-brand-on-surface;
+$body-font: $font-sans;
+
+$heading-font: $font-sans;
+$heading-font-weight: $fw-bold;
+$heading-letter-spacing: $ls-tighter;
+
+$mono-font: $font-mono;
+
+$primary-accent: $clr-brand-primary;
+$secondary-accent: $clr-brand-secondary;
+$tertiary-accent: $clr-brand-tertiary;
+
+$nav-height: 5rem;

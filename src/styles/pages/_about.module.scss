@@ -1,0 +1,116 @@
+@use "../abstracts" as *;
+
+.about {
+  &__hero {
+    display: grid;
+    gap: $size-20;
+    margin-bottom: $size-40;
+    align-items: start;
+
+    @include mq(lg) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: $size-32;
+    }
+  }
+
+  &__title {
+    @include page-title;
+  }
+
+  &__accent {
+    width: $size-16;
+    height: 4px;
+    background: rgba($clr-brand-secondary, 0.8);
+    margin-top: $size-12;
+  }
+
+  &__content {
+    @include glass("--clr-brand-tertiary-rgb", 215deg);
+    padding: $size-10;
+    border-radius: $radius-soft;
+    display: flex;
+    flex-direction: column;
+    gap: $size-12;
+    font-size: $fs-lg;
+    color: $clr-brand-on-surface-variant;
+    line-height: $lh-relaxed;
+
+    @include mq(md) {
+      font-size: $fs-xl;
+    }
+  }
+
+  &__subtitle {
+    color: $clr-brand-tertiary;
+    font-family: $mono-font;
+    font-size: $fs-xs;
+    margin-bottom: $size-8;
+    display: flex;
+    align-items: center;
+    gap: $size-2;
+  }
+
+  &__subtitleHighlight {
+    color: $clr-brand-primary;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: $size-8;
+  }
+
+  &__keyValue {
+    font-size: $fs-sm;
+    font-family: $mono-font;
+  }
+
+  &__section {
+    margin-bottom: $size-32;
+  }
+
+  &__philosophyHeader {
+    display: flex;
+    align-items: center;
+    gap: $size-4;
+    margin-bottom: $size-20;
+
+    span { color: $clr-brand-primary; }
+    h2 { font-size: $fs-4xl; @include mq(md) { font-size: $fs-5xl; } font-weight: $fw-bold; }
+  }
+
+  &__philosophyGrid {
+    display: grid;
+    gap: $size-8;
+
+    @include mq(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__philosophyCard {
+
+    padding: $size-10;
+    border-radius: $radius-soft;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    // Base glass — color override injected per-card via data attribute below
+    @include glass("--clr-brand-on-surface-rgb", 135deg);
+
+    &[data-accent="secondary"] { @include glass("--clr-brand-secondary-rgb", 135deg); }
+    &[data-accent="tertiary"]  { @include glass("--clr-brand-tertiary-rgb", 215deg); }
+    &[data-accent="primary"]   { @include glass("--clr-brand-primary-rgb", 45deg); }
+
+    &Icon {
+      margin-bottom: $size-10;
+      padding: $size-3;
+      background: $clr-brand-surface-low;
+      border-radius: $radius-soft;
+      width: fit-content;
+    }
+
+    h3 { font-size: $fs-2xl; font-weight: $fw-bold; margin-bottom: $size-6; }
+    p { font-size: $fs-sm; color: $clr-brand-on-surface-variant; line-height: $lh-relaxed; }
+  }
+}

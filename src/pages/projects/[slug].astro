@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from 'astro:content';
+import MainLayout from '@/layouts/MainLayout.astro';
+import ProjectDetailLayout from '@/components/ProjectDetailLayout';
+import customComponents from '@/components/mdx';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+// Adapt the entry data to what ProjectDetailLayout expects
+const projectData = {
+  ...entry.data,
+  slug: entry.id
+};
+---
+
+<MainLayout title={`${entry.data.title} | AleDesign`}>
+  <ProjectDetailLayout client:load project={projectData}>
+    <Content components={customComponents} />
+  </ProjectDetailLayout>
+</MainLayout>

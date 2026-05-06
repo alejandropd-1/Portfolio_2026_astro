@@ -1,0 +1,32 @@
+// src/styles/abstracts/_typography.scss
+
+$font-sans: "Inter", system-ui, sans-serif;
+$font-mono: "Roboto Mono", monospace;
+
+$fs-xs: 0.75rem;
+$fs-sm: 0.875rem;
+$fs-base: 1rem;
+$fs-lg: 1.125rem;
+$fs-xl: 1.25rem;
+$fs-2xl: 1.5rem;
+$fs-3xl: 1.875rem;
+$fs-4xl: 2.25rem;
+$fs-5xl: 3rem;
+$fs-6xl: 3.75rem;
+$fs-7xl: 4.5rem;
+$fs-8xl: 6rem;
+
+$fw-normal: 400;
+$fw-medium: 500;
+$fw-bold: 600;
+
+$ls-tighter: -0.05em;
+$ls-tight: -0.025em;
+$ls-wide: 0.1em;
+$ls-widest: 0.4em;
+
+$lh-none: 1;
+$lh-tight: 1.25;
+$lh-normal: 1.5;
+$lh-relaxed: 1.625;
+$lh-loose: 2;

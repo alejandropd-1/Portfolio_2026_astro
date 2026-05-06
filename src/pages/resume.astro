@@ -1,0 +1,22 @@
+---
+import { getEntry, getCollection, render } from 'astro:content';
+import MainLayout from '@/layouts/MainLayout.astro';
+import ClientResume from '@/components/ClientResume';
+
+const page = await getEntry('pages', 'resume');
+if (!page) throw new Error('Resume page not found');
+
+const projects = await getCollection('projects');
+const jobs = projects
+  .map(p => p.data)
+  .filter(p => p.showInResume)
+  .sort((a, b) => (a.order || 99) - (b.order || 99));
+
+const { Content } = await render(page);
+---
+
+<MainLayout title={`Resume | ${page.data.title}`}>
+  <ClientResume client:load frontmatter={page.data} jobs={jobs}>
+    <Content />
+  </ClientResume>
+</MainLayout>

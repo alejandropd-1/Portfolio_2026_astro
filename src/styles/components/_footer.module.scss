@@ -1,0 +1,55 @@
+@use "../abstracts" as *;
+
+.footer {
+  padding: $size-24 0;
+  background: var(--clr-brand-surface-low);
+  margin-top: $size-32;
+
+  &__content {
+    max-width: $container-max;
+    margin: 0 auto;
+    padding: 0 $size-6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $size-12;
+
+    @include mq(md) {
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 0 $size-12;
+    }
+  }
+
+  &__logo {
+    font-size: $fs-lg;
+    font-weight: $fw-bold;
+    letter-spacing: $ls-tight;
+  }
+
+  &__links {
+    display: flex;
+    gap: $size-8;
+    font-family: $mono-font;
+    font-size: 10px;
+    font-weight: $fw-bold;
+    letter-spacing: $ls-widest;
+    color: $clr-brand-on-surface-variant;
+
+    a {
+      transition: color 0.3s ease;
+      &:hover {
+        color: $clr-brand-primary;
+      }
+    }
+  }
+
+  &__copyright {
+    font-family: $mono-font;
+    font-size: 10px;
+    color: $clr-brand-on-surface-variant;
+    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: $ls-widest;
+  }
+}
