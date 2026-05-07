@@ -214,6 +214,115 @@
     width: fit-content;
   }
 
+  &__layoutGroup {
+    display: flex;
+    gap: $size-2;
+    margin-top: $size-8;
+    flex-wrap: wrap;
+  }
+
+  &__listView {
+    display: flex;
+    flex-direction: column;
+    gap: $size-2;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__listItem {
+    display: grid;
+    grid-template-columns: 4rem 1fr auto;
+    align-items: center;
+    gap: $size-4;
+    padding: $size-4 $size-6;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: $radius-soft;
+    text-decoration: none;
+
+    @include mq(md) {
+      grid-template-columns: 5rem 1fr auto auto auto;
+      gap: $size-6;
+    }
+
+    &:nth-child(3n+1) { @include glass("--clr-brand-primary-rgb", 45deg); }
+    &:nth-child(3n+2) { @include glass("--clr-brand-secondary-rgb", 135deg); }
+    &:nth-child(3n+3) { @include glass("--clr-brand-tertiary-rgb", 225deg); }
+
+    &:hover {
+      border-color: rgba(var(--clr-brand-primary-rgb), 0.3);
+      transform: translateX(4px);
+
+      .home__listTitle {
+        color: $clr-brand-primary;
+      }
+
+      .home__listCTA {
+        color: $clr-brand-primary;
+        opacity: 1;
+      }
+    }
+  }
+
+  &__listMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: $clr-brand-tertiary;
+    font-family: $mono-font;
+    font-size: 9px;
+    font-weight: $fw-bold;
+    text-transform: uppercase;
+    letter-spacing: $ls-wide;
+    white-space: nowrap;
+  }
+
+  &__listTitle {
+    font-size: $fs-sm;
+    font-weight: $fw-bold;
+    letter-spacing: $ls-tight;
+    color: $clr-brand-on-surface;
+    transition: color 0.3s ease;
+
+    @include mq(md) {
+      font-size: $fs-base;
+    }
+  }
+
+  &__listRole {
+    display: none;
+
+    @include mq(md) {
+      display: flex;
+    }
+  }
+
+  &__listTags {
+    display: none;
+    gap: $size-2;
+    flex-wrap: nowrap;
+
+    @include mq(md) {
+      display: flex;
+    }
+  }
+
+  &__listCTA {
+    display: flex;
+    align-items: center;
+    gap: $size-2;
+    font-size: $fs-xs;
+    font-family: $mono-font;
+    font-weight: $fw-bold;
+    letter-spacing: $ls-widest;
+    text-transform: uppercase;
+    color: $clr-brand-on-surface-variant;
+    opacity: 0.6;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+  }
+
   &__projectGrid {
     display: grid;
     gap: $size-12;

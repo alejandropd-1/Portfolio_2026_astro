@@ -41,6 +41,12 @@
     border-color: rgba(var(--clr-brand-primary-rgb), 0.3);
     color: $clr-brand-primary;
   }
+
+  &--interactive {
+    cursor: pointer;
+    appearance: none;
+    font-family: inherit;
+  }
 }
 
 .keyValue {

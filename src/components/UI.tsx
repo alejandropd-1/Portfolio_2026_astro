@@ -21,12 +21,11 @@ export function SyntaxCard({ children, className = "", label, ...rest }: SyntaxC
   );
 }
 
-export function Tag({ children, active, className = "" }: { children: ReactNode, active?: boolean, className?: string }) {
-  return (
-    <span className={clsx(styles.tag, active && styles['tag--active'], className)}>
-      {children}
-    </span>
-  );
+export function Tag({ children, active, className = "", onClick }: { children: ReactNode, active?: boolean, className?: string, onClick?: () => void }) {
+  const cls = clsx(styles.tag, active && styles['tag--active'], onClick && styles['tag--interactive'], className);
+  return onClick
+    ? <button type="button" className={cls} onClick={onClick}>{children}</button>
+    : <span className={cls}>{children}</span>;
 }
 
 export function KeyValue({ k, v, className = "" }: { k: string, v: string, className?: string }) {
