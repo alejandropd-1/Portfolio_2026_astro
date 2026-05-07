@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { useCMS } from "tinacms";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   LayoutDashboard, 
@@ -290,34 +291,28 @@ export function PortfolioDashboard() {
   const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
   const [searchQuery, setSearchQuery] = useState("");
 
+  const cms = useCMS();
+
   const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const isLocalDev =
-        typeof window !== "undefined" &&
-        (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
-
-      const apiUrl = isLocalDev
-        ? "http://localhost:4001/graphql"
-        : `${window.location.origin}/api/tina/gql`;
-
-      const res = await fetch(apiUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: DASHBOARD_QUERY }),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-      const json = await res.json();
-      if (json.errors) throw new Error(json.errors[0]?.message ?? "GraphQL error");
-      setData(json.data as DashboardData);
+      // Usamos el cliente oficial de Tina para mayor seguridad y compatibilidad con Cloud
+      const response = await cms.api.tina.request(DASHBOARD_QUERY, { variables: {} });
+      
+      if (response.errors) {
+        throw new Error(response.errors[0]?.message ?? "Error en la consulta GraphQL");
+      }
+      
+      setData(response as DashboardData);
       setLastRefresh(new Date());
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "Error desconocido");
+      console.error("Dashboard Fetch Error:", e);
+      setError(e instanceof Error ? e.message : "Error desconocido al cargar datos");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [cms]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
