@@ -6,6 +6,58 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-07] — Actualización de dependencias (TinaCMS v3, Astro v6.3, React 19.2.6)
+
+### Objetivo
+Poner al día todas las dependencias del proyecto. TinaCMS mostraba una advertencia en el panel indicando que la versión instalada (`v2.10.1`) era obsoleta y que la última disponible era `v3.7.5`.
+
+### Paquetes actualizados
+
+| Paquete | De | A | Tipo |
+|---|---|---|---|
+| `tinacms` | `^2.4.0` | `^3.7.5` | **Major** (v2 → v3) |
+| `@tinacms/cli` | `^1.7.0` | `^2.2.5` | **Major** (v1 → v2) |
+| `astro` | `6.2.2` | `6.3.0` | Minor |
+| `react` | `19.2.5` | `19.2.6` | Patch |
+| `react-dom` | `19.2.5` | `19.2.6` | Patch |
+| `fs-extra` | — | `^11.3.5` | **Nueva** (ver abajo) |
+
+### Notas importantes
+
+#### TinaCMS v3 — Cambio principal: ESM
+El cambio más significativo de TinaCMS v2 → v3 es la migración de CommonJS a ESM. El proyecto ya usa `"type": "module"` en `package.json`, por lo que el cambio fue **transparente sin modificaciones de código**.
+
+#### `fs-extra` — Dependencia faltante
+Tras actualizar `@tinacms/cli` a v2.x, el dev server (`npm run dev`) fallaba con:
+```
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'fs-extra' imported from @tinacms/metrics/dist/index.js
+```
+`fs-extra` es una dependencia peer de `@tinacms/metrics@2.0.1` que no se resuelve automáticamente. Se añadió manualmente a `devDependencies` como fix.
+
+#### Peer deps de TinaCMS
+TinaCMS internamente usa `@headlessui/react@2.1.8` (que pide React 18) y `react-final-form@6.5.9` (que pide React ≤18). Dado que el proyecto usa React 19, npm genera warnings de ERESOLVE. Estos warnings **son esperados y no afectan el funcionamiento**: las dependencias internas de tina viven en su propio sub-árbol en `node_modules/tinacms/node_modules/`. Se resolvió usando `--legacy-peer-deps` para la actualización de React.
+
+### Archivos modificados
+
+#### `package.json`
+- `tinacms`: `^2.4.0` → `^3.7.5`
+- `@tinacms/cli`: movido a `devDependencies`, `^1.7.0` → `^2.2.5`
+- `fs-extra`: añadido a `devDependencies` como `^11.3.5`
+- `react` / `react-dom`: `^19.2.5` → `^19.2.6`
+- `astro`: `^6.2.2` → `^6.3.0`
+
+### Verificación
+- ✅ `npm run dev` — TinaCMS + Astro inician correctamente en `localhost:4321`
+- ✅ `npx astro build` — 11 páginas generadas, exit code 0
+- ✅ Panel CMS en `localhost:4321/admin` — sin advertencias de versión
+
+### Compatibilidad: Node.js
+`@tinacms/cli` v2.2.5 incluye `better-sqlite3@11.10.0`, que soporta **Node 22 y Node 24** (ambos LTS activos en mayo 2026). La restricción histórica de "usar exactamente Node 22.12.0" ya no aplica. El `package.json` mantiene `"node": ">=22.12.0"` que es un mínimo correcto.
+
+> Node 26 fue lanzado el 5 de mayo de 2026 como versión "Current" (aún no LTS). No se recomienda usarlo en producción hasta octubre 2026.
+
+---
+
 ## [2026-05-06] — Refinamiento de CMS y Resume
 ### Objetivo
 Estandarizar la edición de títulos en todas las páginas y habilitar la edición de puntos de experiencia (bullet points) en el Resume a través del CMS.
@@ -70,7 +122,7 @@ Añadir un CMS headless con panel de edición visual para gestionar el contenido
 - El admin panel corre en `http://localhost:4321/admin/index.html`.
 
 ### Compatibilidad: Node.js
-> ⚠️ **Crítico:** TinaCMS requiere `better-sqlite3`, que **falla al compilar en versiones de Node distintas a v22.12.0**. Siempre usar `nvm use 22.12.0` antes de correr `npm run dev`.
+> ⚠️ **Nota histórica (aplica a TinaCMS v2):** La versión `better-sqlite3` que traía TinaCMS v2 fallaba al compilar en versiones de Node distintas a v22.x. **Esto fue resuelto en la actualización del 2026-05-07**: `@tinacms/cli` v2.2.5 usa `better-sqlite3@11.10.0`, que es compatible con Node 22 y Node 24. Ver entrada `[2026-05-07]`.
 
 ### Archivos creados / modificados
 

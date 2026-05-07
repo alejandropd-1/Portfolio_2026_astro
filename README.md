@@ -10,11 +10,11 @@ Welcome to the documentation for **The Compiled Soul**, a personal portfolio bui
 
 | Layer | Technology |
 |---|---|
-| Framework | [Astro v6](https://astro.build/) — SSG, `output: "static"` |
-| UI Library | [React 19](https://react.dev/) — solo para componentes con interactividad (Astro Islands) |
+| Framework | [Astro v6.3](https://astro.build/) — SSG, `output: "static"` |
+| UI Library | [React 19.2](https://react.dev/) — solo para componentes con interactividad (Astro Islands) |
 | Styling | SASS / SCSS Modules — **sin Tailwind CSS** |
 | Content | MDX via Astro Content Layer (`src/content/`) |
-| CMS | [TinaCMS](https://tina.io/) — panel clásico, local mode en dev |
+| CMS | [TinaCMS v3.7](https://tina.io/) — panel clásico, local mode en dev |
 | Animations | [Framer Motion](https://motion.dev/) — `import` desde `motion/react` |
 | Icons | [Lucide React](https://lucide.dev/) |
 
@@ -81,8 +81,8 @@ Editar directamente los archivos `.mdx` en `src/content/`. Al guardar, Astro HMR
 ### Flujo con TinaCMS (recomendado)
 
 ```bash
-# Requisito obligatorio: Node v22.12.0
-nvm use 22.12.0
+# Node >=22 LTS recomendado (22.x o 24.x)
+# nvm use 22  # o: nvm use 24
 
 npm run dev
 # Astro corre en:    http://localhost:4321
@@ -184,11 +184,13 @@ Cuando se agrega un campo en `tina/config.ts`, **siempre** añadirlo también en
 ## 🛠️ Scripts
 
 ```bash
-npm run dev       # TinaCMS + Astro dev server (requiere Node 22.12.0)
+npm run dev       # TinaCMS + Astro dev server (Node >=22 LTS)
 npm run build     # Build de producción en dist/
 npm run preview   # Preview del build
 npx astro check   # TypeScript diagnostics
 ```
+
+> **Nota:** `fs-extra` es una dependencia directa requerida por `@tinacms/metrics`. Está en `devDependencies`. Sin ella el dev server falla con `ERR_MODULE_NOT_FOUND`.
 
 ---
 
@@ -233,3 +235,7 @@ npx astro check   # TypeScript diagnostics
 - **Glassmorphism:** `@include glass-surface` para toda nueva superficie.
 - **Tipografía Inter:** No cambiar la familia tipográfica. Variar peso y tamaño para crear jerarquía.
 - **DESIGN.MD:** Leer periódicamente para asegurar que los roles semánticos de los colores (`primary`, `tertiary`, `surface-container`) se respeten.
+
+---
+
+*Última actualización: 2026-05-07*
