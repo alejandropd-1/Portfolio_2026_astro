@@ -2,7 +2,8 @@
 
 Welcome to the documentation for **The Compiled Soul**, a personal portfolio built with **Astro v6**. This `README.md` is the single source of truth for developers and AI coding assistants. It covers the architecture, tech stack, design principles, and CMS integration.
 
-> 📋 **Historial de cambios:** Para entender qué se modificó, por qué, y en qué orden, leer [`docs/CHANGELOG.md`](./docs/CHANGELOG.md). Es especialmente útil para que una IA retome el trabajo desde un punto específico.
+> 📋 **Historial de cambios:** Para entender qué se modificó, por qué, y en qué orden, leer [`docs/CHANGELOG.md`](./docs/CHANGELOG.md).
+> 🛠️ **Configuración CMS:** Guía paso a paso para configurar TinaCMS y Netlify en [`docs/TINA_NETLIFY_GUIDE.md`](./docs/TINA_NETLIFY_GUIDE.md).
 
 ---
 
