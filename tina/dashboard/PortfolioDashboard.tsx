@@ -237,6 +237,31 @@ function buildEditUrl(relativePath: string): string {
   return `#/collections/projects/${encoded}`;
 }
 
+function resolveImagePath(path?: string): string | undefined {
+  if (!path) return undefined;
+  
+  // Si ya es una URL absoluta o data URI, no tocar
+  if (/^(http|https|data):/i.test(path)) return path;
+
+  let normalized = path;
+  
+  // Soporte para rutas antiguas que aún tengan src/assets
+  if (normalized.startsWith("/src/assets/")) normalized = normalized.replace("/src/assets/", "/assets/");
+  if (normalized.startsWith("src/assets/")) normalized = normalized.replace("src/assets/", "/assets/");
+  
+  // Asegurar que comience con / para rutas relativas a la raíz
+  if (!normalized.startsWith("/")) normalized = `/${normalized}`;
+
+  // Fix para desarrollo local: Si estamos en el puerto de Tina (4001)
+  // intentamos cargar la imagen desde el puerto de Astro (4321)
+  if (typeof window !== 'undefined' && window.location.port === '4001') {
+    return `http://localhost:4321${normalized}`;
+  }
+
+  return normalized;
+}
+
+
 // ─── Sub-components ────────────────────────────────────────────────────────────
 
 const MotionCard = motion.create("div");
@@ -502,7 +527,7 @@ export function PortfolioDashboard() {
                       >
                         <td style={s.td}>
                           {p.image ? (
-                            <img src={p.image} alt="" style={s.thumb} />
+                            <img src={resolveImagePath(p.image)} alt="" style={s.thumb} />
                           ) : (
                             <div style={{ ...s.thumb, display: "flex", alignItems: "center", justifyContent: "center" }}>
                               <ImageIcon size={14} color="#cbd5e1" />

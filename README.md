@@ -28,8 +28,10 @@ Welcome to the documentation for **The Compiled Soul**, a personal portfolio bui
 Portfolio_2026_astro/
 ├── docs/
 │   └── CHANGELOG.md         # Historial completo de cambios (leer para contexto)
+├── public/
+│   └── assets/              # ← NUEVO: Imágenes gestionadas por TinaCMS
 ├── src/
-│   ├── assets/              # Imágenes y SVGs estáticos
+│   ├── assets/              # SVGs de sistema (legacy/internos)
 │   ├── components/          # Componentes React (.tsx) y Astro (.astro)
 │   │   ├── mdx/             # Componentes custom para renderizar MDX (<Content />)
 │   │   ├── ClientResume.tsx # UI del Resume (consume frontmatter + jobs prop)

@@ -6,9 +6,24 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-07] — Media Migration & Path Normalization
+
+### ✨ Features
+- **Estandarización de Medios**: Se migraron todos los activos de `src/assets/` a `public/assets/` para cumplir con los estándares de Astro y TinaCMS v3.
+- **Normalización de Rutas**: Implementada lógica en `ProjectDetailLayout.tsx` para asegurar que las imágenes siempre usen rutas absolutas (con `/` inicial), evitando errores 404 en sub-rutas.
+- **Dashboard Visibility**: Mejorada la función `resolveImagePath` en el `PortfolioDashboard` para soportar el cambio de puerto automático (4001 → 4321) en desarrollo local.
+
+### 🛠️ Technical Changes
+- Actualización de `tina/config.ts` para usar `public/assets` como root de medios.
+- Limpieza de `src/assets` (ahora reservado para SVGs internos).
+- Documentación del nuevo flujo de activos en `README.md`.
+
+---
+
 ## [2026-05-07] — Portfolio Control Center (Dashboard Premium)
 
 ### Objetivo
+
 Transformar la página de inicio de TinaCMS en un centro de control dinámico que permita monitorear el estado del portfolio, la salud del contenido y la distribución tecnológica de un vistazo.
 
 ### Características principales

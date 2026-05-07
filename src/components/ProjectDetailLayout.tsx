@@ -72,12 +72,13 @@ export default function ProjectDetailLayout({ project, headerNode, nextLink, chi
           <div className={styles.projectDetail__hero}>
             <div className={styles.projectDetail__heroFrame}>
               <img
-                src={frontmatter.image}
+                src={frontmatter.image.startsWith('/') || frontmatter.image.startsWith('http') ? frontmatter.image : `/${frontmatter.image}`}
                 alt={cleanTitle(frontmatter.title)}
                 className={styles.projectDetail__heroImage}
                 referrerPolicy="no-referrer"
               />
               <div className={styles.projectDetail__liveBadge}>
+
                  <div className={styles.projectDetail__liveBadgeDot}></div>
                  Live Preview
               </div>
