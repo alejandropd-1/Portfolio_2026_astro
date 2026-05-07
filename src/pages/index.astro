@@ -1,8 +1,9 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import MainLayout from '@/layouts/MainLayout.astro';
 import ClientHome from '@/components/ClientHome';
 
+const homeEntry = await getEntry('pages', 'home');
 const allProjects = await getCollection('projects');
 const projects = allProjects
   .filter(p => p.data.showInPortfolio !== false)
@@ -11,5 +12,5 @@ const projects = allProjects
 ---
 
 <MainLayout>
-  <ClientHome client:load projects={projects} />
+  <ClientHome client:load projects={projects} pageMeta={homeEntry?.data} />
 </MainLayout>

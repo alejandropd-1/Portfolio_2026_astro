@@ -21,7 +21,15 @@ export default function ProjectDetailLayout({ project, headerNode, nextLink, chi
       <div className="page-container">
         {headerNode}
 
-        <Breadcrumb paths={[{ name: 'projects', href: '/' }, cleanTitle(frontmatter.title)]} />
+        <Breadcrumb 
+          paths={[
+            { name: 'projects', href: '/' },
+            ...(project.slug?.includes('/') 
+              ? project.slug.split('/').slice(0, -1).map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)) 
+              : []),
+            cleanTitle(frontmatter.title)
+          ]} 
+        />
 
         {/* Header Section */}
         <header className={styles.projectDetail__header}>
