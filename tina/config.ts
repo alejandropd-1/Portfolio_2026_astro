@@ -1,10 +1,12 @@
 import { defineConfig } from "tinacms";
+import { PortfolioDashboard } from "./dashboard/PortfolioDashboard";
 
 const branch =
   process.env.GITHUB_BRANCH ||
   process.env.VERCEL_GIT_COMMIT_REF ||
   process.env.HEAD ||
   "main";
+
 
 export default defineConfig({
   branch,
@@ -318,4 +320,17 @@ export default defineConfig({
       },
     ],
   },
+
+  // ── Screen Plugin: Portfolio Dashboard ─────────────────────────────────────
+  cmsCallback: (cms) => {
+    cms.plugins.add({
+      __type: "screen",
+      name: "Portfolio Overview",
+      Icon: () => "📊",
+      layout: "fullscreen",
+      Component: PortfolioDashboard,
+    });
+    return cms;
+  },
 });
+
