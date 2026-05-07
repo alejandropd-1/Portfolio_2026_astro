@@ -6,6 +6,19 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-07] — Image Normalization & Content Integrity
+
+### ✨ Fixes
+- **Robust Image Normalization**: Se actualizó la lógica en `ProjectDetailLayout.tsx` y `PortfolioDashboard.tsx` para manejar rutas corruptas (ej. `/assetshttps://...`) y eliminar comillas literales en el frontmatter de MDX.
+- **Inti-Marketing Fix**: Se corrigió la ruta de la imagen en `inti-marketing.mdx` que impedía su visualización online.
+- **FOlder-agrado Consistency**: Se normalizó la ruta de imagen con barra inicial `/` y se movió el archivo a la raíz de proyectos.
+
+### 🛠️ Technical Changes
+- Mejora de la función `resolveImagePath` en el Dashboard para ser defensiva contra strings mal formados.
+- Actualización de `ProjectDetailLayout.tsx` con una función autoejecutable (IIFE) para procesar la imagen del héroe de forma segura.
+
+---
+
 ## [2026-05-07] — Media Migration & Path Normalization
 
 ### ✨ Features

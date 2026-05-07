@@ -218,6 +218,7 @@ npx astro check   # TypeScript diagnostics
 | ID en vez de slug | En Astro v6, usar `entry.id` (no `entry.slug`) |
 | Schema sync | Cambios en `tina/config.ts` → reflejar en `content.config.ts` |
 | Nested Projects | Usar `[...slug].astro` para soportar subcarpetas en proyectos |
+| Image Normalization | El sistema añade `/` automáticamente y limpia comillas; prefiere rutas relativas a `public/assets/` |
 | Template field | Todo MDX en `pages/` necesita `_template: nombre_template` en el frontmatter |
 
 ### Flujo para agregar un nuevo proyecto

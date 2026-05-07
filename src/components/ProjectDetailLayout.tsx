@@ -72,7 +72,21 @@ export default function ProjectDetailLayout({ project, headerNode, nextLink, chi
           <div className={styles.projectDetail__hero}>
             <div className={styles.projectDetail__heroFrame}>
               <img
-                src={frontmatter.image.startsWith('/') || frontmatter.image.startsWith('http') ? frontmatter.image : `/${frontmatter.image}`}
+                src={(() => {
+                  const rawImg = frontmatter.image;
+                  if (!rawImg) return '';
+                  
+                  // Limpiar comillas
+                  const img = rawImg.replace(/['"]+/g, '');
+
+                  // If it's already an absolute URL (even if corrupted with a prefix)
+                  if (img.includes('http')) {
+                    const httpIndex = img.indexOf('http');
+                    return img.substring(httpIndex);
+                  }
+                  // Normal local paths
+                  return img.startsWith('/') ? img : `/${img}`;
+                })()}
                 alt={cleanTitle(frontmatter.title)}
                 className={styles.projectDetail__heroImage}
                 referrerPolicy="no-referrer"

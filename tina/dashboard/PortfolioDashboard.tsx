@@ -240,10 +240,17 @@ function buildEditUrl(relativePath: string): string {
 function resolveImagePath(path?: string): string | undefined {
   if (!path) return undefined;
   
-  // Si ya es una URL absoluta o data URI, no tocar
-  if (/^(http|https|data):/i.test(path)) return path;
+  // Limpiar comillas si vienen en el string (a veces pasa con MDX)
+  let normalized = path.replace(/['"]+/g, '');
 
-  let normalized = path;
+  // Si contiene http en cualquier parte (caso de corrupción '/assetshttps://...')
+  if (normalized.includes('http')) {
+    const httpIndex = normalized.indexOf('http');
+    return normalized.substring(httpIndex);
+  }
+
+  // Si ya es un data URI, no tocar
+  if (normalized.startsWith('data:')) return normalized;
   
   // Soporte para rutas antiguas que aún tengan src/assets
   if (normalized.startsWith("/src/assets/")) normalized = normalized.replace("/src/assets/", "/assets/");
