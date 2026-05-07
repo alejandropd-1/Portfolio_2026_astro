@@ -6,6 +6,40 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-07] — Portfolio Control Center (Dashboard Premium)
+
+### Objetivo
+Transformar la página de inicio de TinaCMS en un centro de control dinámico que permita monitorear el estado del portfolio, la salud del contenido y la distribución tecnológica de un vistazo.
+
+### Características principales
+
+- **Dashboard de Monitoreo**: Implementación de un `Screen Plugin` personalizado en `tina/config.ts`.
+- **Inventario Maestro**: Tabla interactiva con búsqueda en tiempo real, miniaturas de proyectos y filtrado dinámico.
+- **Auditoría de Salud**: Sistema que detecta automáticamente proyectos con información incompleta (falta de imágenes, descripciones cortas o stack tecnológico vacío).
+- **Tech Stack Insights**: Visualización animada (vía `motion/react`) del ecosistema de herramientas utilizadas en los proyectos.
+- **Detección de Entorno**: Lógica inteligente para alternar entre el endpoint local (`localhost:4001`) y la API de producción de Tina Cloud.
+
+### Desafíos técnicos y soluciones
+
+#### Fragmentos de GraphQL
+Se corrigió un error crítico en la consulta de `pagesConnection`. TinaCMS requiere el uso de fragmentos inline (`... on Document`) para acceder a metadatos del sistema (`_sys`) en colecciones polimórficas.
+
+#### Animaciones y Rendimiento
+Se migró el uso de `framer-motion` a `motion/react` para cumplir con las mejores prácticas de React 19, implementando transiciones escalonadas (`staggered`) para una experiencia premium.
+
+### Archivos modificados
+
+#### `tina/dashboard/PortfolioDashboard.tsx` [NEW]
+- Componente principal del dashboard con estado interno para búsqueda y filtrado.
+
+#### `tina/dashboard/dashboardQuery.ts` [NEW]
+- Definición de la query GraphQL centralizada para el dashboard.
+
+#### `tina/config.ts`
+- Registro del plugin `Portfolio Overview` y configuración del icono.
+
+---
+
 ## [2026-05-07] — Actualización de dependencias (TinaCMS v3, Astro v6.3, React 19.2.6)
 
 ### Objetivo

@@ -17,6 +17,8 @@ Welcome to the documentation for **The Compiled Soul**, a personal portfolio bui
 | CMS | [TinaCMS v3.7](https://tina.io/) — panel clásico, local mode en dev |
 | Animations | [Framer Motion](https://motion.dev/) — `import` desde `motion/react` |
 | Icons | [Lucide React](https://lucide.dev/) |
+| Dashboard | Custom Screen Plugin — Portfolio Control Center |
+
 
 ---
 
@@ -53,7 +55,10 @@ Portfolio_2026_astro/
 │       ├── components/      # Módulos SCSS por componente
 │       └── pages/           # Módulos SCSS por página
 ├── tina/
-│   └── config.ts            # ← Configuración central de TinaCMS (colecciones + schemas)
+│   ├── config.ts            # ← Configuración central de TinaCMS (colecciones + schemas)
+│   └── dashboard/           # ← Dashboard Custom (Screen Plugin)
+│       ├── PortfolioDashboard.tsx # UI del Control Center
+│       └── dashboardQuery.ts      # Query GraphQL optimizada
 ├── src/content.config.ts    # Schemas Zod de Astro (debe espejear tina/config.ts)
 ├── .env                     # TINA_CLIENT_ID y TINA_TOKEN (no commitear)
 └── package.json
@@ -235,6 +240,16 @@ npx astro check   # TypeScript diagnostics
 - **Glassmorphism:** `@include glass-surface` para toda nueva superficie.
 - **Tipografía Inter:** No cambiar la familia tipográfica. Variar peso y tamaño para crear jerarquía.
 - **DESIGN.MD:** Leer periódicamente para asegurar que los roles semánticos de los colores (`primary`, `tertiary`, `surface-container`) se respeten.
+
+### Dashboard Custom: Portfolio Control Center
+
+Se ha implementado un panel de monitoreo avanzado dentro de TinaCMS (Screen Plugin) accesible vía el icono 📊 en la barra lateral del admin.
+
+**Características:**
+- **Inventario Maestro**: Tabla con búsqueda en tiempo real y miniaturas de proyectos.
+- **Salud del Contenido**: Auditoría automática de campos faltantes (imágenes, descripciones, stack).
+- **Ecosistema Tech**: Análisis de distribución de tecnologías en todo el portfolio.
+- **Sincronización Inteligente**: Detección automática de entorno (API Local vs Cloud).
 
 ---
 
