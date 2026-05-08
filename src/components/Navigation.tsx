@@ -48,19 +48,22 @@ const linkItemVariants: Variants = {
 };
 
 export default function Navigation({ pathname = '/' }: { pathname?: string }) {
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('theme') as 'light' | 'dark') ?? 'dark';
+    }
+    return 'dark';
+  });
   const [mounted, setMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Hydration guard
+  // Hydration guard + restore theme class on mount
   useEffect(() => {
     setMounted(true);
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    if (savedTheme === 'light') {
-      setTheme('light');
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') {
       document.documentElement.classList.add('light');
     } else {
-      setTheme('dark');
       document.documentElement.classList.remove('light');
     }
   }, []);

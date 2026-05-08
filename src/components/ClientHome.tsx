@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Folder, ArrowRight, ExternalLink, RotateCcw } from 'lucide-react';
 import { SyntaxCard, Tag, KeyValue } from '@/components/UI';
@@ -13,8 +13,23 @@ import { cleanTitle, formatTitle } from '@/helpers/text-helpers';
 import Breadcrumb from '@/components/Breadcrumb';
 
 export default function ClientHome({ projects, pageMeta }: { projects: any[], pageMeta?: any }) {
-  const [layout, setLayout] = useState<'cards' | 'list'>('cards');
-  const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [layout, setLayout] = useState<'cards' | 'list'>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('portfolio-layout') as 'cards' | 'list') ?? 'cards';
+    }
+    return 'cards';
+  });
+  const [activeFilter, setActiveFilter] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('portfolio-filter') ?? 'all';
+    }
+    return 'all';
+  });
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Filtered projects — 'all' shows everything, otherwise match categories[]
   const filteredProjects = activeFilter === 'all'
@@ -55,11 +70,14 @@ export default function ClientHome({ projects, pageMeta }: { projects: any[], pa
         {/* Sidebar Filters */}
         <aside className={styles.home__sidebar}>
           <SyntaxCard label="Filters">
-            <div className={styles.home__filterGroup}>
+            <div className={clsx(styles.home__filterGroup, mounted ? styles['home__filterGroup--ready'] : styles['home__filterGroup--hydrating'])}>
               <div className={styles.home__filterTags}>
                 <Tag
                   active={activeFilter === 'all'}
-                  onClick={() => setActiveFilter('all')}
+                  onClick={() => {
+                    setActiveFilter('all');
+                    localStorage.setItem('portfolio-filter', 'all');
+                  }}
                 >
                   All Output
                 </Tag>
@@ -67,7 +85,10 @@ export default function ClientHome({ projects, pageMeta }: { projects: any[], pa
                   <Tag
                     key={cat.value}
                     active={activeFilter === cat.value}
-                    onClick={() => setActiveFilter(cat.value)}
+                    onClick={() => {
+                      setActiveFilter(cat.value);
+                      localStorage.setItem('portfolio-filter', cat.value);
+                    }}
                   >
                     {cat.label}
                   </Tag>
@@ -78,10 +99,16 @@ export default function ClientHome({ projects, pageMeta }: { projects: any[], pa
 
           </SyntaxCard>
 <SyntaxCard label="Layout">
-            <div className={styles.home__filterGroup}>
+            <div className={clsx(styles.home__filterGroup, mounted ? styles['home__filterGroup--ready'] : styles['home__filterGroup--hydrating'])}>
               <div className={styles.home__filterTags}>
-              <Tag active={layout === 'cards'} onClick={() => setLayout('cards')}>Cards</Tag>
-              <Tag active={layout === 'list'} onClick={() => setLayout('list')}>List</Tag>
+<Tag active={layout === 'cards'} onClick={() => {
+                  setLayout('cards');
+                  localStorage.setItem('portfolio-layout', 'cards');
+                }}>Cards</Tag>
+                <Tag active={layout === 'list'} onClick={() => {
+                  setLayout('list');
+                  localStorage.setItem('portfolio-layout', 'list');
+                }}>List</Tag>
               </div>
             </div>
           </SyntaxCard>
@@ -106,7 +133,10 @@ export default function ClientHome({ projects, pageMeta }: { projects: any[], pa
               <p>// no output matches this filter</p>
               <button
                 className={styles.home__emptyReset}
-                onClick={() => setActiveFilter('all')}
+                onClick={() => {
+                  setActiveFilter('all');
+                  localStorage.setItem('portfolio-filter', 'all');
+                }}
               >
                 clear filter →
               </button>
