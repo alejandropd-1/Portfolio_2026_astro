@@ -5,9 +5,28 @@ import ClientHome from '@/components/ClientHome';
 
 const homeEntry = await getEntry('pages', 'home');
 const allProjects = await getCollection('projects');
+
+// Astro v6 content layer doesn't forward unknown frontmatter fields via p.data,
+// so we read `categories` directly from MDX frontmatter using import.meta.glob.
+const rawMdx = import.meta.glob<{ frontmatter: Record<string, any> }>(
+  '../content/projects/*.mdx',
+  { eager: true }
+);
+const categoryMap: Record<string, string[]> = {};
+for (const [path, mod] of Object.entries(rawMdx)) {
+  const slug = path.split('/').pop()!.replace('.mdx', '');
+  categoryMap[slug] = Array.isArray(mod.frontmatter?.categories)
+    ? mod.frontmatter.categories
+    : [];
+}
+
 const projects = allProjects
   .filter(p => p.data.showInPortfolio !== false)
-  .map(p => ({ ...p.data, slug: p.id }))
+  .map(p => ({
+    ...p.data,
+    slug: p.id,
+    categories: categoryMap[p.id] ?? [],
+  }))
   .sort((a, b) => (a.order || 0) - (b.order || 0));
 ---
 

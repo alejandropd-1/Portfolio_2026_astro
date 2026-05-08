@@ -14,7 +14,8 @@
     font-family: $mono-font;
     font-size: $fs-xs;
     color: $clr-brand-on-surface-variant;
-    
+    background-color: $clr-brand-primary;
+
     span {
       color: $clr-brand-secondary;
     }
@@ -40,6 +41,12 @@
     background: rgba(var(--clr-brand-primary-rgb), 0.1);
     border-color: rgba(var(--clr-brand-primary-rgb), 0.3);
     color: $clr-brand-primary;
+  }
+
+  &--interactive {
+    cursor: pointer;
+    appearance: none;
+    font-family: inherit;
   }
 }
 
