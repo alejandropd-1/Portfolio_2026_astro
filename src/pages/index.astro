@@ -2,22 +2,23 @@
 import { getCollection, getEntry } from 'astro:content';
 import MainLayout from '@/layouts/MainLayout.astro';
 import ClientHome from '@/components/ClientHome';
+// gray-matter is a transitive dependency (via Astro). Used to parse custom
+// frontmatter fields that Astro v6's content layer doesn't expose via p.data.
+import matter from 'gray-matter';
 
 const homeEntry = await getEntry('pages', 'home');
 const allProjects = await getCollection('projects');
 
-// Astro v6 content layer doesn't forward unknown frontmatter fields via p.data,
-// so we read `categories` directly from MDX frontmatter using import.meta.glob.
-const rawMdx = import.meta.glob<{ frontmatter: Record<string, any> }>(
+const rawMdxFiles = import.meta.glob<string>(
   '../content/projects/*.mdx',
-  { eager: true }
+  { eager: true, query: '?raw', import: 'default' }
 );
 const categoryMap: Record<string, string[]> = {};
-for (const [path, mod] of Object.entries(rawMdx)) {
-  const slug = path.split('/').pop()!.replace('.mdx', '');
-  categoryMap[slug] = Array.isArray(mod.frontmatter?.categories)
-    ? mod.frontmatter.categories
-    : [];
+for (const [filePath, content] of Object.entries(rawMdxFiles)) {
+  // Normalize to lowercase — Astro lowercases p.id but filenames may be mixed-case
+  const slug = filePath.split('/').pop()!.replace('.mdx', '').toLowerCase();
+  const { data } = matter(content);
+  categoryMap[slug] = Array.isArray(data.categories) ? data.categories : [];
 }
 
 const projects = allProjects

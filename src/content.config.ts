@@ -18,6 +18,9 @@ const projectsCollection = defineCollection({
     showInResume: z.boolean().default(false),
     showInPortfolio: z.boolean().default(false),
     points: z.array(z.string()).optional(),
+    status: z.string().optional(),
+    impact: z.string().optional(),
+    categories: z.array(z.string()).optional().default([]),
   })
 });
 

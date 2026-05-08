@@ -10,4 +10,4 @@ export const PROJECT_CATEGORIES = [
   { value: "systems", label: "Systems"     },
 ] as const;
 
-export type ProjectCategoryValue = typeof PROJECT_CATEGORIES[number]['value'];
+type ProjectCategoryValue = typeof PROJECT_CATEGORIES[number]['value'];
