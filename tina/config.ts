@@ -1,5 +1,6 @@
 import { defineConfig } from "tinacms";
 import { PortfolioDashboard } from "./dashboard/PortfolioDashboard";
+import { PROJECT_CATEGORIES } from "../src/lib/categories";
 
 const branch =
   process.env.GITHUB_BRANCH ||
@@ -108,6 +109,14 @@ export default defineConfig({
             name: "points",
             label: "Experience Points (Resume)",
             list: true,
+          },
+          {
+            type: "string",
+            name: "categories",
+            label: "Categorías de filtro",
+            description: "Seleccioná a qué categorías pertenece este proyecto (para los filtros del portfolio)",
+            list: true,
+            options: PROJECT_CATEGORIES.map(c => ({ value: c.value, label: c.label })),
           },
           {
             type: "rich-text",
