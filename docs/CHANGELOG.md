@@ -6,6 +6,107 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-08] — Layout Switcher, Filtros Funcionales y Vista Lista
+
+### Objetivo
+
+Agregar dos funcionalidades interactivas a la home: (1) un selector de vista Cards/Lista, y (2) filtros funcionales por categoría de trabajo, gestionables desde TinaCMS sin cambios de código.
+
+---
+
+### ✨ Funcionalidades añadidas
+
+#### Layout Switcher (`# Layout`)
+- Se añadió un nuevo bloque `SyntaxCard label="Layout"` en el sidebar de la home, con dos botones: **CARDS** (vista por defecto) y **LIST**.
+- El estado `layout: 'cards' | 'list'` vive en `ClientHome.tsx` via `useState`.
+- **Vista Cards**: comportamiento original — proyecto destacado + grilla de 2 columnas con glass morphism.
+- **Vista Lista**: diseño tipográfico de alta jerarquía. Los proyectos se agrupan por su campo `type` (ej. "Freelance", "Fixed-term contract"). Cada fila muestra: flecha `→` + título grande bold + año. Al hover, el título y la flecha viran al color primario. Debajo del título: KeyValues (Role, Impact, Status), descripción, y stack tags.
+
+#### Filtros por categoría (`# Filters` — ahora funcionales)
+- Los botones **ALL OUTPUT / UI/UX ENG / WEB DEV / MOBILE APP / SYSTEMS** filtran en tiempo real los proyectos mostrados, tanto en vista Cards como en vista Lista.
+- El estado `activeFilter: string` vive en `ClientHome.tsx`. El array `filteredProjects` se deriva del filtro y controla todo lo que se renderiza (featured card + grid/lista).
+- Empty state: si ningún proyecto coincide con el filtro activo, se muestra `// no output matches this filter` con un botón "clear filter →" para resetear.
+
+---
+
+### 🏗️ Arquitectura de categorías
+
+Se diseñó el sistema para ser completamente gestionable desde TinaCMS:
+
+#### `src/lib/categories.ts` ← **NUEVO — fuente única de verdad**
+Define el array `PROJECT_CATEGORIES` con `{ value, label }` por categoría. Importado tanto por `tina/config.ts` (para los checkboxes del CMS) como por `ClientHome.tsx` (para renderizar los botones). Para agregar o renombrar una categoría, solo se modifica este archivo.
+
+> ⚠️ **Regla crítica**: nunca importar desde `tina/config.ts` en componentes React. TinaCMS v3 usa dependencias internas (ej. `color-string`) incompatibles con el bundler ESM de Vite. Los valores compartidos deben vivir en `src/lib/` y ser importados desde ahí en ambos lados.
+
+#### Campo `categories[]` en proyectos
+- Se añadió el campo `categories` (lista de strings con opciones predefinidas) al schema de TinaCMS en `tina/config.ts`.
+- En el CMS, aparece como **checkboxes** bajo "Categorías de filtro". El editor selecciona a qué categorías pertenece el proyecto.
+- Se añadió `categories` al frontmatter de los 7 proyectos existentes con los valores correctos según su stack/rol.
+
+| Valor | Proyectos asignados |
+|---|---|
+| `ui-ux` | freelance, around, inti-web, inti-marketing |
+| `web-dev` | freelance, around, inti-web, la-verdad-de-la-mila |
+| `systems` | inti-pm, inti-marketing |
+| `mobile` | _(ninguno aún — empty state correcto)_ |
+
+---
+
+### 🐛 Bug crítico resuelto: Astro v6 no propaga campos custom de frontmatter
+
+**Síntoma**: El campo `categories` estaba en los archivos MDX y en el schema Zod (`src/content/config.ts`), pero `p.data.categories` llegaba como `undefined` en el componente.
+
+**Causa raíz**: En Astro v6 con el Content Layer API, los campos del frontmatter que no pertenecen al schema interno de Astro no se exponen en `p.data` aunque estén definidos en el schema Zod.
+
+**Solución** (`src/pages/index.astro`): Leer `categories` directamente del frontmatter MDX mediante `import.meta.glob`, y mergearlo explícitamente en el objeto del proyecto:
+
+```ts
+const rawMdx = import.meta.glob<{ frontmatter: Record<string, any> }>(
+  '../content/projects/*.mdx', { eager: true }
+);
+const categoryMap: Record<string, string[]> = {};
+for (const [path, mod] of Object.entries(rawMdx)) {
+  const slug = path.split('/').pop()!.replace('.mdx', '');
+  categoryMap[slug] = Array.isArray(mod.frontmatter?.categories)
+    ? mod.frontmatter.categories : [];
+}
+// En el .map(): categories: categoryMap[p.id] ?? []
+```
+
+Este patrón debe usarse para cualquier campo custom de frontmatter que Astro no reconozca en `p.data`.
+
+---
+
+### 🔧 Cambio: `Tag` ahora es polimórfico
+
+El componente `Tag` en `src/components/UI.tsx` fue actualizado: cuando recibe prop `onClick`, renderiza como `<button type="button">` (accesible, interactivo). Sin `onClick`, sigue siendo `<span>` como antes. El modificador CSS `tag--interactive` agrega `cursor: pointer` y resetea estilos de browser. No hay breaking change para usos existentes.
+
+---
+
+### 📚 Documentación actualizada
+- `CLAUDE.md` y `AGENTS.md`: creados/actualizados con toda la arquitectura actual del proyecto.
+- `src/content/config.ts`: schema Zod creado (aunque el bug de Astro v6 lo hace insuficiente por sí solo; se mantiene como referencia de tipos).
+
+---
+
+### Archivos modificados / creados
+
+| Archivo | Tipo | Descripción |
+|---|---|---|
+| `src/lib/categories.ts` | NUEVO | Fuente única de verdad para categorías de filtro |
+| `src/components/UI.tsx` | MOD | `Tag` polimórfico (span/button según onClick) |
+| `src/components/ClientHome.tsx` | MOD | Estado `layout` + `activeFilter`, vistas Cards/Lista, filtros funcionales |
+| `src/styles/pages/_home.module.scss` | MOD | Estilos de layout group, lista tipográfica, empty state |
+| `src/styles/components/_ui.module.scss` | MOD | Modificador `tag--interactive` |
+| `src/content/config.ts` | NUEVO | Schema Zod para colección projects (tipos, no resuelve el bug de Astro v6) |
+| `src/pages/index.astro` | MOD | `import.meta.glob` para leer `categories` desde MDX directamente |
+| `tina/config.ts` | MOD | Campo `categories` añadido al schema de projects, import de `PROJECT_CATEGORIES` |
+| `src/content/projects/*.mdx` | MOD | Campo `categories` añadido a los 7 proyectos |
+| `CLAUDE.md` | NUEVO | Guía de arquitectura para Claude Code |
+| `AGENTS.md` | NUEVO | Guía de arquitectura para agentes de IA |
+
+---
+
 ## [2026-05-07] — Image Normalization & Content Integrity
 
 ### ✨ Fixes

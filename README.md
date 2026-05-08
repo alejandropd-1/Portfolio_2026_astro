@@ -123,6 +123,7 @@ Ruta: `src/content/projects/*.mdx`
 | `image` | image | Cover del proyecto |
 | `showInResume` | boolean | Aparece en la página Resume |
 | `showInPortfolio` | boolean | Aparece en Home y Archive |
+| `categories` | string[] | Categorías de filtro del portfolio (`ui-ux`, `web-dev`, `mobile`, `systems`) |
 | `_template` | string | Metadato técnico de TinaCMS |
 | `body` | rich-text | Cuerpo MDX del proyecto |
 
