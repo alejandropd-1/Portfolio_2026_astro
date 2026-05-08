@@ -24,10 +24,23 @@ src/pages/projects/[...slug].astro  → dynamic project detail pages
 ```
 
 **Content layer** (`src/content/`): Two TinaCMS collections:
-- `projects/` — MDX files. Astro schema in `src/content/config.ts`. Key frontmatter fields: `title`, `year`, `date`, `type`, `description`, `stack[]`, `role`, `client`, `order`, `image`, `showInResume`, `showInPortfolio`, `points[]`, `categories[]`.
+- `projects/` — MDX files. Astro schema in `src/content.config.ts`. Key frontmatter fields: `title`, `year`, `date`, `type`, `description`, `stack[]`, `role`, `client`, `order`, `image`, `showInResume`, `showInPortfolio`, `points[]`, `categories[]`.
 - `pages/` — MDX files for `home`, `about`, `archive`, `resume` — each with different frontmatter schemas (defined per-template in `tina/config.ts`).
 
-**Astro content schema** (`src/content/config.ts`): Defines the Zod schema for the `projects` collection. Note: Astro v6's content layer does not forward custom frontmatter fields via `p.data` even when defined in the schema. Custom fields (e.g. `categories`) are read directly in `src/pages/index.astro` via `import.meta.glob` on the MDX files and merged manually into the project objects.
+**Astro content schema** (`src/content.config.ts`): Defines the Zod schema for the `projects` collection. **Critical Astro v6 limitation**: custom frontmatter fields are NOT accessible via `p.data`, and `import.meta.glob` on MDX files does NOT expose `mod.frontmatter`. The canonical workaround — already implemented for `categories` — is:
+
+```ts
+import matter from 'gray-matter'; // transitive dep, no install needed
+const rawFiles = import.meta.glob<string>('../content/projects/*.mdx', { eager: true, query: '?raw', import: 'default' });
+const fieldMap: Record<string, any> = {};
+for (const [path, content] of Object.entries(rawFiles)) {
+  const slug = path.split('/').pop()!.replace('.mdx', '').toLowerCase(); // lowercase — Astro lowercases p.id
+  fieldMap[slug] = matter(content).data.yourField ?? defaultValue;
+}
+// In .map(): yourField: fieldMap[p.id] ?? defaultValue
+```
+
+Three gotchas that caused bugs here: (1) `mod.frontmatter` is undefined in Astro v6 MDX glob imports, (2) Windows CRLF breaks naive regex parsing — gray-matter handles both, (3) filenames like `FOlder-agrado.mdx` become `p.id = 'folder-agrado'` (Astro lowercases), so always `.toLowerCase()` the key.
 
 **TinaCMS** (`tina/config.ts`): Defines CMS UI schemas and a custom `PortfolioDashboard` screen plugin. The generated types live in `tina/__generated__/` — do not edit those files directly. **Never import from `tina/config.ts` in React client components** — it pulls in TinaCMS internals incompatible with Vite's ESM bundling (the `color-string` issue). Instead, put shared constants in `src/lib/` and import from there in both places.
 
@@ -61,7 +74,7 @@ Project and page titles use `//` as a marker for the accent-colored word: `"Comp
 ## Home page interactive features
 
 `ClientHome.tsx` manages two independent UI states:
-- **Layout** (`'cards' | 'list'`): toggles between the glass-card grid and a Josh Comeau–style typographic list grouped by project `type`.
+- **Layout** (`'cards' | 'list'`): toggles between the glass-card grid and a typographic list view grouped by project `type`.
 - **Filter** (`'all' | <category value>`): filters `projects[]` by `p.categories.includes(activeFilter)` before rendering either view. The `filteredProjects` array drives both the featured card (`filteredProjects[0]`) and the grid/list.
 
 The sidebar's `# Filters` and `# Layout` blocks are rendered inside `home__sidebar` which applies a global `SyntaxCard` override (transparent bg, no padding) — do not add other `SyntaxCard` children outside `home__sidebar` without checking that override.

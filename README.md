@@ -62,7 +62,7 @@ Portfolio_2026_astro/
 │   └── dashboard/           # ← Dashboard Custom (Screen Plugin)
 │       ├── PortfolioDashboard.tsx # UI del Control Center
 │       └── dashboardQuery.ts      # Query GraphQL optimizada
-├── src/content.config.ts    # Schemas Zod de Astro (debe espejear tina/config.ts)
+├├── src/content.config.ts    # Schemas Zod de Astro (debe espejear tina/config.ts)
 ├── .env                     # TINA_CLIENT_ID y TINA_TOKEN (no commitear)
 └── package.json
 ```
@@ -180,6 +180,23 @@ education:
 
 Cuando se agrega un campo en `tina/config.ts`, **siempre** añadirlo también en `src/content.config.ts` (schema Zod). Si no, Astro tirará un error de tipos al hacer el build.
 
+### Leer campos custom de frontmatter (limitación Astro v6)
+
+Astro v6 **no expone campos custom** del frontmatter MDX vía `p.data`, ni vía `mod.frontmatter` con `import.meta.glob`. El patrón canónico del proyecto (implementado en `src/pages/index.astro`) es usar `gray-matter` con lectura de archivo crudo:
+
+```ts
+import matter from 'gray-matter'; // dep transitiva, sin install adicional
+const rawFiles = import.meta.glob<string>('../content/projects/*.mdx', { eager: true, query: '?raw', import: 'default' });
+const fieldMap: Record<string, any> = {};
+for (const [path, content] of Object.entries(rawFiles)) {
+  const slug = path.split('/').pop()!.replace('.mdx', '').toLowerCase(); // lowercase — Astro lowercases p.id
+  fieldMap[slug] = matter(content).data.tuCampo ?? valorDefault;
+}
+// En el .map(): tuCampo: fieldMap[p.id] ?? valorDefault
+```
+
+> **Convención**: nombrar los archivos MDX de proyectos siempre en **lowercase** (`freelance.mdx`, no `Freelance.mdx`). Astro normaliza `p.id` a lowercase, y los filenames con mayúsculas causan un case mismatch silencioso.
+
 ---
 
 ## ⚡ Interactivity — Astro Islands
@@ -218,6 +235,8 @@ npx astro check   # TypeScript diagnostics
 | No Next.js imports | Nunca usar `next/navigation` u otras APIs de Next |
 | ID en vez de slug | En Astro v6, usar `entry.id` (no `entry.slug`) |
 | Schema sync | Cambios en `tina/config.ts` → reflejar en `content.config.ts` |
+| Frontmatter custom | Usar `gray-matter` + `import.meta.glob ?raw` — NO `p.data.campo` ni `mod.frontmatter` |
+| Nombres de archivo MDX | Siempre **lowercase** — Astro normaliza `p.id` a lowercase |
 | Nested Projects | Usar `[...slug].astro` para soportar subcarpetas en proyectos |
 | Image Normalization | El sistema añade `/` automáticamente y limpia comillas; prefiere rutas relativas a `public/assets/` |
 | Template field | Todo MDX en `pages/` necesita `_template: nombre_template` en el frontmatter |

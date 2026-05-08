@@ -54,26 +54,34 @@ Define el array `PROJECT_CATEGORIES` con `{ value, label }` por categoría. Impo
 
 ### 🐛 Bug crítico resuelto: Astro v6 no propaga campos custom de frontmatter
 
-**Síntoma**: El campo `categories` estaba en los archivos MDX y en el schema Zod (`src/content/config.ts`), pero `p.data.categories` llegaba como `undefined` en el componente.
+**Síntoma**: El campo `categories` estaba en los archivos MDX, pero llegaba como `undefined` en el componente React.
 
-**Causa raíz**: En Astro v6 con el Content Layer API, los campos del frontmatter que no pertenecen al schema interno de Astro no se exponen en `p.data` aunque estén definidos en el schema Zod.
+**Tres capas de bugs encontradas durante la investigación:**
 
-**Solución** (`src/pages/index.astro`): Leer `categories` directamente del frontmatter MDX mediante `import.meta.glob`, y mergearlo explícitamente en el objeto del proyecto:
+1. **`p.data` no incluye campos custom** — Astro v6 no expone campos del frontmatter que no sean parte de su schema interno, aunque estén en el schema Zod. `p.data.categories = undefined`.
+2. **`mod.frontmatter` también es `undefined`** — `import.meta.glob` en MDX no expone el frontmatter como propiedad del módulo en Astro v6. Las soluciones con regex fallaban además en archivos Windows por CRLF.
+3. **Case mismatch en filenames** — `FOlder-agrado.mdx` → Astro normaliza `p.id` a `'folder-agrado'` (lowercase). La clave del `categoryMap` preservaba el case del filename, entonces `categoryMap[p.id]` nunca matcheaba.
+
+**Solución canónica implementada** (`src/pages/index.astro`):
 
 ```ts
-const rawMdx = import.meta.glob<{ frontmatter: Record<string, any> }>(
-  '../content/projects/*.mdx', { eager: true }
-);
+import matter from 'gray-matter'; // dep transitiva de Astro, sin install adicional
+
+const rawFiles = import.meta.glob<string>('../content/projects/*.mdx', {
+  eager: true, query: '?raw', import: 'default'
+});
 const categoryMap: Record<string, string[]> = {};
-for (const [path, mod] of Object.entries(rawMdx)) {
-  const slug = path.split('/').pop()!.replace('.mdx', '');
-  categoryMap[slug] = Array.isArray(mod.frontmatter?.categories)
-    ? mod.frontmatter.categories : [];
+for (const [path, content] of Object.entries(rawFiles)) {
+  const slug = path.split('/').pop()!.replace('.mdx', '').toLowerCase(); // ← lowercase obligatorio
+  categoryMap[slug] = Array.isArray(matter(content).data.categories)
+    ? matter(content).data.categories : [];
 }
-// En el .map(): categories: categoryMap[p.id] ?? []
+// En el .map():  categories: categoryMap[p.id] ?? []
 ```
 
-Este patrón debe usarse para cualquier campo custom de frontmatter que Astro no reconozca en `p.data`.
+`gray-matter` resuelve automáticamente CRLF/LF y ambos formatos YAML. **Este es el patrón canónico para leer cualquier campo custom de frontmatter en este proyecto.**
+
+> ⚠️ **Convención**: usar siempre nombres de archivo **lowercase** para los MDX de proyectos. Evita el case mismatch con `p.id`.
 
 ---
 
@@ -85,7 +93,7 @@ El componente `Tag` en `src/components/UI.tsx` fue actualizado: cuando recibe pr
 
 ### 📚 Documentación actualizada
 - `CLAUDE.md` y `AGENTS.md`: creados/actualizados con toda la arquitectura actual del proyecto.
-- `src/content/config.ts`: schema Zod creado (aunque el bug de Astro v6 lo hace insuficiente por sí solo; se mantiene como referencia de tipos).
+- `src/content.config.ts`: schema Zod unificado para collections projects + pages (con workaround para bug de Astro v6 via `import.meta.glob`).
 
 ---
 
@@ -98,7 +106,7 @@ El componente `Tag` en `src/components/UI.tsx` fue actualizado: cuando recibe pr
 | `src/components/ClientHome.tsx` | MOD | Estado `layout` + `activeFilter`, vistas Cards/Lista, filtros funcionales |
 | `src/styles/pages/_home.module.scss` | MOD | Estilos de layout group, lista tipográfica, empty state |
 | `src/styles/components/_ui.module.scss` | MOD | Modificador `tag--interactive` |
-| `src/content/config.ts` | NUEVO | Schema Zod para colección projects (tipos, no resuelve el bug de Astro v6) |
+| `src/content.config.ts` | NUEVO | Schema Zod unificado para collections projects + pages |
 | `src/pages/index.astro` | MOD | `import.meta.glob` para leer `categories` desde MDX directamente |
 | `tina/config.ts` | MOD | Campo `categories` añadido al schema de projects, import de `PROJECT_CATEGORIES` |
 | `src/content/projects/*.mdx` | MOD | Campo `categories` añadido a los 7 proyectos |
