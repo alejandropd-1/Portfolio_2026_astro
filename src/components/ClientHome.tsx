@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Folder, ArrowRight, ExternalLink, RotateCcw } from 'lucide-react';
 import { SyntaxCard, Tag, KeyValue } from '@/components/UI';
@@ -25,6 +25,11 @@ export default function ClientHome({ projects, pageMeta }: { projects: any[], pa
     }
     return 'all';
   });
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Filtered projects — 'all' shows everything, otherwise match categories[]
   const filteredProjects = activeFilter === 'all'
@@ -65,7 +70,7 @@ export default function ClientHome({ projects, pageMeta }: { projects: any[], pa
         {/* Sidebar Filters */}
         <aside className={styles.home__sidebar}>
           <SyntaxCard label="Filters">
-            <div className={styles.home__filterGroup}>
+            <div className={clsx(styles.home__filterGroup, mounted ? styles['home__filterGroup--ready'] : styles['home__filterGroup--hydrating'])}>
               <div className={styles.home__filterTags}>
                 <Tag
                   active={activeFilter === 'all'}
@@ -94,7 +99,7 @@ export default function ClientHome({ projects, pageMeta }: { projects: any[], pa
 
           </SyntaxCard>
 <SyntaxCard label="Layout">
-            <div className={styles.home__filterGroup}>
+            <div className={clsx(styles.home__filterGroup, mounted ? styles['home__filterGroup--ready'] : styles['home__filterGroup--hydrating'])}>
               <div className={styles.home__filterTags}>
 <Tag active={layout === 'cards'} onClick={() => {
                   setLayout('cards');

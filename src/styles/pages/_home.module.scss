@@ -65,6 +65,16 @@
     border-radius: $radius-soft;
   }
 
+  // anti-FOUC: invisible until hydrated, then fade in
+  &__filterGroup--hydrating {
+    opacity: 0;
+  }
+
+  &__filterGroup--ready {
+    opacity: 1;
+    transition: opacity 0.15s ease-out;
+  }
+
   &__filterTags {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
