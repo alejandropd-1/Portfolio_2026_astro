@@ -75,19 +75,23 @@ export default function ClientHome({ projects, pageMeta }: { projects: any[], pa
               </div>
             </div>
 
+
+          </SyntaxCard>
+<SyntaxCard label="Layout">
+            <div className={styles.home__filterGroup}>
+              <div className={styles.home__filterTags}>
+              <Tag active={layout === 'cards'} onClick={() => setLayout('cards')}>Cards</Tag>
+              <Tag active={layout === 'list'} onClick={() => setLayout('list')}>List</Tag>
+              </div>
+            </div>
+          </SyntaxCard>
+
             <div className={styles.home__statusInfo}>
               <KeyValue k="status" v={`"${pageMeta?.status || 'available_for_hire'}",`} />
               <KeyValue k="location" v={`"${pageMeta?.location || 'remote'}",`} />
               <KeyValue k="timezone" v={`"${pageMeta?.timezone || 'EST'}",`} />
             </div>
-          </SyntaxCard>
 
-          <SyntaxCard label="Layout">
-            <div className={styles.home__layoutGroup}>
-              <Tag active={layout === 'cards'} onClick={() => setLayout('cards')}>Cards</Tag>
-              <Tag active={layout === 'list'} onClick={() => setLayout('list')}>List</Tag>
-            </div>
-          </SyntaxCard>
         </aside>
 
         {/* Project Grid */}
