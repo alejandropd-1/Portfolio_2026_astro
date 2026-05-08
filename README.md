@@ -62,7 +62,7 @@ Portfolio_2026_astro/
 │   └── dashboard/           # ← Dashboard Custom (Screen Plugin)
 │       ├── PortfolioDashboard.tsx # UI del Control Center
 │       └── dashboardQuery.ts      # Query GraphQL optimizada
-├├── src/content.config.ts    # Schemas Zod de Astro (debe espejear tina/config.ts)
+├── src/content.config.ts    # Schema Zod unificado para projects + pages (debe espejear tina/config.ts)
 ├── .env                     # TINA_CLIENT_ID y TINA_TOKEN (no commitear)
 └── package.json
 ```
@@ -123,6 +123,10 @@ Ruta: `src/content/projects/*.mdx`
 | `image` | image | Cover del proyecto |
 | `showInResume` | boolean | Aparece en la página Resume |
 | `showInPortfolio` | boolean | Aparece en Home y Archive |
+| `status` | string | Estado del proyecto (ej: "completed", "in progress") |
+| `impact` | string | Impacto o logro destacado |
+| `points` | string[] | Puntos de experiencia para el Resume |
+| `categories` | string[] | Categorías de filtro (ui-ux, web-dev, mobile, systems) |
 | `_template` | string | Metadato técnico de TinaCMS |
 | `body` | rich-text | Cuerpo MDX del proyecto |
 
@@ -276,4 +280,4 @@ Se ha implementado un panel de monitoreo avanzado dentro de TinaCMS (Screen Plug
 
 ---
 
-*Última actualización: 2026-05-07*
+*Última actualización: 2026-05-08*

@@ -80,4 +80,4 @@ Asegúrate de que `fs-extra` esté en `devDependencies` en tu `package.json`. Es
 
 ---
 
-*Última actualización: 2026-05-07*
+*Última actualización: 2026-05-08*

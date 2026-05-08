@@ -6,6 +6,58 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-08] — Cleanup de archivos huérfanos y fix de `formatTitle`
+
+### 🧹 Limpieza de código (fallow analysis)
+
+Se ejecutó `fallow analyze` sobre el proyecto y se tomaron las siguientes acciones:
+
+#### Archivos eliminados
+- `src/content/config.ts` — archivo huérfano, no importado en ningún lugar. El schema activo vive en `src/content.config.ts`. La documentación que lo referenciaba fue actualizada.
+
+#### Archivos modificados
+- `src/content.config.ts` — se agregaron campos faltantes (`status`, `impact`, `categories`) que existían en el MDX pero no en el schema Zod.
+- `src/lib/categories.ts` — se removedió `export` de `ProjectCategoryValue` (tipo interno, no usado externamente).
+
+#### Documentación actualizada
+- `README.md` — schema de projects actualizado con campos `status`, `impact`, `points`, `categories`
+- `AGENTS.md` y `CLAUDE.md` — referencias corregidas de `src/content/config.ts` → `src/content.config.ts`
+- `docs/CHANGELOG.md` — referencias históricas actualizadas
+
+#### Dependencias verificadas (falsos positivos de fallow)
+- `react-dnd` + `react-dnd-html5-backend` — se mantienen (planificados para drag-and-drop futuro en TinaCMS)
+- `fs-extra` — se mantiene en devDependencies (requerido por `@tinacms/metrics`)
+
+---
+
+### 🐛 Fix: `formatTitle` generaba `<br>` de más
+
+**Síntoma**: En la página About, el título `"Bridging \n // Logic & Soul"` renderizaba dos `<br>` entre "Logic" y "Soul", dejando una línea vacía de más.
+
+**Causa raíz**: En `src/helpers/text-helpers.tsx`, cuando una línea era `" // Logic & Soul"` (el `//` al inicio), `parts = ["", " Logic & Soul"]`. El código rendereaba `<br /><span>Logic & Soul</span>`, pero además el índice de línea agregaba otro `<br />` final entre líneas.
+
+**Fix aplicado** (`src/helpers/text-helpers.tsx`):
+- Si `beforeText` está vacío (el `//` está al inicio de la línea), no se agrega `<br />` antes del span
+- Se usa `trim()` en cada línea antes de procesarla, ignorando líneas vacías
+- Se verifica `(beforeText || afterText)` antes de agregar `<br />` entre líneas
+
+---
+
+### Archivos modificados
+
+| Archivo | Tipo | Descripción |
+|---|---|---|
+| `src/content/config.ts` | ELIMINADO | Schema huérfano, redundante con `content.config.ts` |
+| `src/content.config.ts` | MOD | Campos `status`, `impact`, `categories` agregados |
+| `src/lib/categories.ts` | MOD | `ProjectCategoryValue` ya no es exportado |
+| `src/helpers/text-helpers.tsx` | MOD | Fix de `<br>` extra en `formatTitle` |
+| `README.md` | MOD | Schema de projects actualizado, fecha de última act. |
+| `AGENTS.md` | MOD | Referencias corregidas |
+| `CLAUDE.md` | MOD | Referencias corregidas |
+| `docs/CHANGELOG.md` | MOD | Referencias históricas actualizadas |
+
+---
+
 ## [2026-05-08] — Layout Switcher, Filtros Funcionales y Vista Lista
 
 ### Objetivo
