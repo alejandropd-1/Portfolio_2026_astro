@@ -173,7 +173,7 @@ export default function ClientHome({ projects, pageMeta }: { projects: any[], pa
               )}
 
               <div className={styles.home__projectGrid}>
-                {projects.slice(1).map((project, i) => (
+                {filteredProjects.slice(1).map((project, i) => (
                   <motion.div
                     key={project.slug}
                     initial={{ opacity: 0, y: 20 }}
