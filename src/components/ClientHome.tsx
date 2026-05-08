@@ -7,13 +7,32 @@ import { SyntaxCard, Tag, KeyValue } from '@/components/UI';
 
 
 import styles from '@/styles/pages/_home.module.scss';
+import { PROJECT_CATEGORIES } from '@/lib/categories';
 import { clsx } from 'clsx';
 import { cleanTitle, formatTitle } from '@/helpers/text-helpers';
 import Breadcrumb from '@/components/Breadcrumb';
 
 export default function ClientHome({ projects, pageMeta }: { projects: any[], pageMeta?: any }) {
-  const featuredProject = projects[0];
   const [layout, setLayout] = useState<'cards' | 'list'>('cards');
+  const [activeFilter, setActiveFilter] = useState<string>('all');
+
+  // Filtered projects — 'all' shows everything, otherwise match categories[]
+  const filteredProjects = activeFilter === 'all'
+    ? projects
+    : projects.filter(p =>
+        Array.isArray(p.categories) && p.categories.includes(activeFilter)
+      );
+
+  const featuredProject = filteredProjects[0];
+
+  // Group filtered projects by type for list view
+  const groupedProjects = Object.entries(
+    filteredProjects.reduce((acc: Record<string, any[]>, p) => {
+      const key = p.type || 'Other';
+      (acc[key] = acc[key] || []).push(p);
+      return acc;
+    }, {})
+  );
 
   return (
     <div className="page-container">
@@ -38,32 +57,63 @@ export default function ClientHome({ projects, pageMeta }: { projects: any[], pa
           <SyntaxCard label="Filters">
             <div className={styles.home__filterGroup}>
               <div className={styles.home__filterTags}>
-                <Tag active>All Output</Tag>
-                <Tag>UI/UX Eng</Tag>
-                <Tag>Web Dev</Tag>
-                <Tag>Mobile App</Tag>
+                <Tag
+                  active={activeFilter === 'all'}
+                  onClick={() => setActiveFilter('all')}
+                >
+                  All Output
+                </Tag>
+                {PROJECT_CATEGORIES.map(cat => (
+                  <Tag
+                    key={cat.value}
+                    active={activeFilter === cat.value}
+                    onClick={() => setActiveFilter(cat.value)}
+                  >
+                    {cat.label}
+                  </Tag>
+                ))}
               </div>
-              <Tag className={styles.home__tagFit}>Systems</Tag>
             </div>
+
+
+          </SyntaxCard>
+<SyntaxCard label="Layout">
+            <div className={styles.home__filterGroup}>
+              <div className={styles.home__filterTags}>
+              <Tag active={layout === 'cards'} onClick={() => setLayout('cards')}>Cards</Tag>
+              <Tag active={layout === 'list'} onClick={() => setLayout('list')}>List</Tag>
+              </div>
+            </div>
+          </SyntaxCard>
 
             <div className={styles.home__statusInfo}>
               <KeyValue k="status" v={`"${pageMeta?.status || 'available_for_hire'}",`} />
               <KeyValue k="location" v={`"${pageMeta?.location || 'remote'}",`} />
               <KeyValue k="timezone" v={`"${pageMeta?.timezone || 'EST'}",`} />
             </div>
-          </SyntaxCard>
 
-          <SyntaxCard label="Layout">
-            <div className={styles.home__layoutGroup}>
-              <Tag active={layout === 'cards'} onClick={() => setLayout('cards')}>Cards</Tag>
-              <Tag active={layout === 'list'} onClick={() => setLayout('list')}>List</Tag>
-            </div>
-          </SyntaxCard>
         </aside>
 
         {/* Project Grid */}
         <div className={styles.home__projects}>
-          {layout === 'cards' ? (
+          {/* Empty state when filter has no matches */}
+          {filteredProjects.length === 0 && (
+            <motion.div
+              className={styles.home__empty}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <p>// no output matches this filter</p>
+              <button
+                className={styles.home__emptyReset}
+                onClick={() => setActiveFilter('all')}
+              >
+                clear filter →
+              </button>
+            </motion.div>
+          )}
+
+          {filteredProjects.length > 0 && (layout === 'cards' ? (
             <>
               {/* Featured Project */}
               {featuredProject && (
@@ -123,7 +173,7 @@ export default function ClientHome({ projects, pageMeta }: { projects: any[], pa
               )}
 
               <div className={styles.home__projectGrid}>
-                {projects.slice(1).map((project, i) => (
+                {filteredProjects.slice(1).map((project, i) => (
                   <motion.div
                     key={project.slug}
                     initial={{ opacity: 0, y: 20 }}
@@ -184,49 +234,68 @@ export default function ClientHome({ projects, pageMeta }: { projects: any[], pa
               </div>
             </>
           ) : (
-            /* List View */
-            <ul className={styles.home__listView}>
-              {projects.map((project, i) => (
-                <motion.li
-                  key={project.slug}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+            /* List View — Josh Comeau inspired: grouped by type, arrow + big title */
+            <div className={styles.home__listView}>
+              {groupedProjects.map(([type, typeProjects], groupIdx) => (
+                <motion.div
+                  key={type}
+                  className={styles.home__listGroup}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 }}
+                  transition={{ delay: groupIdx * 0.08 }}
                 >
-                  <a href={`/projects/${project.slug}`} className={styles.home__listItem}>
-                    <div className={styles.home__listMeta}>
-                      <span>{project.year}</span>
-                      <span>{project.type}</span>
-                    </div>
+                  <p className={styles.home__listGroupTitle}>{type}</p>
+                  <ul className={styles.home__listItems}>
+                    {typeProjects.map((project) => (
+                      <li key={project.slug}>
+                        <a href={`/projects/${project.slug}`} className={styles.home__listItem}>
+                          <ArrowRight size={22} className={styles.home__listItemArrow} />
 
-                    <h3 className={styles.home__listTitle}>
-                      {cleanTitle(project.title)}
-                    </h3>
+                          <div className={styles.home__listItemContent}>
+                            {/* Title + year */}
+                            <div className={styles.home__listItemHeader}>
+                              <span className={styles.home__listItemTitle}>
+                                {cleanTitle(project.title)}
+                              </span>
+                              {project.year && (
+                                <span className={styles.home__listItemYear}>{project.year}</span>
+                              )}
+                            </div>
 
-                    {project.role && (
-                      <div className={styles.home__listRole}>
-                        <KeyValue k="Role" v={project.role} />
-                      </div>
-                    )}
+                            {/* KeyValue metadata */}
+                            {(project.role || project.impact || project.status) && (
+                              <div className={styles.home__listItemMeta}>
+                                {project.role   && <KeyValue k="Role"   v={project.role} />}
+                                {project.impact && <KeyValue k="Impact" v={project.impact} />}
+                                {project.status && <KeyValue k="Status" v={project.status} />}
+                              </div>
+                            )}
 
-                    {Array.isArray(project.stack) && project.stack.length > 0 && (
-                      <div className={styles.home__listTags}>
-                        {project.stack.slice(0, 3).map((s: string) => (
-                          <Tag key={s}>{s}</Tag>
-                        ))}
-                      </div>
-                    )}
+                            {/* Description */}
+                            {project.description && (
+                              <p className={styles.home__listItemDesc}>
+                                {project.description}
+                              </p>
+                            )}
 
-                    <div className={styles.home__listCTA}>
-                      {project.slug === 'aura-meditation' ? 'EXECUTE' : 'VIEW LOG'}
-                      {project.slug === 'aura-meditation' ? <ExternalLink size={12} /> : <RotateCcw size={12} />}
-                    </div>
-                  </a>
-                </motion.li>
+                            {/* Stack tags */}
+                            {Array.isArray(project.stack) && project.stack.length > 0 && (
+                              <div className={styles.home__listItemTags}>
+                                {project.stack.map((s: string) => (
+                                  <Tag key={s}>{s}</Tag>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
               ))}
-            </ul>
-          )}
+            </div>
+          ))}
         </div>
       </div>
     </div>
