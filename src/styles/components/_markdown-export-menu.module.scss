@@ -76,12 +76,12 @@
   position: absolute;
   top: 100%;
   right: 0;
-  z-index: 1000;
+  z-index: 1;
   min-width: 10rem;
   margin-top: $size-1;
   padding: $size-1 0;
   border-radius: $radius-soft;
-  background: rgba(var(--clr-brand-surface-low-rgb), 0.8);
+  background: rgba(var(--clr-brand-surface-low-rgb), 0.2);
   border: 1px solid rgba(255, 255, 255, 0.05);
   opacity: 0;
   transform: translateY(-4px);
@@ -89,6 +89,8 @@
   transition:
     opacity 0.15s ease,
     transform 0.15s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
 
   button {
     border-style: hidden;
