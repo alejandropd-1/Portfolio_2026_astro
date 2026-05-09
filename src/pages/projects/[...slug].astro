@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import MainLayout from '@/layouts/MainLayout.astro';
 import ProjectDetailLayout from '@/components/ProjectDetailLayout';
 import customComponents from '@/components/mdx';
+import matter from 'gray-matter';
 
 export async function getStaticPaths() {
   const allProjects = await getCollection('projects');
@@ -26,10 +27,40 @@ const projectData = {
   ...entry.data,
   slug: entry.id
 };
+
+const rawFiles = import.meta.glob<string>(
+  '../../content/projects/*.mdx',
+  { eager: true, query: '?raw', import: 'default' }
+);
+const matchedPath = Object.keys(rawFiles).find(p =>
+  p.split('/').pop()!.replace('.mdx', '').toLowerCase() === entry.id
+);
+const rawBody = matchedPath ? matter(rawFiles[matchedPath]).content : '';
+
+const exportMetadata: Record<string, unknown> = {
+  title: entry.data.title,
+  year: entry.data.year,
+  type: entry.data.type,
+  role: entry.data.role,
+  client: entry.data.client,
+  status: entry.data.status,
+  impact: entry.data.impact,
+  description: entry.data.description,
+  stack: entry.data.stack,
+};
 ---
 
 <MainLayout title={`${entry.data.title} | AleDesign`}>
-  <ProjectDetailLayout client:load project={projectData} nextLink={`/projects/${nextSlug}`}>
+  <ProjectDetailLayout
+    client:load
+    project={projectData}
+    nextLink={`/projects/${nextSlug}`}
+    exportData={{
+      content: rawBody,
+      metadata: exportMetadata,
+      filename: `${entry.id}.md`,
+    }}
+  >
     <Content components={customComponents} />
   </ProjectDetailLayout>
 </MainLayout>

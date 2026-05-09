@@ -11,8 +11,15 @@ import { PROJECT_CATEGORIES } from '@/lib/categories';
 import { clsx } from 'clsx';
 import { cleanTitle, formatTitle } from '@/helpers/text-helpers';
 import Breadcrumb from '@/components/Breadcrumb';
+import MarkdownExportMenu from '@/components/MarkdownExportMenu';
 
-export default function ClientHome({ projects, pageMeta }: { projects: any[], pageMeta?: any }) {
+interface ExportData {
+  content: string;
+  metadata: Record<string, unknown>;
+  filename: string;
+}
+
+export default function ClientHome({ projects, pageMeta, exportData }: { projects: any[], pageMeta?: any, exportData?: ExportData }) {
   const [layout, setLayout] = useState<'cards' | 'list'>(() => {
     if (typeof window !== 'undefined') {
       return (localStorage.getItem('portfolio-layout') as 'cards' | 'list') ?? 'cards';
@@ -123,6 +130,7 @@ export default function ClientHome({ projects, pageMeta }: { projects: any[], pa
 
         {/* Project Grid */}
         <div className={styles.home__projects}>
+          {exportData && <MarkdownExportMenu {...exportData} />}
           {/* Empty state when filter has no matches */}
           {filteredProjects.length === 0 && (
             <motion.div
