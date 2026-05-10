@@ -1,6 +1,15 @@
 @use "../abstracts" as *;
 
 .projectDetail {
+  &__breadcrumbRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: $size-20;
+    padding-bottom: $size-8;
+  }
+
+
   position: relative;
   overflow: hidden;
   isolation: isolate;

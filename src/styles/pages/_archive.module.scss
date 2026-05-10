@@ -1,6 +1,14 @@
 @use "../abstracts" as *;
 
 .archive {
+  &__breadcrumbRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: $size-20;
+    padding-bottom: $size-8;
+  }
+
   &__header {
     margin-bottom: $size-24;
   }
@@ -44,9 +52,15 @@
     height: 0.75rem;
     border-radius: 50%;
 
-    &--red { background: rgba(#ef4444, 0.8); }
-    &--yellow { background: rgba(#fd9d1a, 0.8); }
-    &--green { background: rgba(#b6ff54, 0.8); }
+    &--red {
+      background: rgba(#ef4444, 0.8);
+    }
+    &--yellow {
+      background: rgba(#fd9d1a, 0.8);
+    }
+    &--green {
+      background: rgba(#b6ff54, 0.8);
+    }
   }
 
   &__fileName {
@@ -78,11 +92,22 @@
     }
   }
 
+  &__headerYear    { grid-column: span 2; }
+  &__headerProject { grid-column: span 4; }
+  &__headerStack   { grid-column: span 4; }
+  &__headerAction  { grid-column: span 2; text-align: right; }
+
   &__gridHeader {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     padding: $size-6 $size-8;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%), rgba(var(--clr-brand-surface-low-rgb), 0.5);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.03) 0%,
+        rgba(255, 255, 255, 0) 100%
+      ),
+      rgba(var(--clr-brand-surface-low-rgb), 0.5);
     font-size: 10px;
     font-weight: $fw-bold;
     letter-spacing: $ls-wide;
@@ -98,7 +123,9 @@
 
     & > * {
       border-bottom: 1px solid rgba(white, 0.05);
-      &:last-child { border-bottom: none; }
+      &:last-child {
+        border-bottom: none;
+      }
     }
   }
 
@@ -120,7 +147,7 @@
   }
 
   &__year {
-    grid-column: span 1;
+    grid-column: span 2;
     font-family: $mono-font;
     color: $clr-brand-secondary;
     font-size: $fs-sm;
@@ -152,7 +179,7 @@
   }
 
   &__stackCol {
-    grid-column: span 5;
+    grid-column: span 4;
     display: flex;
     flex-wrap: wrap;
     gap: $size-2;

@@ -9,6 +9,13 @@ import styles from '@/styles/pages/_resume.module.scss';
 import { clsx } from 'clsx';
 import { formatTitle } from '@/helpers/text-helpers';
 import Breadcrumb from '@/components/Breadcrumb';
+import MarkdownExportMenu from '@/components/MarkdownExportMenu';
+
+interface ExportData {
+  content: string;
+  metadata: Record<string, unknown>;
+  filename: string;
+}
 
 
 const DEFAULT_SKILLS = [
@@ -38,7 +45,7 @@ const DEFAULT_EDUCATION = {
   year: 'Class of 2015',
 };
 
-export default function ClientResume({ frontmatter, children, jobs }: { frontmatter: any, children?: React.ReactNode, jobs: any[] }) {
+export default function ClientResume({ frontmatter, children, jobs, exportData }: { frontmatter: any, children?: React.ReactNode, jobs: any[], exportData?: ExportData }) {
   const experiences = useMemo(() => {
     return jobs.map(job => ({
       role: job.role || job.title,
@@ -133,7 +140,10 @@ export default function ClientResume({ frontmatter, children, jobs }: { frontmat
   return (
     <div className="page-container">
       <div className={styles.resume}>
-        <Breadcrumb paths={['resume']} />
+        <div className={styles.resume__breadcrumbRow}>
+          <Breadcrumb paths={['resume']} />
+          {exportData && <MarkdownExportMenu {...exportData} />}
+        </div>
 
         {/* Search Bar Section - Terminal Style */}
         <section className={styles.resume__search}>

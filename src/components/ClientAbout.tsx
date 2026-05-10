@@ -33,7 +33,9 @@ export default function ClientAbout({ frontmatter, children }: { frontmatter: an
   return (
     <div className="page-container">
       <div className={styles.about}>
-        <Breadcrumb paths={['about']} />
+        <div className={styles.about__breadcrumbRow}>
+          <Breadcrumb paths={['about']} />
+        </div>
         <section className={styles.about__hero}>
           <div>
 

@@ -29,8 +29,39 @@ const projects = allProjects
     categories: categoryMap[p.id] ?? [],
   }))
   .sort((a, b) => (a.order || 0) - (b.order || 0));
+
+const exportContent = projects.map(p => {
+  const parts = [`## ${p.title}`];
+  if (p.year) parts.push(`**Year:** ${p.year}`);
+  if (p.type) parts.push(`**Type:** ${p.type}`);
+  if (p.role) parts.push(`**Role:** ${p.role}`);
+  if (p.client) parts.push(`**Client:** ${p.client}`);
+  if (p.description) parts.push(`\n${p.description}`);
+  if (p.stack?.length) parts.push(`\n**Stack:** ${p.stack.join(', ')}`);
+  if (p.points?.length) {
+    parts.push('\n**Key Points:**');
+    p.points.forEach((pt: string) => parts.push(`- ${pt}`));
+  }
+  return parts.join('\n');
+}).join('\n\n---\n\n');
+
+const exportMetadata = {
+  title: homeEntry?.data?.title || 'Compiled Visions',
+  description: homeEntry?.data?.mission || 'UX/UI designer with over 14 years of experience.',
+  projects: projects.length,
+  generatedAt: new Date().toISOString(),
+};
 ---
 
 <MainLayout>
-  <ClientHome client:load projects={projects} pageMeta={homeEntry?.data} />
+  <ClientHome
+    client:load
+    projects={projects}
+    pageMeta={homeEntry?.data}
+    exportData={{
+      content: exportContent,
+      metadata: exportMetadata,
+      filename: "portfolio-projects.md",
+    }}
+  />
 </MainLayout>

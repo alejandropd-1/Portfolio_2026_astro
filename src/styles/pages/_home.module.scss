@@ -6,6 +6,14 @@
     margin-bottom: $size-12;
   }
 
+  &__breadcrumbRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: $size-20;
+    padding-bottom: $size-8;
+  }
+
   &__title {
     @include page-title;
     margin-bottom: $size-8;

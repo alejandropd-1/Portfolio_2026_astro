@@ -16,7 +16,9 @@ export default function ClientArchive({ projects, pageMeta }: { projects: any[],
   return (
     <div className="page-container">
       <header className={styles.archive__header}>
-         <Breadcrumb paths={['archive']} />
+         <div className={styles.archive__breadcrumbRow}>
+           <Breadcrumb paths={['archive']} />
+         </div>
          <h1 className={styles.archive__title}>
               {formatTitle(title)}
             </h1>
@@ -46,10 +48,10 @@ export default function ClientArchive({ projects, pageMeta }: { projects: any[],
 
         {/* Table Head */}
         <div className={styles.archive__gridHeader}>
-          <div style={{ gridColumn: 'span 1' }}>Year</div>
-          <div style={{ gridColumn: 'span 4' }}>Project_ID</div>
-          <div style={{ gridColumn: 'span 5' }}>Stack</div>
-          <div style={{ gridColumn: 'span 2', textAlign: 'right' }}>Action</div>
+          <div className={styles.archive__headerYear}>Year</div>
+          <div className={styles.archive__headerProject}>Project_ID</div>
+          <div className={styles.archive__headerStack}>Stack</div>
+          <div className={styles.archive__headerAction}>Action</div>
         </div>
 
         {/* Table Body */}

@@ -4,16 +4,24 @@ import Breadcrumb from '@/components/Breadcrumb';
 
 import { formatTitle, cleanTitle } from '@/helpers/text-helpers';
 import styles from '@/styles/pages/_project-detail.module.scss';
+import MarkdownExportMenu from '@/components/MarkdownExportMenu';
 import React from 'react';
+
+interface ExportData {
+  content: string;
+  metadata: Record<string, unknown>;
+  filename: string;
+}
 
 interface ProjectDetailLayoutProps {
   project: any;
   headerNode?: React.ReactNode;
   nextLink?: string;
   children?: React.ReactNode;
+  exportData?: ExportData;
 }
 
-export default function ProjectDetailLayout({ project, headerNode, nextLink, children }: ProjectDetailLayoutProps) {
+export default function ProjectDetailLayout({ project, headerNode, nextLink, children, exportData }: ProjectDetailLayoutProps) {
   const frontmatter = project;
 
   return (
@@ -21,15 +29,18 @@ export default function ProjectDetailLayout({ project, headerNode, nextLink, chi
       <div className="page-container">
         {headerNode}
 
-        <Breadcrumb 
-          paths={[
-            { name: 'projects', href: '/' },
-            ...(project.slug?.includes('/') 
-              ? project.slug.split('/').slice(0, -1).map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)) 
-              : []),
-            cleanTitle(frontmatter.title)
-          ]} 
-        />
+        <div className={styles.projectDetail__breadcrumbRow}>
+          <Breadcrumb
+            paths={[
+              { name: 'projects', href: '/' },
+              ...(project.slug?.includes('/')
+                ? project.slug.split('/').slice(0, -1).map((s: string) => s.charAt(0).toUpperCase() + s.slice(1))
+                : []),
+              cleanTitle(frontmatter.title)
+            ]}
+          />
+          {exportData && <MarkdownExportMenu {...exportData} />}
+        </div>
 
         {/* Header Section */}
         <header className={styles.projectDetail__header}>

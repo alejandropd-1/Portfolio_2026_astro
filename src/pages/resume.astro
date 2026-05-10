@@ -13,10 +13,41 @@ const jobs = projects
   .sort((a, b) => (a.order || 99) - (b.order || 99));
 
 const { Content } = await render(page);
+
+const exportContent = jobs.map(job => {
+  const parts = [`## ${job.role || job.title}`];
+  if (job.client) parts.push(`**Company:** ${job.client}`);
+  if (job.year) parts.push(`**Period:** ${job.year}`);
+  if (job.type) parts.push(`**Type:** ${job.type}`);
+  if (job.description) parts.push(`\n${job.description}`);
+  if (job.stack?.length) parts.push(`\n**Stack:** ${job.stack.join(', ')}`);
+  if (job.points?.length) {
+    parts.push('\n**Highlights:**');
+    job.points.forEach((pt: string) => parts.push(`- ${pt}`));
+  }
+  return parts.join('\n');
+}).join('\n\n---\n\n');
+
+const exportMetadata = {
+  title: page.data.title || 'Resume',
+  location: page.data.location,
+  email: page.data.email,
+  status: page.data.status,
+  generatedAt: new Date().toISOString(),
+};
 ---
 
 <MainLayout title={`Resume | ${page.data.title}`}>
-  <ClientResume client:load frontmatter={page.data} jobs={jobs}>
+  <ClientResume
+    client:load
+    frontmatter={page.data}
+    jobs={jobs}
+    exportData={{
+      content: exportContent,
+      metadata: exportMetadata,
+      filename: "cv-alejandro-delgado.md",
+    }}
+  >
     <Content />
   </ClientResume>
 </MainLayout>
