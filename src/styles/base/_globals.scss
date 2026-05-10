@@ -50,6 +50,33 @@ body {
   max-width: 100vw;
 }
 
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--clr-brand-on-surface-rgb), 0.25) $clr-brand-surface-low;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $clr-brand-surface-low;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--clr-brand-on-surface-rgb), 0.25);
+  border-radius: $radius-soft;
+
+  &:hover {
+    background: $clr-brand-primary;
+  }
+}
+
+::-webkit-scrollbar-corner {
+  background: $clr-brand-surface-low;
+}
+
 body {
   background-color: $body-bg;
   color: $body-text;
