@@ -29,15 +29,18 @@ export default function ProjectDetailLayout({ project, headerNode, nextLink, chi
       <div className="page-container">
         {headerNode}
 
-        <Breadcrumb 
-          paths={[
-            { name: 'projects', href: '/' },
-            ...(project.slug?.includes('/') 
-              ? project.slug.split('/').slice(0, -1).map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)) 
-              : []),
-            cleanTitle(frontmatter.title)
-          ]} 
-        />
+        <div className={styles.projectDetail__breadcrumbRow}>
+          <Breadcrumb
+            paths={[
+              { name: 'projects', href: '/' },
+              ...(project.slug?.includes('/')
+                ? project.slug.split('/').slice(0, -1).map((s: string) => s.charAt(0).toUpperCase() + s.slice(1))
+                : []),
+              cleanTitle(frontmatter.title)
+            ]}
+          />
+          {exportData && <MarkdownExportMenu {...exportData} />}
+        </div>
 
         {/* Header Section */}
         <header className={styles.projectDetail__header}>
@@ -107,8 +110,6 @@ export default function ProjectDetailLayout({ project, headerNode, nextLink, chi
             </div>
           </div>
         )}
-
-        {exportData && <MarkdownExportMenu {...exportData} />}
 
         <div className={styles.projectDetail__mainGrid}>
           <article className={styles.projectDetail__content}>

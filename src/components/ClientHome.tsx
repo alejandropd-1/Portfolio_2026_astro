@@ -60,7 +60,10 @@ export default function ClientHome({ projects, pageMeta, exportData }: { project
     <div className="page-container">
       {/* Hero Section */}
       <section className={styles.home__hero}>
-        <Breadcrumb paths={['projects']} />
+        <div className={styles.home__breadcrumbRow}>
+          <Breadcrumb paths={['projects']} />
+          {exportData && <MarkdownExportMenu {...exportData} />}
+        </div>
 
         <h1 className={styles.home__title}>
           {formatTitle(pageMeta?.title || "Compiled Visions.")}
@@ -130,7 +133,6 @@ export default function ClientHome({ projects, pageMeta, exportData }: { project
 
         {/* Project Grid */}
         <div className={styles.home__projects}>
-          {exportData && <MarkdownExportMenu {...exportData} />}
           {/* Empty state when filter has no matches */}
           {filteredProjects.length === 0 && (
             <motion.div

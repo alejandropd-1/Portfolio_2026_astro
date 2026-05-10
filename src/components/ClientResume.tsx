@@ -140,7 +140,10 @@ export default function ClientResume({ frontmatter, children, jobs, exportData }
   return (
     <div className="page-container">
       <div className={styles.resume}>
-        <Breadcrumb paths={['resume']} />
+        <div className={styles.resume__breadcrumbRow}>
+          <Breadcrumb paths={['resume']} />
+          {exportData && <MarkdownExportMenu {...exportData} />}
+        </div>
 
         {/* Search Bar Section - Terminal Style */}
         <section className={styles.resume__search}>
@@ -191,7 +194,6 @@ export default function ClientResume({ frontmatter, children, jobs, exportData }
                   <button className={styles.resume__downloadBtn} onClick={downloadCustom}>
                     <Download size={14} /> CUSTOM CV
                   </button>
-                  {exportData && <MarkdownExportMenu {...exportData} />}
                 </div>
               </div>
             </div>
