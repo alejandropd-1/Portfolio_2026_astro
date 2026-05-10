@@ -28,3 +28,5 @@ tina/__generated__
 public/admin
 
 .claude/worktrees/elastic-herschel-e23851
+
+.claude/worktrees/
