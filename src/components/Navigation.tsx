@@ -148,7 +148,7 @@ export default function Navigation({ pathname = '/' }: { pathname?: string }) {
           </button>
 
           {/* Desktop-only action buttons */}
-          <a href="/rss.xml" className={clsx(styles.nav__btn, styles['nav__btn--desktop'])} aria-label="RSS Feed">
+          <a href="/rss.xml" target='_blank' className={clsx(styles.nav__btn, styles['nav__btn--desktop'])} aria-label="RSS Feed">
             <Rss size={18} />
           </a>
           <button className={clsx(styles.nav__btn, styles['nav__btn--desktop'])} aria-label="Source">

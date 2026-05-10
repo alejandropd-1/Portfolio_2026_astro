@@ -223,6 +223,25 @@ npx astro check   # TypeScript diagnostics
 
 ---
 
+## 📡 RSS Feed
+
+El feed está en `src/pages/rss.xml.ts` y se genera en cada build de Astro. Consume la colección `projects` filtrando por `showInPortfolio: true`, ordenado por fecha descendente.
+
+**Namespaces activos:**
+
+| Prefijo | URI | Uso |
+|---|---|---|
+| `dc` | `http://purl.org/dc/elements/1.1/` | `<dc:creator>` por item |
+| `content` | `http://purl.org/rss/1.0/modules/content/` | `<content:encoded>` con HTML completo |
+| `atom` | `http://www.w3.org/2005/Atom` | `<atom:link rel="self">` en el canal |
+| `media` | `http://search.yahoo.com/mrss/` | `<media:content>` + `<media:thumbnail>` para imágenes |
+
+**Por item se incluye:** título, descripción, fecha, categorías (stack), `<dc:creator>`, `<content:encoded>` (imagen + descripción + rol + stack + link), `<media:content>` y `<media:thumbnail>` con URL absoluta de la imagen del proyecto.
+
+> **Nota**: `<media:content>` y `<media:thumbnail>` son las etiquetas que los lectores de feeds usan para mostrar la imagen de preview en la lista. Sin ellas, la imagen no aparece aunque exista en el proyecto.
+
+---
+
 ## 🤖 Instrucciones para Asistentes IA
 
 ### Antes de empezar
@@ -280,4 +299,4 @@ Se ha implementado un panel de monitoreo avanzado dentro de TinaCMS (Screen Plug
 
 ---
 
-*Última actualización: 2026-05-08*
+*Última actualización: 2026-05-10*

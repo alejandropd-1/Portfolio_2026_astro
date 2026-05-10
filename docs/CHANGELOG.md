@@ -6,6 +6,86 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-10] — RSS Feed enriquecido con imágenes y metadatos extendidos
+
+### Objetivo
+
+Mejorar el feed RSS para que los lectores de feeds muestren imágenes de preview y ofrezcan un contenido estructurado más completo.
+
+### ✨ Cambios
+
+#### `src/pages/rss.xml.ts`
+
+- **Namespaces agregados** al elemento `<rss>`:
+  - `xmlns:dc` — Dublin Core, para `<dc:creator>` por item
+  - `xmlns:content` — para `<content:encoded>` con HTML completo
+  - `xmlns:atom` — para el self-link del feed (`<atom:link rel="self">`)
+  - `xmlns:media` — Media RSS (Yahoo), para thumbnails de imagen
+
+- **Por item** se añaden:
+  - `<dc:creator>` — autoría por item
+  - `<content:encoded>` — bloque HTML con imagen, descripción, rol, stack y link al proyecto
+  - `<media:content>` + `<media:thumbnail>` — las etiquetas que los lectores de feeds usan para mostrar la imagen de preview en la lista. **Esta era la causa de que las imágenes no aparecieran en aplicaciones de RSS.**
+
+- **En el canal** se añaden:
+  - `<atom:link rel="self">` — self-reference estándar del feed
+  - `<lastBuildDate>` — timestamp de última compilación
+  - `<generator>` — identificación del generador
+
+- El campo `image` del proyecto se convierte a URL absoluta usando `context.site` antes de incluirse en las etiquetas `media:*`.
+
+---
+
+## [2026-05-09] — Fix: worktrees de Claude indexados como gitlinks rompían el build de Netlify
+
+### Problema
+
+Netlify fallaba en la fase de "preparing repo" con:
+```
+fatal: No url found for submodule path '.claude/worktrees/cool-leavitt-b31bc6' in .gitmodules
+```
+
+Dos directorios dentro de `.claude/worktrees/` habían sido indexados por git como gitlinks (modo `160000`, equivalente a submódulos) antes de que la entrada `.claude/worktrees/` existiera en `.gitignore`. Netlify los interpretaba como submódulos sin URL válida.
+
+### Fix
+
+```bash
+git rm --cached ".claude/worktrees/cool-leavitt-b31bc6"
+git rm --cached ".claude/worktrees/lucid-elion-87bb7c"
+```
+
+Las entradas fueron eliminadas del índice. El `.gitignore` ya tenía `/.claude/worktrees/` — no fue necesario modificarlo.
+
+### Archivos modificados
+
+| Archivo | Tipo | Descripción |
+|---|---|---|
+| _(git index)_ | MOD | Eliminados dos gitlinks huérfanos de `.claude/worktrees/` |
+
+---
+
+## [2026-05-09] — Scrollbar personalizado
+
+### Objetivo
+
+Reemplazar el scrollbar del navegador por defecto con uno que respete la estética editorial del sitio.
+
+### ✨ Cambios
+
+#### `src/styles/base/_globals.scss`
+
+Se añadieron reglas de scrollbar usando las variables del design system:
+
+- **Track**: `$clr-brand-surface-low` — nivel 1 de superficie, levemente distinto del fondo de página
+- **Thumb en reposo**: `on-surface-rgb` al 25% de opacidad — discreto, no distrae
+- **Thumb en hover**: `$clr-brand-primary` — verde neón (dark) / verde profundo (light)
+- **Ancho**: `8px` — delgado pero funcional
+- **Webkit**: reglas `::-webkit-scrollbar*` para Chrome, Edge y Safari
+- **Firefox**: `scrollbar-width: thin` + `scrollbar-color` en el elemento `html`
+- **Tema claro**: funciona automáticamente porque las CSS custom properties cambian con la clase `.light` en `<html>` — sin código adicional
+
+---
+
 ## [2026-05-08] — Cleanup de archivos huérfanos y fix de `formatTitle`
 
 ### 🧹 Limpieza de código (fallow analysis)
