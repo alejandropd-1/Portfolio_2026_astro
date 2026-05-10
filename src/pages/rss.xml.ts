@@ -1,6 +1,36 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
+import matter from 'gray-matter';
+
+// gray-matter reads image directly from raw MDX — p.data.image is unreliable in Astro v6
+// (same pattern used in index.astro for categories)
+const rawFiles = import.meta.glob<string>('../content/projects/*.mdx', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+});
+
+const imageMap: Record<string, string | null> = {};
+for (const [path, content] of Object.entries(rawFiles)) {
+  const slug = path.split('/').pop()!.replace('.mdx', '').toLowerCase();
+  const raw = matter(content).data.image ?? null;
+  // Skip SVGs — feed readers don't render them as thumbnails
+  imageMap[slug] = raw && !raw.endsWith('.svg') ? raw : null;
+}
+
+function toAbsoluteUrl(imageField: string | null, site: URL): string | null {
+  if (!imageField) return null;
+  try {
+    // Already absolute (e.g. picsum.photos)
+    if (imageField.startsWith('http://') || imageField.startsWith('https://')) {
+      return imageField;
+    }
+    return new URL(imageField, site).href;
+  } catch {
+    return null;
+  }
+}
 
 export async function GET(context: APIContext) {
   const projects = await getCollection('projects');
@@ -13,19 +43,19 @@ export async function GET(context: APIContext) {
       const title = p.data.title.replace(/\s*\/\/\s*/g, ' ');
       const description = p.data.description ?? '';
       const projectUrl = new URL(`/projects/${p.id}`, site).href;
-      const imageUrl = p.data.image ? new URL(p.data.image, site).href : null;
+      const imageUrl = toAbsoluteUrl(imageMap[p.id] ?? null, site);
 
-      const contentParts = [
-        imageUrl ? `<img src="${imageUrl}" alt="${title}" style="max-width:100%;border-radius:4px;margin-bottom:16px;" />` : '',
+      const contentHtml = [
+        imageUrl ? `<img src="${imageUrl}" alt="${title}" style="max-width:100%;border-radius:4px;display:block;margin-bottom:16px;" />` : '',
         description ? `<p>${description}</p>` : '',
         p.data.role ? `<p><strong>Role:</strong> ${p.data.role}</p>` : '',
         p.data.stack?.length ? `<p><strong>Stack:</strong> ${p.data.stack.join(', ')}</p>` : '',
-        `<p><a href="${projectUrl}">View project →</a></p>`,
+        `<p><a href="${projectUrl}">View project &rarr;</a></p>`,
       ].filter(Boolean).join('\n');
 
       const itemCustomData = [
         `<dc:creator><![CDATA[Alejandro Delgado]]></dc:creator>`,
-        imageUrl ? `<media:content url="${imageUrl}" medium="image"/>` : '',
+        imageUrl ? `<media:content url="${imageUrl}" medium="image" width="1200" height="630"/>` : '',
         imageUrl ? `<media:thumbnail url="${imageUrl}"/>` : '',
       ].filter(Boolean).join('\n');
 
@@ -35,7 +65,7 @@ export async function GET(context: APIContext) {
         pubDate: new Date(p.data.date),
         link: `/projects/${p.id}`,
         categories: p.data.stack ?? [],
-        content: contentParts,
+        content: contentHtml,
         customData: itemCustomData,
       };
     });
@@ -47,7 +77,6 @@ export async function GET(context: APIContext) {
     items,
     xmlns: {
       dc: 'http://purl.org/dc/elements/1.1/',
-      content: 'http://purl.org/rss/1.0/modules/content/',
       atom: 'http://www.w3.org/2005/Atom',
       media: 'http://search.yahoo.com/mrss/',
     },
