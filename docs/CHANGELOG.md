@@ -6,6 +6,143 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-11] — Fallow-02: limpieza de dependencias y archivos MDX rotos
+
+### Objetivo
+
+Segunda pasada de análisis estático con Fallow (dead-code, unused deps, duplicación). Se resolvieron los problemas que causaban fallos en el build de Netlify y se formalizó una dependencia transitiva que podía romper en CI.
+
+### 🧹 Archivos eliminados
+
+| Archivo | Motivo |
+|---------|--------|
+| `src/content/projects/FOlder-agrado.mdx` | Nombre con mayúsculas causaba case-mismatch silencioso (`p.id` es lowercase en Astro v6). El proyecto ya estaba archivado. |
+| `src/content/projects/La-verdad-de-la-mila.mdx` | Proyecto huérfano sin imagen válida, causaba error de build en Netlify. |
+
+### 📦 Cambios en `package.json`
+
+| Paquete | Cambio | Motivo |
+|---------|--------|--------|
+| `react-dnd` | **Eliminado** de `dependencies` | Nunca fue importado en el código activo. La funcionalidad de drag-and-drop proyectada quedó descartada. |
+| `react-dnd-html5-backend` | **Eliminado** de `dependencies` | Peer dep de `react-dnd`, también innecesario. |
+| `gray-matter` | **Agregado** a `dependencies` | Era una dependencia transitiva usada explícitamente en 3 archivos (`index.astro`, `[...slug].astro`, `rss.xml.ts`). Sin listarlo en `package.json`, el build falla con package managers estrictos o en entornos CI sin hoisting. |
+
+### 📊 Resultado del análisis Fallow completo
+
+| Métrica | Valor |
+|---------|-------|
+| Health Score | 62/100 → ~80/100 (C → B+) |
+| Archivos muertos eliminados | 2 |
+| LOC removidas | ~40 (proyectos MDX) |
+| Dependencias eliminadas | 2 (producción) |
+| Duplicación de código | 0.0% |
+| Dependencias circulares | 0 |
+
+> **Nota sobre `tina/dashboard/`**: Fallow reportó `PortfolioDashboard.tsx` y `dashboardQuery.ts` como archivos muertos (fan_in: 0). Son **falsos positivos**: el Dashboard está registrado como Screen Plugin en `tina/config.ts` via un import dinámico que Fallow no traza. No se eliminaron.
+
+### Archivos modificados
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `src/content/projects/FOlder-agrado.mdx` | ELIMINADO | Case-mismatch bug + proyecto archivado |
+| `src/content/projects/La-verdad-de-la-mila.mdx` | ELIMINADO | Proyecto huérfano, rompía build de Netlify |
+| `package.json` | MOD | Removidos `react-dnd` + `react-dnd-html5-backend`; agregado `gray-matter` |
+
+---
+
+## [2026-05-11] — Footer CMS + Visual Editing en Home y Proyectos
+
+### Objetivo
+
+Completar la cobertura de TinaCMS Visual Editing en todas las páginas del sitio, e implementar edición CMS para el footer via una nueva colección `global`.
+
+### ✨ Visual Editing — Home (hero section)
+
+Se aplicó el mismo patrón `useTina + tinaField` de las páginas estáticas a `ClientHome.tsx`, limitado al hero section para no afectar la lógica de filtros y layout que depende de estado React.
+
+#### `src/pages/index.astro`
+- Reemplaza `getEntry('pages', 'home')` por `client.queries.pages({ relativePath: 'home.mdx' })`.
+- `exportMetadata` lee de `tinaProps.data.pages`.
+- Pasa `query/variables/data` a `ClientHome`. Toda la lógica de proyectos (`getCollection`, `categoryMap`, `gray-matter`) sin cambios.
+
+#### `src/components/ClientHome.tsx`
+- Agrega `useTina` + cast a `PageHome`.
+- `tinaField` en: `title` (h1), `mission` (KeyValue), `status`, `location`, `timezone` (tres KeyValues del sidebar).
+- Props: `pageMeta` reemplazado por `query/variables/data`. `projects` y `exportData` sin cambios.
+
+### ✨ Visual Editing — Proyectos individuales (enfoque híbrido)
+
+Los proyectos usan MDX con componentes React custom (`mdx-grid`, `mdx-card`) que `TinaMarkdown` no puede renderizar. Se adoptó un enfoque híbrido: `useTina` para frontmatter reactivo, `children` (body MDX) intacto.
+
+#### `tina/config.ts`
+- `ui.router` agregado a la colección `projects`: mapea `relativePath` a `/projects/{path}`. Habilita el ícono de Visual Editing en el admin para cada proyecto. Soporta rutas planas y anidadas.
+- Campos `timeline` (string) y `codeSnippet` (string, textarea) agregados al schema de projects.
+
+#### `src/content.config.ts`
+- `timeline` y `codeSnippet` agregados como `z.string().optional()` al schema Zod de projects.
+
+#### `src/pages/projects/[...slug].astro`
+- Agrega `client.queries.projects({ relativePath: \`${entry.id}.mdx\` })` junto a `getStaticPaths` existente.
+- Pasa `query/variables/data` a `ProjectDetailLayout`. `getCollection`, `render`, `exportData`, `Content` sin cambios.
+
+#### `src/components/ProjectDetailLayout.tsx`
+- Agrega `useTina` + cast a `ProjectData`.
+- `tinaField` en: `title`, `type`, `status`, `role`, `client`, `image`, `stack`, `timeline`, `codeSnippet`.
+- `project` (prop original) se mantiene solo para breadcrumbs (`project.slug`).
+- `children` (body MDX con componentes custom) sin tocar.
+
+### ✨ Footer CMS — nueva colección `global`
+
+#### `src/content/global/footer.mdx` — NUEVO
+Seed inicial con `copyright` y `links[]` (GitHub, LinkedIn, Bluesky, YouTube).
+
+#### `tina/config.ts`
+- Nueva colección `global` con path `src/content/global`, sin `ui.router` (no es una página navegable).
+- Campos: `copyright` (string), `links[]` (objetos con `name`, `url`, `icon`).
+- `icon` es un dropdown con 14 opciones de redes sociales.
+
+#### `src/content.config.ts`
+- Nueva `globalCollection` con schema Zod para `copyright` y `links[]`.
+- Exportada en `collections`.
+
+#### `src/layouts/MainLayout.astro`
+- `getEntry('global', 'footer')` → pasa `copyright` y `links` como props a `<Footer>`.
+- Footer renderiza estáticamente — 0 JS adicional (sigue siendo `client:idle`).
+
+#### `src/components/Footer.tsx`
+- Acepta props `{ copyright, links }` con fallback hardcodeado.
+- Íconos de redes sociales via `simple-icons@12` (v12 — v13+ eliminó LinkedIn por solicitud de la empresa).
+- `BrandIcon` helper renderiza SVG desde el `path` de simple-icons.
+- `ICON_MAP` con 14 entradas en lowercase: `github`, `linkedin`, `instagram`, `twitter` (mapea a `siX`), `facebook`, `youtube`, `tiktok`, `behance`, `dribbble`, `whatsapp`, `telegram`, `discord`, `bluesky`, `pinterest`.
+- Cada link renderiza con flexbox: ícono SVG a la izquierda + texto.
+
+#### `src/styles/components/_footer.module.scss`
+- `.footer__link`: `display: flex`, `align-items: center`, `gap: $size-2`, `transition: color`.
+- `.footer__linkIcon`: `flex-shrink: 0`, `opacity: 0.8`.
+
+### Archivos modificados / creados
+
+| Archivo | Tipo | Descripción |
+|---|---|---|
+| `src/pages/index.astro` | MOD | TinaCMS client para home, props query/variables/data |
+| `src/components/ClientHome.tsx` | MOD | useTina + tinaField en hero (title, mission, status, location, timezone) |
+| `tina/config.ts` | MOD | ui.router en projects; timeline/codeSnippet; colección global |
+| `src/content.config.ts` | MOD | timeline, codeSnippet en projects; nueva globalCollection |
+| `src/pages/projects/[...slug].astro` | MOD | client.queries.projects + props Tina |
+| `src/components/ProjectDetailLayout.tsx` | MOD | useTina + tinaField en todos los campos del header/sidebar |
+| `src/content/global/footer.mdx` | NUEVO | Seed de copyright y links del footer |
+| `src/layouts/MainLayout.astro` | MOD | getEntry global/footer → props a Footer |
+| `src/components/Footer.tsx` | MOD | Props dinámicas, simple-icons, BrandIcon, ICON_MAP |
+| `src/styles/components/_footer.module.scss` | MOD | Estilos flexbox para links con ícono |
+
+### Dependencias agregadas
+
+| Paquete | Versión | Motivo |
+|---|---|---|
+| `simple-icons` | `^12.4.0` | Íconos SVG de redes sociales. v12 — v13+ eliminó LinkedIn. |
+
+---
+
 ## [2026-05-11] — TinaCMS Visual Editing en About, Archive y Resume
 
 ### Objetivo

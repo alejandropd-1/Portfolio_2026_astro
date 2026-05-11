@@ -127,6 +127,8 @@ Ruta: `src/content/projects/*.mdx`
 | `impact` | string | Impacto o logro destacado |
 | `points` | string[] | Puntos de experiencia para el Resume |
 | `categories` | string[] | Categorías de filtro (ui-ux, web-dev, mobile, systems) |
+| `timeline` | string | Duración del proyecto (ej: "12 Weeks", "2020 - 2022") |
+| `codeSnippet` | string | Fragmento de código representativo (se muestra en el sidebar) |
 | `_template` | string | Metadato técnico de TinaCMS |
 | `body` | rich-text | Cuerpo MDX del proyecto |
 
@@ -171,6 +173,39 @@ philosophies:
 | `skillGroups` | object[] | Array de grupos de habilidades (ver abajo) |
 | `education` | object[] | Array de entradas de educación — soporta múltiples títulos/cursos |
 | `body` | rich-text | Bio corta |
+
+#### Template `home` → `src/content/pages/home.mdx`
+
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `title` | string | Título del héroe (soporta marcador `//`) |
+| `mission` | string | Tagline — `const mission = "..."` |
+| `status` | string | Estado de disponibilidad |
+| `location` | string | Ubicación |
+| `timezone` | string | Zona horaria |
+
+### Colección: `global`
+
+Ruta: `src/content/global/*.mdx`
+
+#### `footer.mdx`
+
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `copyright` | string | Texto de copyright del footer |
+| `links[]` | object[] | Links de redes sociales — ver estructura abajo |
+
+**Estructura de `links[]`:**
+```yaml
+links:
+  - name: GitHub
+    url: "https://github.com/..."
+    icon: github   # github | linkedin | instagram | twitter | facebook |
+                   # youtube | tiktok | behance | dribbble | whatsapp |
+                   # telegram | discord | bluesky | pinterest
+```
+
+> **Nota:** `simple-icons@12` provee los SVGs de marca. La versión es v12 específicamente porque v13+ eliminó LinkedIn por solicitud de la empresa. `twitter` mapea internamente a `siX` (el logo de X).
 
 **Estructura de `skillGroups[]`:**
 ```yaml
@@ -275,6 +310,8 @@ El feed está en `src/pages/rss.xml.ts` y se genera en cada build de Astro. Cons
 | Nested Projects | Usar `[...slug].astro` para soportar subcarpetas en proyectos |
 | Image Normalization | El sistema añade `/` automáticamente y limpia comillas; prefiere rutas relativas a `public/assets/` |
 | Template field | Todo MDX en `pages/` necesita `_template: nombre_template` en el frontmatter |
+| Visual Editing | Páginas y proyectos usan `useTina + tinaField`; el body de proyectos es MDX (no `TinaMarkdown`) |
+| simple-icons versión | Usar `simple-icons@12` — v13+ eliminó LinkedIn |
 
 ### Flujo para agregar un nuevo proyecto
 
@@ -292,6 +329,22 @@ El feed está en `src/pages/rss.xml.ts` y se genera en cada build de Astro. Cons
 
 - El título y subtítulo se editan en `src/content/pages/archive.mdx` o via CMS → Pages → Project Archive.
 - Los proyectos listados se controlan con `showInPortfolio: true` en cada proyecto.
+
+### Flujo para modificar el Footer
+
+- Editar `src/content/global/footer.mdx` directamente, o via CMS → Global Settings → footer.
+- Agregar links: añadir un ítem a `links[]` con `name`, `url` e `icon` (ver opciones en README).
+- El footer renderiza estáticamente (sin hidratación extra).
+
+### Visual Editing — cómo funciona
+
+TinaCMS Visual Editing está implementado en todas las páginas y proyectos:
+1. Ir a `/admin` → seleccionar colección → seleccionar documento.
+2. Hacer clic en el ícono de ojo (preview) — abre la página dentro del iframe.
+3. Hacer clic sobre cualquier elemento anotado → se resalta el campo en el sidebar.
+
+**Páginas con Visual Editing completo:** Home (hero), About, Archive, Resume.
+**Proyectos:** frontmatter editable inline (title, type, status, role, client, image, stack, timeline); body MDX intacto (no reemplazado por TinaMarkdown — usa componentes React custom).
 
 ### Diseño: principios a mantener
 
@@ -312,4 +365,4 @@ Se ha implementado un panel de monitoreo avanzado dentro de TinaCMS (Screen Plug
 
 ---
 
-*Última actualización: 2026-05-11*
+*Última actualización: 2026-05-11 (Fallow-02: limpieza de deps y MDX rotos; Visual Editing completo + Footer CMS)*
