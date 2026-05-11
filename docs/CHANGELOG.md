@@ -6,6 +6,87 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-11] — TinaCMS Visual Editing en About, Archive y Resume
+
+### Objetivo
+
+Implementar Visual Editing de TinaCMS en las tres páginas de contenido estático, permitiendo editar campos directamente sobre la página desde el admin panel sin necesidad de usar el formulario clásico.
+
+### Arquitectura del cambio
+
+El patrón es idéntico en las tres páginas:
+
+1. El `.astro` reemplaza `getEntry`/`render` (Astro Content API) por `client.queries.pages({ relativePath })` (TinaCMS GraphQL client).
+2. El componente React recibe `{ query, variables, data }` en lugar de `frontmatter`/`children`.
+3. `useTina({ query, variables, data })` hace el dato reactivo — se sincroniza con el sidebar del admin cuando la página corre dentro del iframe de Visual Editing.
+4. `tinaField(obj, 'campo')` anota elementos DOM con `data-tina-field`, conectando cada nodo al campo del CMS.
+5. El body MDX (antes `children` renderizado por Astro) pasa a renderizarse con `<TinaMarkdown content={page.body} />` para ser editable inline.
+
+> `tina/__generated__/` es gitignoreado y se genera al correr `npm run dev`. El import del cliente no existe en el repo — aparece tras el primer build.
+
+### ✨ Cambios
+
+#### `tina/config.ts`
+- **`ui.router`** añadido a la colección `pages`: mapea cada documento a su URL (`home → /`, `about → /about`, etc.). Sin este campo el ícono de Visual Editing no aparece en el admin.
+- **Template `about`**: campo `philosophies[]` añadido — lista de objetos con `icon`, `accent`, `title`, `description`. Permite editar los cards de "Core Philosophy" desde el CMS.
+- **Template `resume`**: campo `education` cambiado de objeto único a **array** (`list: true`) para soportar múltiples entradas (títulos, cursos, capacitaciones).
+
+#### `src/content.config.ts`
+- Schema Zod de `education` cambiado de `z.object({...}).optional()` a `z.array(z.object({...})).optional()`.
+
+#### `src/content/pages/about.mdx`
+- Añadido el array `philosophies` con los tres cards hardcodeados como primer seed de datos.
+
+#### `src/content/pages/resume.mdx`
+- `education` convertido de objeto YAML a array YAML (con `-` por ítem). Datos originales preservados como primer ítem.
+
+#### `src/pages/about.astro`
+- Reemplaza `getEntry` + `render` por `client.queries.pages({ relativePath: 'about.mdx' })`.
+- Pasa `query`, `variables`, `data` al componente. Elimina `<Content />` como children.
+
+#### `src/components/ClientAbout.tsx`
+- Props: `{ frontmatter, children }` → `{ query, variables, data }`.
+- Hook `useTina` + cast a `PageAbout`.
+- `data-tina-field` en `<h1>` (title) y el div del body.
+- Array `philosophies` ahora viene de `page.philosophies` con fallback a `[]`. Los cards se renderizan con `.map()`, íconos mapeados por string (`ICON_MAP`), y `tinaField(item, 'title')` / `tinaField(item, 'description')` en cada card.
+
+#### `src/pages/archive.astro`
+- Mismo patrón: reemplaza `getEntry` por `client.queries.pages({ relativePath: 'archive.mdx' })`. Mantiene `getCollection('projects')` para la tabla.
+
+#### `src/components/ClientArchive.tsx`
+- Props: `{ projects, pageMeta }` → `{ projects, query, variables, data }`.
+- `data-tina-field` en `<h1>` (title) y `<p>` (subtitle).
+
+#### `src/pages/resume.astro`
+- Mismo patrón. Mantiene `getCollection('projects')` para los jobs y la construcción de `exportData` (sin cambios en esa lógica).
+- `exportMetadata` lee de `tinaProps.data.pages as any` en lugar de `page.data`.
+
+#### `src/components/ClientResume.tsx`
+- Props: `{ frontmatter, children, jobs, exportData }` → `{ jobs, query, variables, data, exportData }`.
+- `useTina` + cast a `PageResume`.
+- Hero: `data-tina-field` en `<h1>`, `location`, `email`, `status`, y el div del body con `<TinaMarkdown>`.
+- Skills (sección 02): `tinaField(skillGroup, 'category')` en cada `<h4>`, y `tinaField(item, 'name')` / `tinaField(item, 'value')` en cada fila.
+- Education (sección 03): `education` pasa a ser `Education[]`. Render con `.map()`, `tinaField(entry, 'degree')`, `tinaField(entry, 'institution')`, `tinaField(entry, 'year')`.
+- `DEFAULT_EDUCATION` convertido a array.
+- Experience (sección 01): sin cambios — sigue viniendo de `jobs` (colección `projects`).
+
+### Archivos modificados
+
+| Archivo | Tipo | Descripción |
+|---|---|---|
+| `tina/config.ts` | MOD | `ui.router` en pages, `philosophies[]` en about, `education` → array en resume |
+| `src/content.config.ts` | MOD | `education` → `z.array(z.object(...))` |
+| `src/content/pages/about.mdx` | MOD | Seed de `philosophies[]` |
+| `src/content/pages/resume.mdx` | MOD | `education` convertido a array YAML |
+| `src/pages/about.astro` | MOD | TinaCMS client, props query/variables/data |
+| `src/components/ClientAbout.tsx` | MOD | useTina + tinaField + TinaMarkdown + philosophies dinámicas |
+| `src/pages/archive.astro` | MOD | TinaCMS client |
+| `src/components/ClientArchive.tsx` | MOD | useTina + tinaField en title/subtitle |
+| `src/pages/resume.astro` | MOD | TinaCMS client, exportMetadata desde tinaProps |
+| `src/components/ClientResume.tsx` | MOD | useTina + tinaField en hero/skills/education, education como array |
+
+---
+
 ## [2026-05-10] — RSS Feed enriquecido con imágenes y metadatos extendidos
 
 ### Objetivo
