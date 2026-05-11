@@ -395,6 +395,55 @@ export default defineConfig({
           },
         ],
       },
+
+      // ─── GLOBAL ────────────────────────────────────────────────────────────
+      {
+        name: "global",
+        label: "Global Settings",
+        path: "src/content/global",
+        format: "mdx",
+        fields: [
+          {
+            type: "string",
+            name: "copyright",
+            label: "Copyright Text",
+          },
+          {
+            type: "object",
+            name: "links",
+            label: "Footer Links",
+            list: true,
+            ui: {
+              itemProps: (item: any) => ({ label: item?.name || "Link" }),
+            },
+            fields: [
+              {
+                type: "string",
+                name: "name",
+                label: "Text",
+                required: true,
+              },
+              {
+                type: "string",
+                name: "url",
+                label: "URL",
+                required: true,
+              },
+              {
+                type: "string",
+                name: "icon",
+                label: "Lucide Icon",
+                options: [
+                  "github", "linkedin", "instagram", "twitter",
+                  "facebook", "youtube", "tiktok", "behance",
+                  "dribbble", "whatsapp", "telegram", "discord",
+                  "bluesky", "pinterest",
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
 
