@@ -120,7 +120,10 @@ export default function Navigation({ pathname = '/' }: { pathname?: string }) {
         {/* Desktop links */}
         <div className={styles.nav__links}>
           {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+            // Normalize paths: strip trailing slash except for root
+            const normalizedPathname = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
+            const normalizedHref = link.href === '/' ? '/' : link.href.replace(/\/$/, '');
+            const isActive = normalizedPathname === normalizedHref;
             return (
               <a
                 key={link.name}
@@ -219,7 +222,10 @@ export default function Navigation({ pathname = '/' }: { pathname?: string }) {
             {/* Nav links */}
             <nav className={styles.mobile_overlay__nav} aria-label="Mobile navigation">
               {navLinks.map((link, i) => {
-                const isActive = pathname === link.href;
+                // Normalize paths: strip trailing slash except for root
+                const normalizedPathname = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
+                const normalizedHref = link.href === '/' ? '/' : link.href.replace(/\/$/, '');
+                const isActive = normalizedPathname === normalizedHref;
                 return (
                   <motion.div
                     key={link.name}
