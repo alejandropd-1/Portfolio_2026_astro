@@ -6,6 +6,94 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-11] — Fallow-02: limpieza de dependencias y archivos MDX rotos
+
+### Objetivo
+
+Segunda pasada de análisis estático con Fallow (dead-code, unused deps, duplicación). Se resolvieron los problemas que causaban fallos en el build de Netlify y se formalizó una dependencia transitiva que podía romper en CI.
+
+### 🧹 Archivos eliminados
+
+| Archivo | Motivo |
+|---------|--------|
+| `src/content/projects/FOlder-agrado.mdx` | Nombre con mayúsculas causaba case-mismatch silencioso (`p.id` es lowercase en Astro v6). El proyecto ya estaba archivado. |
+| `src/content/projects/La-verdad-de-la-mila.mdx` | Proyecto huérfano sin imagen válida, causaba error de build en Netlify. |
+
+### 📦 Cambios en `package.json`
+
+| Paquete | Cambio | Motivo |
+|---------|--------|--------|
+| `react-dnd` | **Eliminado** de `dependencies` | Nunca fue importado en el código activo. La funcionalidad de drag-and-drop proyectada quedó descartada. |
+| `react-dnd-html5-backend` | **Eliminado** de `dependencies` | Peer dep de `react-dnd`, también innecesario. |
+| `gray-matter` | **Agregado** a `dependencies` | Era una dependencia transitiva usada explícitamente en 3 archivos (`index.astro`, `[...slug].astro`, `rss.xml.ts`). Sin listarlo en `package.json`, el build falla con package managers estrictos o en entornos CI sin hoisting. |
+
+### 📊 Resultado del análisis Fallow completo
+
+| Métrica | Valor |
+|---------|-------|
+| Health Score antes | 62/100 (C) |
+| Health Score después | ~80/100 (B+) |
+| Archivos muertos eliminados | 2 |
+| Dependencias eliminadas | 2 (producción) |
+| Duplicación de código | 0.0% |
+| Dependencias circulares | 0 |
+
+> **Nota sobre `tina/dashboard/`**: Fallow reportó `PortfolioDashboard.tsx` y `dashboardQuery.ts` como archivos muertos (fan_in: 0). Son **falsos positivos**: el Dashboard está registrado como Screen Plugin en `tina/config.ts` via import dinámico que Fallow no traza. No se eliminaron.
+
+### Archivos modificados
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `src/content/projects/FOlder-agrado.mdx` | ELIMINADO | Case-mismatch bug + proyecto archivado |
+| `src/content/projects/La-verdad-de-la-mila.mdx` | ELIMINADO | Proyecto huérfano, rompía build de Netlify |
+| `package.json` | MOD | Removidos `react-dnd` + `react-dnd-html5-backend`; agregado `gray-matter` |
+
+---
+
+## [2026-05-11] — Fix: Active Navigation State on Deployed Version
+
+### Problema
+
+La navegación activa (texto verde + subrayado animado) funcionaba correctamente en `localhost:4321/resume`, pero no en `aledesign.dev/resume/` (versión desplegada). El link RESUME permanecía en gris en producción.
+
+### Causa raíz
+
+El componente `Navigation.tsx` hacía una comparación **exacta** de strings:
+```ts
+const isActive = pathname === link.href;
+```
+
+- En localhost: `pathname = "/resume"` vs `link.href = "/resume"` ✅ Match
+- En producción: `pathname = "/resume/"` vs `link.href = "/resume"` ❌ No match
+
+Netlify añade trailing slashes automáticamente (`/resume/`), pero los hrefs estaban definidos sin ellos.
+
+### Solución
+
+Se normalizó la comparación en `Navigation.tsx` para strip trailing slashes antes de comparar (excepto en la raíz `/`):
+
+```ts
+const normalizedPathname = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
+const normalizedHref = link.href === '/' ? '/' : link.href.replace(/\/$/, '');
+const isActive = normalizedPathname === normalizedHref;
+```
+
+Actualizado en desktop (`.nav__links`, línea ~125) y mobile (`.mobile_overlay__nav`, línea ~224).
+
+### Verificación
+
+- ✅ `localhost:4321/resume` — link verde + subrayado
+- ✅ `aledesign.dev/resume/` — link verde + subrayado (post-deploy)
+- ✅ Todos los tabs (PROJECTS, RESUME, ABOUT, ARCHIVE) funcionan correctamente en mobile y desktop
+
+### Archivos modificados
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `src/components/Navigation.tsx` | MOD | Normalización de pathname para active state en deploy con trailing slashes |
+
+---
+
 ## [2026-05-11] — Footer CMS + Visual Editing en Home y Proyectos
 
 ### Objetivo

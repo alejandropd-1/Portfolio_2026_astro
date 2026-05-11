@@ -365,4 +365,4 @@ Se ha implementado un panel de monitoreo avanzado dentro de TinaCMS (Screen Plug
 
 ---
 
-*Última actualización: 2026-05-11 (Visual Editing completo + Footer CMS)*
+*Última actualización: 2026-05-11 (Fallow-02: limpieza deps + MDX rotos; Nav active state fix; Visual Editing completo + Footer CMS)*
