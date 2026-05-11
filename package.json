@@ -22,8 +22,7 @@
     "lucide-react": "^1.14.0",
     "motion": "^12.38.0",
     "react": "^19.2.6",
-    "react-dnd": "^16.0.1",
-    "react-dnd-html5-backend": "^16.0.1",
+    "gray-matter": "^4.0.3",
     "react-dom": "^19.2.6",
     "simple-icons": "^12.4.0",
     "tinacms": "^3.7.5"
@@ -33,6 +32,7 @@
     "@astrojs/mdx": "^5.0.4",
     "@astrojs/react": "^5.0.4",
     "@tinacms/cli": "^2.2.5",
+    "fallow": "^2.69.0",
     "fs-extra": "^11.3.5",
     "sass": "^1.99.0",
     "typescript": "^6.0.3"
