@@ -29,19 +29,31 @@
 
   &__links {
     display: flex;
-    gap: $size-8;
+    flex-wrap: wrap;
+    gap: $size-6;
     font-family: $mono-font;
     font-size: 10px;
     font-weight: $fw-bold;
     letter-spacing: $ls-widest;
     color: $clr-brand-on-surface-variant;
+  }
 
-    a {
-      transition: color 0.3s ease;
-      &:hover {
-        color: $clr-brand-primary;
-      }
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: $size-2;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $clr-brand-primary;
     }
+  }
+
+  &__linkIcon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    opacity: 0.8;
   }
 
   &__copyright {

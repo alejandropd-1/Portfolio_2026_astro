@@ -6,8 +6,11 @@ import '@fontsource/inter/700.css';
 import '@fontsource/roboto-mono/400.css';
 
 import "@/styles/main.scss";
+import { getEntry } from 'astro:content';
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+
+const footerEntry = await getEntry('global', 'footer');
 
 interface Props {
   title?: string;
@@ -78,6 +81,10 @@ const {
     <main>
       <slot />
     </main>
-    <Footer client:idle />
+    <Footer
+      client:idle
+      copyright={footerEntry?.data?.copyright}
+      links={footerEntry?.data?.links}
+    />
   </body>
 </html>

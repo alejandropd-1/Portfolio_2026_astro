@@ -136,11 +136,21 @@ Cada archivo tiene su propio template. El campo `_template` en el frontmatter de
 
 #### Template `about` → `src/content/pages/about.mdx`
 
-| Campo | Tipo |
-|---|---|
-| `title` | string |
-| `mission` | string |
-| `body` | rich-text |
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `title` | string | Título del héroe (soporta marcador `//`) |
+| `mission` | string | Tagline (no renderizado en la página, reservado para SEO/home) |
+| `body` | rich-text | Bio principal |
+| `philosophies[]` | object[] | Cards de "Core Philosophy" — ver estructura abajo |
+
+**Estructura de `philosophies[]`:**
+```yaml
+philosophies:
+  - icon: beaker        # beaker | settings | monitor
+    accent: secondary   # primary | secondary | tertiary
+    title: Atomic Principles
+    description: Interfaces must be broken down...
+```
 
 #### Template `archive` → `src/content/pages/archive.mdx`
 
@@ -159,7 +169,7 @@ Cada archivo tiene su propio template. El campo `_template` en el frontmatter de
 | `email` | string | Email de contacto |
 | `status` | string | Ej: `"Available for new opportunities"` |
 | `skillGroups` | object[] | Array de grupos de habilidades (ver abajo) |
-| `education` | object | Datos de educación (ver abajo) |
+| `education` | object[] | Array de entradas de educación — soporta múltiples títulos/cursos |
 | `body` | rich-text | Bio corta |
 
 **Estructura de `skillGroups[]`:**
@@ -171,12 +181,15 @@ skillGroups:
         value: '95%'
 ```
 
-**Estructura de `education{}`:**
+**Estructura de `education[]`:**
 ```yaml
 education:
-  degree: Bachelor of Fine Arts
-  institution: California College of the Arts
-  year: Class of 2015
+  - degree: Bachelor of Fine Arts
+    institution: California College of the Arts
+    year: Class of 2015
+  - degree: Multimedia Designer
+    institution: Da Vinci School
+    year: 2007 - 2018
 ```
 
 ### Regla importante: sincronizar schemas
@@ -299,4 +312,4 @@ Se ha implementado un panel de monitoreo avanzado dentro de TinaCMS (Screen Plug
 
 ---
 
-*Última actualización: 2026-05-10*
+*Última actualización: 2026-05-11*

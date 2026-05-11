@@ -32,6 +32,12 @@ export default defineConfig({
         label: "Projects",
         path: "src/content/projects",
         format: "mdx",
+        ui: {
+          router: ({ document }: { document: any }) => {
+            const path = document._sys.relativePath.replace('.mdx', '');
+            return `/projects/${path}`;
+          },
+        },
         fields: [
           {
             type: "string",
@@ -119,6 +125,19 @@ export default defineConfig({
             options: PROJECT_CATEGORIES.map(c => ({ value: c.value, label: c.label })),
           },
           {
+            type: "string",
+            name: "timeline",
+            label: "Timeline",
+            description: "Ej: 12 Weeks, 6 Months, 2020 - 2022",
+          },
+          {
+            type: "string",
+            name: "codeSnippet",
+            label: "Code Blueprint",
+            description: "Fragmento de código representativo del proyecto",
+            ui: { component: "textarea" },
+          },
+          {
             type: "rich-text",
             name: "body",
             label: "Body",
@@ -133,6 +152,16 @@ export default defineConfig({
         label: "Pages",
         path: "src/content/pages",
         format: "mdx",
+        ui: {
+          router: ({ document }: { document: any }) => {
+            const name = document._sys.filename;
+            if (name === 'home') return '/';
+            if (name === 'about') return '/about';
+            if (name === 'archive') return '/archive';
+            if (name === 'resume') return '/resume';
+            return undefined;
+          },
+        },
         templates: [
           // ── Home page ────────────────────────────────────────────────────
           {
@@ -193,6 +222,41 @@ export default defineConfig({
                 name: "body",
                 label: "Bio Text",
                 isBody: true,
+              },
+              {
+                type: "object",
+                name: "philosophies",
+                label: "Core Philosophy Cards",
+                list: true,
+                ui: {
+                  itemProps: (item: any) => ({ label: item?.title || "Philosophy" }),
+                },
+                fields: [
+                  {
+                    type: "string",
+                    name: "icon",
+                    label: "Icon",
+                    options: ["beaker", "settings", "monitor"],
+                  },
+                  {
+                    type: "string",
+                    name: "accent",
+                    label: "Accent Color",
+                    options: ["primary", "secondary", "tertiary"],
+                  },
+                  {
+                    type: "string",
+                    name: "title",
+                    label: "Title",
+                    required: true,
+                  },
+                  {
+                    type: "string",
+                    name: "description",
+                    label: "Description",
+                    ui: { component: "textarea" },
+                  },
+                ],
               },
             ],
           },
@@ -298,6 +362,10 @@ export default defineConfig({
                 type: "object",
                 name: "education",
                 label: "Education (Section 03)",
+                list: true,
+                ui: {
+                  itemProps: (item: any) => ({ label: item?.degree || "Education Entry" }),
+                },
                 fields: [
                   {
                     type: "string",
@@ -322,6 +390,55 @@ export default defineConfig({
                 name: "body",
                 label: "Short Bio / Intro",
                 isBody: true,
+              },
+            ],
+          },
+        ],
+      },
+
+      // ─── GLOBAL ────────────────────────────────────────────────────────────
+      {
+        name: "global",
+        label: "Global Settings",
+        path: "src/content/global",
+        format: "mdx",
+        fields: [
+          {
+            type: "string",
+            name: "copyright",
+            label: "Copyright Text",
+          },
+          {
+            type: "object",
+            name: "links",
+            label: "Footer Links",
+            list: true,
+            ui: {
+              itemProps: (item: any) => ({ label: item?.name || "Link" }),
+            },
+            fields: [
+              {
+                type: "string",
+                name: "name",
+                label: "Text",
+                required: true,
+              },
+              {
+                type: "string",
+                name: "url",
+                label: "URL",
+                required: true,
+              },
+              {
+                type: "string",
+                name: "icon",
+                label: "Lucide Icon",
+                options: [
+                  "github", "linkedin", "instagram", "twitter",
+                  "facebook", "youtube", "tiktok", "behance",
+                  "dribbble", "whatsapp", "telegram", "discord",
+                  "bluesky", "pinterest",
+                ],
               },
             ],
           },

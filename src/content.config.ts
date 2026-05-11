@@ -21,6 +21,8 @@ const projectsCollection = defineCollection({
     status: z.string().optional(),
     impact: z.string().optional(),
     categories: z.array(z.string()).optional().default([]),
+    timeline: z.string().optional(),
+    codeSnippet: z.string().optional(),
   })
 });
 
@@ -49,15 +51,28 @@ const pagesCollection = defineCollection({
       })),
     })).optional(),
     // Resume – education
-    education: z.object({
+    education: z.array(z.object({
       degree: z.string().optional(),
       institution: z.string().optional(),
       year: z.string().optional(),
-    }).optional(),
+    })).optional(),
   })
+});
+
+const globalCollection = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/global" }),
+  schema: z.object({
+    copyright: z.string().optional(),
+    links: z.array(z.object({
+      name: z.string(),
+      url: z.string(),
+      icon: z.string().optional(),
+    })).optional(),
+  }),
 });
 
 export const collections = {
   'projects': projectsCollection,
   'pages': pagesCollection,
+  'global': globalCollection,
 };

@@ -1,3 +1,4 @@
+import { useTina, tinaField } from 'tinacms/dist/react';
 import { Database, ArrowRight, Code } from 'lucide-react';
 import { Tag } from '@/components/UI';
 import Breadcrumb from '@/components/Breadcrumb';
@@ -13,16 +14,32 @@ interface ExportData {
   filename: string;
 }
 
+type ProjectData = {
+  title: string;
+  type?: string;
+  status?: string;
+  role?: string;
+  client?: string;
+  image?: string;
+  stack?: string[];
+  timeline?: string;
+  codeSnippet?: string;
+};
+
 interface ProjectDetailLayoutProps {
-  project: any;
+  project: any;           // se mantiene para breadcrumbs (project.slug) y exportData
+  query: string;
+  variables: object;
+  data: any;
   headerNode?: React.ReactNode;
   nextLink?: string;
   children?: React.ReactNode;
   exportData?: ExportData;
 }
 
-export default function ProjectDetailLayout({ project, headerNode, nextLink, children, exportData }: ProjectDetailLayoutProps) {
-  const frontmatter = project;
+export default function ProjectDetailLayout({ project, query, variables, data, headerNode, nextLink, children, exportData }: ProjectDetailLayoutProps) {
+  const { data: tinaData } = useTina({ query, variables, data });
+  const frontmatter = tinaData.projects as ProjectData;
 
   return (
     <div className={styles.projectDetail}>
@@ -45,57 +62,81 @@ export default function ProjectDetailLayout({ project, headerNode, nextLink, chi
         {/* Header Section */}
         <header className={styles.projectDetail__header}>
           <div className={styles.projectDetail__headerInfo}>
-            <div className={styles.projectDetail__typeTag}>
+            <div
+              className={styles.projectDetail__typeTag}
+              data-tina-field={tinaField(frontmatter, 'type')}
+            >
               <Database size={14} />
               <span>{frontmatter.type}</span>
             </div>
-            <h1 className={styles.projectDetail__title}>
+            <h1
+              className={styles.projectDetail__title}
+              data-tina-field={tinaField(frontmatter, 'title')}
+            >
               {formatTitle(frontmatter.title)}
             </h1>
           </div>
 
           <div className={styles.projectDetail__sidebarHeader}>
-             <div className={styles.projectDetail__meta}>
-                <div className={styles.projectDetail__metaRow}>
-                   <span>STATUS</span>
-                   <span className={styles.projectDetail__status}>{frontmatter.status || 'DEPLOYED'}</span>
+            <div className={styles.projectDetail__meta}>
+              <div className={styles.projectDetail__metaRow}>
+                <span>STATUS</span>
+                <span
+                  className={styles.projectDetail__status}
+                  data-tina-field={tinaField(frontmatter, 'status')}
+                >
+                  {frontmatter.status || 'DEPLOYED'}
+                </span>
+              </div>
+              <div className={styles.projectDetail__infoList}>
+                <div className={styles.projectDetail__infoItem}>
+                  <span className={styles.projectDetail__infoItemKey}>Role</span>
+                  <span
+                    className={styles.projectDetail__infoItemVal}
+                    data-tina-field={tinaField(frontmatter, 'role')}
+                  >
+                    {frontmatter.role || 'Lead Designer'}
+                  </span>
                 </div>
-                <div className={styles.projectDetail__infoList}>
-                   <div className={styles.projectDetail__infoItem}>
-                      <span className={styles.projectDetail__infoItemKey}>Role</span>
-                      <span className={styles.projectDetail__infoItemVal}>{frontmatter.role || 'Lead Designer'}</span>
-                   </div>
-                   <div className={styles.projectDetail__infoItem}>
-                      <span className={styles.projectDetail__infoItemKey}>Timeline</span>
-                      <span className={styles.projectDetail__infoItemVal}>{frontmatter.timeline || '12 Weeks'}</span>
-                   </div>
-                   <div className={styles.projectDetail__infoItem}>
-                      <span className={styles.projectDetail__infoItemKey}>Client</span>
-                      <span className={styles.projectDetail__infoItemVal}>{frontmatter.client || 'Nexus Financial'}</span>
-                   </div>
+                <div className={styles.projectDetail__infoItem}>
+                  <span className={styles.projectDetail__infoItemKey}>Timeline</span>
+                  <span
+                    className={styles.projectDetail__infoItemVal}
+                    data-tina-field={tinaField(frontmatter, 'timeline')}
+                  >
+                    {frontmatter.timeline || '12 Weeks'}
+                  </span>
                 </div>
-             </div>
+                <div className={styles.projectDetail__infoItem}>
+                  <span className={styles.projectDetail__infoItemKey}>Client</span>
+                  <span
+                    className={styles.projectDetail__infoItemVal}
+                    data-tina-field={tinaField(frontmatter, 'client')}
+                  >
+                    {frontmatter.client || 'Nexus Financial'}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </header>
 
         {/* Main Feature Image */}
         {frontmatter.image && (
-          <div className={styles.projectDetail__hero}>
+          <div
+            className={styles.projectDetail__hero}
+            data-tina-field={tinaField(frontmatter, 'image')}
+          >
             <div className={styles.projectDetail__heroFrame}>
               <img
                 src={(() => {
                   const rawImg = frontmatter.image;
                   if (!rawImg) return '';
-                  
-                  // Limpiar comillas
                   const img = rawImg.replace(/['"]+/g, '');
-
-                  // If it's already an absolute URL (even if corrupted with a prefix)
                   if (img.includes('http')) {
                     const httpIndex = img.indexOf('http');
                     return img.substring(httpIndex);
                   }
-                  // Normal local paths
                   return img.startsWith('/') ? img : `/${img}`;
                 })()}
                 alt={cleanTitle(frontmatter.title)}
@@ -103,9 +144,8 @@ export default function ProjectDetailLayout({ project, headerNode, nextLink, chi
                 referrerPolicy="no-referrer"
               />
               <div className={styles.projectDetail__liveBadge}>
-
-                 <div className={styles.projectDetail__liveBadgeDot}></div>
-                 Live Preview
+                <div className={styles.projectDetail__liveBadgeDot}></div>
+                Live Preview
               </div>
             </div>
           </div>
@@ -119,43 +159,51 @@ export default function ProjectDetailLayout({ project, headerNode, nextLink, chi
           {/* Sidebar */}
           <aside className={styles.projectDetail__sidebar}>
             <div className={styles.projectDetail__stickyCard}>
-               <div className={styles.projectDetail__stickyHeader}>
-                  specs.json
-               </div>
+              <div className={styles.projectDetail__stickyHeader}>
+                specs.json
+              </div>
 
-               <div className={styles.projectDetail__stickyBody}>
-                  <div className={styles.projectDetail__stickyTitle}>
-                     <Code size={18} />
-                     <h3>Technical Specs</h3>
+              <div className={styles.projectDetail__stickyBody}>
+                <div className={styles.projectDetail__stickyTitle}>
+                  <Code size={18} />
+                  <h3>Technical Specs</h3>
+                </div>
+
+                <div
+                  className={styles.projectDetail__specGroup}
+                  data-tina-field={tinaField(frontmatter, 'stack')}
+                >
+                  <h4 className={styles.projectDetail__specGroupLabel}>STACK</h4>
+                  <div className={styles.projectDetail__tagStack}>
+                    {Array.isArray(frontmatter.stack)
+                      ? frontmatter.stack.map((s: string) => <Tag key={s}>{s}</Tag>)
+                      : <Tag>{frontmatter.stack}</Tag>}
                   </div>
+                </div>
 
-                  <div className={styles.projectDetail__specGroup}>
-                     <h4 className={styles.projectDetail__specGroupLabel}>STACK</h4>
-                      <div className={styles.projectDetail__tagStack}>
-                        {Array.isArray(frontmatter.stack) ? frontmatter.stack.map((s: string) => <Tag key={s}>{s}</Tag>) : <Tag>{frontmatter.stack}</Tag>}
-                     </div>
-                  </div>
-
-                  {frontmatter.codeSnippet && (
-                    <div className={styles.projectDetail__specGroup}>
-                       <h4 className={styles.projectDetail__specGroupLabel}>CODE BLUERPINT</h4>
-                       <div className={styles.projectDetail__codeCard}>
-                          <pre className={styles.projectDetail__codePre}>
-                           <code>{frontmatter.codeSnippet}</code>
-                          </pre>
-                       </div>
+                {frontmatter.codeSnippet && (
+                  <div
+                    className={styles.projectDetail__specGroup}
+                    data-tina-field={tinaField(frontmatter, 'codeSnippet')}
+                  >
+                    <h4 className={styles.projectDetail__specGroupLabel}>CODE BLUEPRINT</h4>
+                    <div className={styles.projectDetail__codeCard}>
+                      <pre className={styles.projectDetail__codePre}>
+                        <code>{frontmatter.codeSnippet}</code>
+                      </pre>
                     </div>
-                  )}
-               </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {nextLink ? (
               <a href={nextLink} className={styles.projectDetail__nextBtn}>
-                 NEXT PROJECT <ArrowRight size={18} />
+                NEXT PROJECT <ArrowRight size={18} />
               </a>
             ) : (
               <button className={styles.projectDetail__nextBtn}>
-                 NEXT PROJECT <ArrowRight size={18} />
+                NEXT PROJECT <ArrowRight size={18} />
               </button>
             )}
           </aside>

@@ -25,6 +25,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.2.6",
+    "simple-icons": "^12.4.0",
     "tinacms": "^3.7.5"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTina, tinaField } from 'tinacms/dist/react';
 import { motion } from 'motion/react';
 import { Folder, ArrowRight, ExternalLink, RotateCcw } from 'lucide-react';
 import { SyntaxCard, Tag, KeyValue } from '@/components/UI';
@@ -19,7 +20,12 @@ interface ExportData {
   filename: string;
 }
 
-export default function ClientHome({ projects, pageMeta, exportData }: { projects: any[], pageMeta?: any, exportData?: ExportData }) {
+type PageHome = { title?: string; mission?: string; status?: string; location?: string; timezone?: string };
+type Props = { projects: any[]; query: string; variables: object; data: any; exportData?: ExportData };
+
+export default function ClientHome({ projects, query, variables, data, exportData }: Props) {
+  const { data: tinaData } = useTina({ query, variables, data });
+  const page = tinaData.pages as PageHome;
   const [layout, setLayout] = useState<'cards' | 'list'>(() => {
     if (typeof window !== 'undefined') {
       return (localStorage.getItem('portfolio-layout') as 'cards' | 'list') ?? 'cards';
@@ -65,14 +71,18 @@ export default function ClientHome({ projects, pageMeta, exportData }: { project
           {exportData && <MarkdownExportMenu {...exportData} />}
         </div>
 
-        <h1 className={styles.home__title}>
-          {formatTitle(pageMeta?.title || "Compiled Visions.")}
+        <h1
+          className={styles.home__title}
+          data-tina-field={tinaField(page, 'title')}
+        >
+          {formatTitle(page.title || "Compiled Visions.")}
         </h1>
 
         <KeyValue
           k="const mission"
-          v={pageMeta?.mission || "UX/UI designer with over 14 years of experience."}
+          v={page.mission || "UX/UI designer with over 14 years of experience."}
           className="italic"
+          data-tina-field={tinaField(page, 'mission')}
         />
       </section>
 
@@ -124,9 +134,9 @@ export default function ClientHome({ projects, pageMeta, exportData }: { project
           </SyntaxCard>
 
             <div className={styles.home__statusInfo}>
-              <KeyValue k="status" v={`"${pageMeta?.status || 'available_for_hire'}",`} />
-              <KeyValue k="location" v={`"${pageMeta?.location || 'remote'}",`} />
-              <KeyValue k="timezone" v={`"${pageMeta?.timezone || 'EST'}",`} />
+              <KeyValue k="status"   v={`"${page.status   || 'available_for_hire'}",`} data-tina-field={tinaField(page, 'status')} />
+              <KeyValue k="location" v={`"${page.location || 'remote'}",`}             data-tina-field={tinaField(page, 'location')} />
+              <KeyValue k="timezone" v={`"${page.timezone || 'EST'}",`}                data-tina-field={tinaField(page, 'timezone')} />
             </div>
 
         </aside>

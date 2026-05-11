@@ -1,35 +1,30 @@
 'use client';
 
+import { useTina, tinaField } from 'tinacms/dist/react';
+import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import { motion } from 'motion/react';
-import { Folder, Beaker, Settings, Monitor } from 'lucide-react';
+import { Beaker, Settings, Monitor } from 'lucide-react';
 
 import { SyntaxCard, KeyValue } from '@/components/UI';
 import styles from '@/styles/pages/_about.module.scss';
 import { formatTitle } from '@/helpers/text-helpers';
 import Breadcrumb from '@/components/Breadcrumb';
 
-const philosophies = [
-  {
-    icon: <Beaker size={24} className="secondary-text" />,
-    accent: 'secondary',
-    title: 'Atomic Principles',
-    description: 'Interfaces must be broken down into their smallest possible components. Build the molecule, then the organism. Consistency arises from rigorous modularity.'
-  },
-  {
-    icon: <Settings size={24} className="tertiary-text" />,
-    accent: 'tertiary',
-    title: 'Data-Driven Empathy',
-    description: 'Aesthetics without analytics is just decoration. Decisions must be anchored in user behavioral data, transforming subjective opinions into objective truths.'
-  },
-  {
-    icon: <Monitor size={24} className="primary-text" />,
-    accent: 'primary',
-    title: 'Technical Feasibility',
-    description: 'A design is only as good as its implementation. Designing with a deep understanding of CSS, React, and layout engines ensures the vision survives production.'
-  }
-];
+const ICON_MAP: Record<string, React.ReactNode> = {
+  beaker:   <Beaker   size={24} className="secondary-text" />,
+  settings: <Settings size={24} className="tertiary-text" />,
+  monitor:  <Monitor  size={24} className="primary-text"   />,
+};
 
-export default function ClientAbout({ frontmatter, children }: { frontmatter: any, children: React.ReactNode }) {
+type Philosophy = { icon?: string; accent?: string; title: string; description?: string };
+type PageAbout  = { title: string; mission?: string; body?: any; philosophies?: Philosophy[] };
+type Props      = { query: string; variables: object; data: any };
+
+export default function ClientAbout({ query, variables, data }: Props) {
+  const { data: tinaData } = useTina({ query, variables, data });
+  const page = tinaData.pages as PageAbout;
+  const philosophies = page.philosophies ?? [];
+
   return (
     <div className="page-container">
       <div className={styles.about}>
@@ -38,31 +33,36 @@ export default function ClientAbout({ frontmatter, children }: { frontmatter: an
         </div>
         <section className={styles.about__hero}>
           <div>
-
             <div className={styles.about__subtitle}>
               <span className={styles.about__subtitleHighlight}>{"//"}</span> THE ARCHITECT
             </div>
-            <h1 className={styles.about__title}>
-              {formatTitle(frontmatter.title || "Bridging \\n // Logic & Soul")}
+            <h1
+              className={styles.about__title}
+              data-tina-field={tinaField(page, 'title')}
+            >
+              {formatTitle(page.title || "Bridging \\n // Logic & Soul")}
             </h1>
             <div className={styles.about__accent}></div>
           </div>
 
           <div className={styles.about__content}>
-            <div className={styles.about__details}>
-              {children}
+            <div
+              className={styles.about__details}
+              data-tina-field={tinaField(page, 'body')}
+            >
+              <TinaMarkdown content={page.body} />
             </div>
 
             <div className={`pt-10 border-t border-[rgba(var(--clr-brand-on-surface-rgb),0.05)]`}>
-              <KeyValue k="Location =" v={frontmatter.location || '"Global_Remote";'} className={styles.about__keyValue} />
+              <KeyValue k="Location =" v={'"Global_Remote";'} className={styles.about__keyValue} />
             </div>
           </div>
         </section>
 
         <section className={styles.about__section}>
           <div className={styles.about__philosophyHeader}>
-             <span><Monitor size={24} /></span>
-             <h2>Core Philosophy</h2>
+            <span><Monitor size={24} /></span>
+            <h2>Core Philosophy</h2>
           </div>
 
           <div className={styles.about__philosophyGrid}>
@@ -75,9 +75,11 @@ export default function ClientAbout({ frontmatter, children }: { frontmatter: an
                 transition={{ delay: i * 0.1 }}
               >
                 <SyntaxCard className={styles.about__philosophyCard} data-accent={item.accent}>
-                  <div className={styles.about__philosophyCardIcon}>{item.icon}</div>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
+                  <div className={styles.about__philosophyCardIcon}>
+                    {ICON_MAP[item.icon ?? ''] ?? <Monitor size={24} />}
+                  </div>
+                  <h3 data-tina-field={tinaField(item, 'title')}>{item.title}</h3>
+                  <p data-tina-field={tinaField(item, 'description')}>{item.description}</p>
                 </SyntaxCard>
               </motion.div>
             ))}
