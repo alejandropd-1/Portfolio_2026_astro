@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { client } from '../../../tina/__generated__/client';
 import MainLayout from '@/layouts/MainLayout.astro';
 import ProjectDetailLayout from '@/components/ProjectDetailLayout';
 import customComponents from '@/components/mdx';
@@ -22,6 +23,7 @@ export async function getStaticPaths() {
 
 const { entry, nextSlug } = Astro.props;
 const { Content } = await render(entry);
+const tinaProps = await client.queries.projects({ relativePath: `${entry.id}.mdx` });
 
 const projectData = {
   ...entry.data,
@@ -54,6 +56,9 @@ const exportMetadata: Record<string, unknown> = {
   <ProjectDetailLayout
     client:load
     project={projectData}
+    query={tinaProps.query}
+    variables={tinaProps.variables}
+    data={tinaProps.data}
     nextLink={`/projects/${nextSlug}`}
     exportData={{
       content: rawBody,

@@ -32,6 +32,12 @@ export default defineConfig({
         label: "Projects",
         path: "src/content/projects",
         format: "mdx",
+        ui: {
+          router: ({ document }: { document: any }) => {
+            const path = document._sys.relativePath.replace('.mdx', '');
+            return `/projects/${path}`;
+          },
+        },
         fields: [
           {
             type: "string",
@@ -117,6 +123,19 @@ export default defineConfig({
             description: "Seleccioná a qué categorías pertenece este proyecto (para los filtros del portfolio)",
             list: true,
             options: PROJECT_CATEGORIES.map(c => ({ value: c.value, label: c.label })),
+          },
+          {
+            type: "string",
+            name: "timeline",
+            label: "Timeline",
+            description: "Ej: 12 Weeks, 6 Months, 2020 - 2022",
+          },
+          {
+            type: "string",
+            name: "codeSnippet",
+            label: "Code Blueprint",
+            description: "Fragmento de código representativo del proyecto",
+            ui: { component: "textarea" },
           },
           {
             type: "rich-text",

@@ -21,6 +21,8 @@ const projectsCollection = defineCollection({
     status: z.string().optional(),
     impact: z.string().optional(),
     categories: z.array(z.string()).optional().default([]),
+    timeline: z.string().optional(),
+    codeSnippet: z.string().optional(),
   })
 });
 
