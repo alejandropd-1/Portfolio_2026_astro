@@ -6,51 +6,96 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
-## [2026-05-11] — Fix: Active Navigation State on Deployed Version
+## [2026-05-11] — Footer CMS + Visual Editing en Home y Proyectos
 
-### Problema
+### Objetivo
 
-La navegación activa (texto verde + subrayado animado) funcionaba correctamente en `localhost:4321/resume`, pero no en `aledesign.dev/resume/` (versión desplegada). El link RESUME permanecía en gris en producción.
+Completar la cobertura de TinaCMS Visual Editing en todas las páginas del sitio, e implementar edición CMS para el footer via una nueva colección `global`.
 
-### Causa raíz
+### ✨ Visual Editing — Home (hero section)
 
-El componente `Navigation.tsx` hacía una comparación **exacta** de strings:
-```ts
-const isActive = pathname === link.href;
-```
+Se aplicó el mismo patrón `useTina + tinaField` de las páginas estáticas a `ClientHome.tsx`, limitado al hero section para no afectar la lógica de filtros y layout que depende de estado React.
 
-- En localhost: `pathname = "/resume"` vs `link.href = "/resume"` ✅ Match
-- En producción: `pathname = "/resume/"` vs `link.href = "/resume"` ❌ No match
+#### `src/pages/index.astro`
+- Reemplaza `getEntry('pages', 'home')` por `client.queries.pages({ relativePath: 'home.mdx' })`.
+- `exportMetadata` lee de `tinaProps.data.pages`.
+- Pasa `query/variables/data` a `ClientHome`. Toda la lógica de proyectos (`getCollection`, `categoryMap`, `gray-matter`) sin cambios.
 
-El servidor desplegado (Netlify) añade automáticamente trailing slashes (`/resume/`), pero los links de navegación estaban definidos sin ellos (`/resume`).
+#### `src/components/ClientHome.tsx`
+- Agrega `useTina` + cast a `PageHome`.
+- `tinaField` en: `title` (h1), `mission` (KeyValue), `status`, `location`, `timezone` (tres KeyValues del sidebar).
+- Props: `pageMeta` reemplazado por `query/variables/data`. `projects` y `exportData` sin cambios.
 
-### Solución
+### ✨ Visual Editing — Proyectos individuales (enfoque híbrido)
 
-Se normalizó la comparación de rutas en `Navigation.tsx` para strip trailing slashes antes de comparar (excepto en la raíz `/`):
+Los proyectos usan MDX con componentes React custom (`mdx-grid`, `mdx-card`) que `TinaMarkdown` no puede renderizar. Se adoptó un enfoque híbrido: `useTina` para frontmatter reactivo, `children` (body MDX) intacto.
 
-```ts
-// Normalize paths: strip trailing slash except for root
-const normalizedPathname = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
-const normalizedHref = link.href === '/' ? '/' : link.href.replace(/\/$/, '');
-const isActive = normalizedPathname === normalizedHref;
-```
+#### `tina/config.ts`
+- `ui.router` agregado a la colección `projects`: mapea `relativePath` a `/projects/{path}`. Habilita el ícono de Visual Editing en el admin para cada proyecto. Soporta rutas planas y anidadas.
+- Campos `timeline` (string) y `codeSnippet` (string, textarea) agregados al schema de projects.
 
-**Lugares actualizados:**
-- Línea ~125: Desktop navigation (`.nav__links`)
-- Línea ~224: Mobile navigation (`.mobile_overlay__nav`)
+#### `src/content.config.ts`
+- `timeline` y `codeSnippet` agregados como `z.string().optional()` al schema Zod de projects.
 
-### Verificación
+#### `src/pages/projects/[...slug].astro`
+- Agrega `client.queries.projects({ relativePath: \`${entry.id}.mdx\` })` junto a `getStaticPaths` existente.
+- Pasa `query/variables/data` a `ProjectDetailLayout`. `getCollection`, `render`, `exportData`, `Content` sin cambios.
 
-- ✅ `localhost:4321/resume` — RESUME link verde + subrayado
-- ✅ `aledesign.dev/resume/` — RESUME link verde + subrayado (tras deployment)
-- ✅ Todos los tabs (PROJECTS, RESUME, ABOUT, ARCHIVE) mantienen estado activo correcto
-- ✅ Mobile navigation refleja el mismo comportamiento
+#### `src/components/ProjectDetailLayout.tsx`
+- Agrega `useTina` + cast a `ProjectData`.
+- `tinaField` en: `title`, `type`, `status`, `role`, `client`, `image`, `stack`, `timeline`, `codeSnippet`.
+- `project` (prop original) se mantiene solo para breadcrumbs (`project.slug`).
+- `children` (body MDX con componentes custom) sin tocar.
 
-### Archivos modificados
+### ✨ Footer CMS — nueva colección `global`
+
+#### `src/content/global/footer.mdx` — NUEVO
+Seed inicial con `copyright` y `links[]` (GitHub, LinkedIn, Bluesky, YouTube).
+
+#### `tina/config.ts`
+- Nueva colección `global` con path `src/content/global`, sin `ui.router` (no es una página navegable).
+- Campos: `copyright` (string), `links[]` (objetos con `name`, `url`, `icon`).
+- `icon` es un dropdown con 14 opciones de redes sociales.
+
+#### `src/content.config.ts`
+- Nueva `globalCollection` con schema Zod para `copyright` y `links[]`.
+- Exportada en `collections`.
+
+#### `src/layouts/MainLayout.astro`
+- `getEntry('global', 'footer')` → pasa `copyright` y `links` como props a `<Footer>`.
+- Footer renderiza estáticamente — 0 JS adicional (sigue siendo `client:idle`).
+
+#### `src/components/Footer.tsx`
+- Acepta props `{ copyright, links }` con fallback hardcodeado.
+- Íconos de redes sociales via `simple-icons@12` (v12 — v13+ eliminó LinkedIn por solicitud de la empresa).
+- `BrandIcon` helper renderiza SVG desde el `path` de simple-icons.
+- `ICON_MAP` con 14 entradas en lowercase: `github`, `linkedin`, `instagram`, `twitter` (mapea a `siX`), `facebook`, `youtube`, `tiktok`, `behance`, `dribbble`, `whatsapp`, `telegram`, `discord`, `bluesky`, `pinterest`.
+- Cada link renderiza con flexbox: ícono SVG a la izquierda + texto.
+
+#### `src/styles/components/_footer.module.scss`
+- `.footer__link`: `display: flex`, `align-items: center`, `gap: $size-2`, `transition: color`.
+- `.footer__linkIcon`: `flex-shrink: 0`, `opacity: 0.8`.
+
+### Archivos modificados / creados
 
 | Archivo | Tipo | Descripción |
 |---|---|---|
-| `src/components/Navigation.tsx` | MOD | Normalización de pathname en comparación de links activos |
+| `src/pages/index.astro` | MOD | TinaCMS client para home, props query/variables/data |
+| `src/components/ClientHome.tsx` | MOD | useTina + tinaField en hero (title, mission, status, location, timezone) |
+| `tina/config.ts` | MOD | ui.router en projects; timeline/codeSnippet; colección global |
+| `src/content.config.ts` | MOD | timeline, codeSnippet en projects; nueva globalCollection |
+| `src/pages/projects/[...slug].astro` | MOD | client.queries.projects + props Tina |
+| `src/components/ProjectDetailLayout.tsx` | MOD | useTina + tinaField en todos los campos del header/sidebar |
+| `src/content/global/footer.mdx` | NUEVO | Seed de copyright y links del footer |
+| `src/layouts/MainLayout.astro` | MOD | getEntry global/footer → props a Footer |
+| `src/components/Footer.tsx` | MOD | Props dinámicas, simple-icons, BrandIcon, ICON_MAP |
+| `src/styles/components/_footer.module.scss` | MOD | Estilos flexbox para links con ícono |
+
+### Dependencias agregadas
+
+| Paquete | Versión | Motivo |
+|---|---|---|
+| `simple-icons` | `^12.4.0` | Íconos SVG de redes sociales. v12 — v13+ eliminó LinkedIn. |
 
 ---
 
