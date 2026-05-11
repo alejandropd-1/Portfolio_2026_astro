@@ -148,10 +148,10 @@
     position: relative;
     overflow: hidden;
     background: $clr-brand-surface-low;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 4;
 
     @include mq(md) {
-      aspect-ratio: auto;
+      aspect-ratio: 3 / 4;
     }
   }
 
@@ -159,6 +159,7 @@
     object-fit: cover;
     opacity: 0.8;
     transition: transform 0.5s ease;
+    height: 100%;
   }
 
   &__featuredInfo {
@@ -486,7 +487,7 @@
 
     &ImageContainer {
       position: relative;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 3 / 4;
     }
 
     &Image {

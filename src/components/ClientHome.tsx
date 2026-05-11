@@ -176,9 +176,9 @@ export default function ClientHome({ projects, query, variables, data, exportDat
                     <a href={`/projects/${featuredProject.slug}`}>
                       <div className={styles.home__featuredGrid}>
                         <div className={styles.home__featuredImageContainer}>
-                          {featuredProject.image ? (
+                          {(featuredProject.imagePortrait ?? featuredProject.image) ? (
                             <img
-                              src={featuredProject.image}
+                              src={featuredProject.imagePortrait ?? featuredProject.image}
                               alt={cleanTitle(featuredProject.title)}
                               className={styles.home__featuredImage}
                               referrerPolicy="no-referrer"
@@ -233,10 +233,10 @@ export default function ClientHome({ projects, query, variables, data, exportDat
                   >
                     <a href={`/projects/${project.slug}`} className={styles.home__projectLink}>
                     <article className={styles.home__projectCard}>
-                      {project.image ? (
+                      {(project.imagePortrait ?? project.image) ? (
                         <div className={styles.home__projectCardImageContainer}>
                           <img
-                            src={project.image}
+                            src={project.imagePortrait ?? project.image}
                             alt={cleanTitle(project.title)}
                             className={styles.home__projectCardImage}
                             referrerPolicy="no-referrer"
