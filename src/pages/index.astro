@@ -1,12 +1,14 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import { client } from '../../tina/__generated__/client';
 import MainLayout from '@/layouts/MainLayout.astro';
 import ClientHome from '@/components/ClientHome';
 // gray-matter is a transitive dependency (via Astro). Used to parse custom
 // frontmatter fields that Astro v6's content layer doesn't expose via p.data.
 import matter from 'gray-matter';
 
-const homeEntry = await getEntry('pages', 'home');
+const tinaProps = await client.queries.pages({ relativePath: 'home.mdx' });
+const homeData = tinaProps.data.pages as any;
 const allProjects = await getCollection('projects');
 
 const rawMdxFiles = import.meta.glob<string>(
@@ -46,8 +48,8 @@ const exportContent = projects.map(p => {
 }).join('\n\n---\n\n');
 
 const exportMetadata = {
-  title: homeEntry?.data?.title || 'Compiled Visions',
-  description: homeEntry?.data?.mission || 'UX/UI designer with over 14 years of experience.',
+  title: homeData?.title || 'Compiled Visions',
+  description: homeData?.mission || 'UX/UI designer with over 14 years of experience.',
   projects: projects.length,
   generatedAt: new Date().toISOString(),
 };
@@ -57,7 +59,9 @@ const exportMetadata = {
   <ClientHome
     client:load
     projects={projects}
-    pageMeta={homeEntry?.data}
+    query={tinaProps.query}
+    variables={tinaProps.variables}
+    data={tinaProps.data}
     exportData={{
       content: exportContent,
       metadata: exportMetadata,
