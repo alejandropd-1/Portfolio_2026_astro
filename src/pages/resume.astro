@@ -1,18 +1,17 @@
 ---
-import { getEntry, getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
+import { client } from '../../tina/__generated__/client';
 import MainLayout from '@/layouts/MainLayout.astro';
 import ClientResume from '@/components/ClientResume';
 
-const page = await getEntry('pages', 'resume');
-if (!page) throw new Error('Resume page not found');
+const tinaProps = await client.queries.pages({ relativePath: 'resume.mdx' });
+const pageData = tinaProps.data.pages as any;
 
 const projects = await getCollection('projects');
 const jobs = projects
   .map(p => p.data)
   .filter(p => p.showInResume)
   .sort((a, b) => (a.order || 99) - (b.order || 99));
-
-const { Content } = await render(page);
 
 const exportContent = jobs.map(job => {
   const parts = [`## ${job.role || job.title}`];
@@ -29,25 +28,25 @@ const exportContent = jobs.map(job => {
 }).join('\n\n---\n\n');
 
 const exportMetadata = {
-  title: page.data.title || 'Resume',
-  location: page.data.location,
-  email: page.data.email,
-  status: page.data.status,
+  title: pageData.title || 'Resume',
+  location: pageData.location,
+  email: pageData.email,
+  status: pageData.status,
   generatedAt: new Date().toISOString(),
 };
 ---
 
-<MainLayout title={`Resume | ${page.data.title}`}>
+<MainLayout title={`Resume | ${pageData.title}`}>
   <ClientResume
     client:load
-    frontmatter={page.data}
     jobs={jobs}
+    query={tinaProps.query}
+    variables={tinaProps.variables}
+    data={tinaProps.data}
     exportData={{
       content: exportContent,
       metadata: exportMetadata,
       filename: "cv-alejandro-delgado.md",
     }}
-  >
-    <Content />
-  </ClientResume>
+  />
 </MainLayout>

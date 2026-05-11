@@ -1,30 +1,39 @@
 'use client';
 
+import { useTina, tinaField } from 'tinacms/dist/react';
 import { motion } from 'motion/react';
-import { Folder, ExternalLink, Code } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { Tag } from '@/components/UI';
 import styles from '@/styles/pages/_archive.module.scss';
 import { clsx } from 'clsx';
 import { cleanTitle, formatTitle } from '@/helpers/text-helpers';
-
 import Breadcrumb from '@/components/Breadcrumb';
 
-export default function ClientArchive({ projects, pageMeta }: { projects: any[], pageMeta?: any }) {
-  const title = pageMeta?.title || 'Project Archive';
-  const subtitle = pageMeta?.subtitle || 'Legacy systems, deprecated experiments, and structural blueprints from previous iteration cycles.';
+type PageArchive = { title: string; subtitle?: string };
+type Props = { projects: any[]; query: string; variables: object; data: any };
+
+export default function ClientArchive({ projects, query, variables, data }: Props) {
+  const { data: tinaData } = useTina({ query, variables, data });
+  const page = tinaData.pages as PageArchive;
 
   return (
     <div className="page-container">
       <header className={styles.archive__header}>
-         <div className={styles.archive__breadcrumbRow}>
-           <Breadcrumb paths={['archive']} />
-         </div>
-         <h1 className={styles.archive__title}>
-              {formatTitle(title)}
-            </h1>
-         <p className={styles.archive__subtitle}>
-            {subtitle}
-         </p>
+        <div className={styles.archive__breadcrumbRow}>
+          <Breadcrumb paths={['archive']} />
+        </div>
+        <h1
+          className={styles.archive__title}
+          data-tina-field={tinaField(page, 'title')}
+        >
+          {formatTitle(page.title)}
+        </h1>
+        <p
+          className={styles.archive__subtitle}
+          data-tina-field={tinaField(page, 'subtitle')}
+        >
+          {page.subtitle}
+        </p>
       </header>
 
       <div className={styles.archive__table}>

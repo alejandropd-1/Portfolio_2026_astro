@@ -1,9 +1,11 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import { client } from '../../tina/__generated__/client';
 import MainLayout from '@/layouts/MainLayout.astro';
 import ClientArchive from '@/components/ClientArchive';
 
-const page = await getEntry('pages', 'archive');
+const tinaProps = await client.queries.pages({ relativePath: 'archive.mdx' });
+const title = (tinaProps.data.pages as any).title ?? 'Project Archive';
 
 const allProjects = await getCollection('projects');
 const projects = allProjects
@@ -15,6 +17,12 @@ const projects = allProjects
   });
 ---
 
-<MainLayout title={page ? `Archive | ${page.data.title}` : 'Archive'}>
-  <ClientArchive client:load projects={projects} pageMeta={page?.data} />
+<MainLayout title={`Archive | ${title}`}>
+  <ClientArchive
+    client:load
+    projects={projects}
+    query={tinaProps.query}
+    variables={tinaProps.variables}
+    data={tinaProps.data}
+  />
 </MainLayout>

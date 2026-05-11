@@ -49,11 +49,11 @@ const pagesCollection = defineCollection({
       })),
     })).optional(),
     // Resume – education
-    education: z.object({
+    education: z.array(z.object({
       degree: z.string().optional(),
       institution: z.string().optional(),
       year: z.string().optional(),
-    }).optional(),
+    })).optional(),
   })
 });
 

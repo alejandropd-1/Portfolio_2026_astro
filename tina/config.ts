@@ -133,6 +133,16 @@ export default defineConfig({
         label: "Pages",
         path: "src/content/pages",
         format: "mdx",
+        ui: {
+          router: ({ document }: { document: any }) => {
+            const name = document._sys.filename;
+            if (name === 'home') return '/';
+            if (name === 'about') return '/about';
+            if (name === 'archive') return '/archive';
+            if (name === 'resume') return '/resume';
+            return undefined;
+          },
+        },
         templates: [
           // ── Home page ────────────────────────────────────────────────────
           {
@@ -193,6 +203,41 @@ export default defineConfig({
                 name: "body",
                 label: "Bio Text",
                 isBody: true,
+              },
+              {
+                type: "object",
+                name: "philosophies",
+                label: "Core Philosophy Cards",
+                list: true,
+                ui: {
+                  itemProps: (item: any) => ({ label: item?.title || "Philosophy" }),
+                },
+                fields: [
+                  {
+                    type: "string",
+                    name: "icon",
+                    label: "Icon",
+                    options: ["beaker", "settings", "monitor"],
+                  },
+                  {
+                    type: "string",
+                    name: "accent",
+                    label: "Accent Color",
+                    options: ["primary", "secondary", "tertiary"],
+                  },
+                  {
+                    type: "string",
+                    name: "title",
+                    label: "Title",
+                    required: true,
+                  },
+                  {
+                    type: "string",
+                    name: "description",
+                    label: "Description",
+                    ui: { component: "textarea" },
+                  },
+                ],
               },
             ],
           },
@@ -298,6 +343,10 @@ export default defineConfig({
                 type: "object",
                 name: "education",
                 label: "Education (Section 03)",
+                list: true,
+                ui: {
+                  itemProps: (item: any) => ({ label: item?.degree || "Education Entry" }),
+                },
                 fields: [
                   {
                     type: "string",

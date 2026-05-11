@@ -1,16 +1,17 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { client } from '../../tina/__generated__/client';
 import MainLayout from '@/layouts/MainLayout.astro';
 import ClientAbout from '@/components/ClientAbout';
 
-const page = await getEntry('pages', 'about');
-if (!page) throw new Error('About page not found');
-
-const { Content } = await render(page);
+const tinaProps = await client.queries.pages({ relativePath: 'about.mdx' });
+const title = (tinaProps.data.pages as any).title ?? 'About';
 ---
 
-<MainLayout title={`About | ${page.data.title}`}>
-  <ClientAbout client:load frontmatter={page.data}>
-    <Content />
-  </ClientAbout>
+<MainLayout title={`About | ${title}`}>
+  <ClientAbout
+    client:load
+    query={tinaProps.query}
+    variables={tinaProps.variables}
+    data={tinaProps.data}
+  />
 </MainLayout>
