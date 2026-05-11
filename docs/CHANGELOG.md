@@ -6,6 +6,54 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-11] — Fix: Active Navigation State on Deployed Version
+
+### Problema
+
+La navegación activa (texto verde + subrayado animado) funcionaba correctamente en `localhost:4321/resume`, pero no en `aledesign.dev/resume/` (versión desplegada). El link RESUME permanecía en gris en producción.
+
+### Causa raíz
+
+El componente `Navigation.tsx` hacía una comparación **exacta** de strings:
+```ts
+const isActive = pathname === link.href;
+```
+
+- En localhost: `pathname = "/resume"` vs `link.href = "/resume"` ✅ Match
+- En producción: `pathname = "/resume/"` vs `link.href = "/resume"` ❌ No match
+
+El servidor desplegado (Netlify) añade automáticamente trailing slashes (`/resume/`), pero los links de navegación estaban definidos sin ellos (`/resume`).
+
+### Solución
+
+Se normalizó la comparación de rutas en `Navigation.tsx` para strip trailing slashes antes de comparar (excepto en la raíz `/`):
+
+```ts
+// Normalize paths: strip trailing slash except for root
+const normalizedPathname = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
+const normalizedHref = link.href === '/' ? '/' : link.href.replace(/\/$/, '');
+const isActive = normalizedPathname === normalizedHref;
+```
+
+**Lugares actualizados:**
+- Línea ~125: Desktop navigation (`.nav__links`)
+- Línea ~224: Mobile navigation (`.mobile_overlay__nav`)
+
+### Verificación
+
+- ✅ `localhost:4321/resume` — RESUME link verde + subrayado
+- ✅ `aledesign.dev/resume/` — RESUME link verde + subrayado (tras deployment)
+- ✅ Todos los tabs (PROJECTS, RESUME, ABOUT, ARCHIVE) mantienen estado activo correcto
+- ✅ Mobile navigation refleja el mismo comportamiento
+
+### Archivos modificados
+
+| Archivo | Tipo | Descripción |
+|---|---|---|
+| `src/components/Navigation.tsx` | MOD | Normalización de pathname en comparación de links activos |
+
+---
+
 ## [2026-05-11] — TinaCMS Visual Editing en About, Archive y Resume
 
 ### Objetivo

@@ -312,4 +312,8 @@ Se ha implementado un panel de monitoreo avanzado dentro de TinaCMS (Screen Plug
 
 ---
 
+## 🐛 Navigation Active State Fix
+
+**Issue resolved (2026-05-11):** The active navigation link (green highlight + underline) now works correctly on deployed versions with trailing slashes. The Navigation component normalizes pathname comparison to handle both `/resume` and `/resume/` formats, ensuring consistent active state detection across all deployment environments.
+
 *Última actualización: 2026-05-11*
