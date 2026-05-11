@@ -1,7 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node -e \"const p = require\\('./package.json'\\); console.log\\(p.dependencies?.astro || p.devDependencies?.astro\\)\")"
+      "Bash(node -e \"const p = require\\('./package.json'\\); console.log\\(p.dependencies?.astro || p.devDependencies?.astro\\)\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(npm run *)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "mcp__Claude_in_Chrome__browser_batch",
+      "mcp__Claude_in_Chrome__navigate",
+      "Bash(git checkout *)",
+      "Bash(git merge *)",
+      "Bash(git push *)"
     ]
   }
 }
