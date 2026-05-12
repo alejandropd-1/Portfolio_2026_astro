@@ -30,3 +30,5 @@ public/admin
 .claude/worktrees/elastic-herschel-e23851
 
 .claude/worktrees/
+
+package-lock.json
