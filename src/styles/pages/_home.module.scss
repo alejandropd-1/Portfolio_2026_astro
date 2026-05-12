@@ -148,10 +148,13 @@
     position: relative;
     overflow: hidden;
     background: $clr-brand-surface-low;
-    aspect-ratio: 4 / 3;
+    // aspect-ratio: 16 / 9;
 
     @include mq(md) {
-      aspect-ratio: auto;
+      // aspect-ratio: 3 / 4;
+    }
+    picture {
+      height: 100%;
     }
   }
 
@@ -159,6 +162,7 @@
     object-fit: cover;
     opacity: 0.8;
     transition: transform 0.5s ease;
+    height: 100%;
   }
 
   &__featuredInfo {
@@ -276,7 +280,7 @@
     }
   }
 
-  // ── List view (Josh Comeau style) ──────────────────────────────
+  // ── List view ──────────────────────────────
   &__listView {
     display: flex;
     flex-direction: column;
@@ -487,6 +491,10 @@
     &ImageContainer {
       position: relative;
       aspect-ratio: 16 / 9;
+
+      @include mq(md) {
+        // aspect-ratio: 3 / 4;
+      }
     }
 
     &Image {

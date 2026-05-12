@@ -15,6 +15,7 @@ const projectsCollection = defineCollection({
     client: z.string().optional(),
     order: z.number().optional(),
     image: z.string().optional(),
+    imagePortrait: z.string().optional(),
     showInResume: z.boolean().default(false),
     showInPortfolio: z.boolean().default(false),
     points: z.array(z.string()).optional(),

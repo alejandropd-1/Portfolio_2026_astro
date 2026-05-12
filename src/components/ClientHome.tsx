@@ -176,13 +176,16 @@ export default function ClientHome({ projects, query, variables, data, exportDat
                     <a href={`/projects/${featuredProject.slug}`}>
                       <div className={styles.home__featuredGrid}>
                         <div className={styles.home__featuredImageContainer}>
-                          {featuredProject.image ? (
-                            <img
-                              src={featuredProject.image}
-                              alt={cleanTitle(featuredProject.title)}
-                              className={styles.home__featuredImage}
-                              referrerPolicy="no-referrer"
-                            />
+                          {(featuredProject.imagePortrait ?? featuredProject.image) ? (
+                            <picture>
+                              <source media="(max-width: 768px)" srcSet={featuredProject.image} />
+                              <img
+                                src={featuredProject.imagePortrait ?? featuredProject.image}
+                                alt={cleanTitle(featuredProject.title)}
+                                className={styles.home__featuredImage}
+                                referrerPolicy="no-referrer"
+                              />
+                            </picture>
                           ) : (
                             <img
                               src="https://picsum.photos/seed/home-main/1920/1080"
@@ -233,14 +236,17 @@ export default function ClientHome({ projects, query, variables, data, exportDat
                   >
                     <a href={`/projects/${project.slug}`} className={styles.home__projectLink}>
                     <article className={styles.home__projectCard}>
-                      {project.image ? (
+                      {(project.imagePortrait ?? project.image) ? (
                         <div className={styles.home__projectCardImageContainer}>
-                          <img
-                            src={project.image}
-                            alt={cleanTitle(project.title)}
-                            className={styles.home__projectCardImage}
-                            referrerPolicy="no-referrer"
-                          />
+                          <picture>
+                            <source media="(max-width: 768px)" srcSet={project.image} />
+                            <img
+                              src={project.imagePortrait ?? project.image}
+                              alt={cleanTitle(project.title)}
+                              className={styles.home__projectCardImage}
+                              referrerPolicy="no-referrer"
+                            />
+                          </picture>
                         </div>
                       ) : (
                         <div className={styles.home__projectCardCode}>
@@ -284,7 +290,7 @@ export default function ClientHome({ projects, query, variables, data, exportDat
               </div>
             </>
           ) : (
-            /* List View — Josh Comeau inspired: grouped by type, arrow + big title */
+            /* List View — grouped by type, arrow + big title */
             <div className={styles.home__listView}>
               {groupedProjects.map(([type, typeProjects], groupIdx) => (
                 <motion.div
@@ -300,7 +306,6 @@ export default function ClientHome({ projects, query, variables, data, exportDat
                     {typeProjects.map((project) => (
                       <li key={project.slug}>
                         <a href={`/projects/${project.slug}`} className={styles.home__listItem}>
-                          <ArrowRight size={22} className={styles.home__listItemArrow} />
 
                           <div className={styles.home__listItemContent}>
                             {/* Title + year */}

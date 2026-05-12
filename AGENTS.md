@@ -24,17 +24,22 @@ src/pages/projects/[...slug].astro  → dynamic project detail pages
 ```
 
 **Content layer** (`src/content/`): Two TinaCMS collections:
+
 - `projects/` — MDX files. Astro schema in `src/content.config.ts`. Key frontmatter fields: `title`, `year`, `date`, `type`, `description`, `stack[]`, `role`, `client`, `order`, `image`, `showInResume`, `showInPortfolio`, `points[]`, `categories[]`.
 - `pages/` — MDX files for `home`, `about`, `archive`, `resume` — each with different frontmatter schemas (defined per-template in `tina/config.ts`).
 
 **Astro content schema** (`src/content.config.ts`): Defines the Zod schema for the `projects` collection. **Critical Astro v6 limitation**: custom frontmatter fields are NOT accessible via `p.data`, and `import.meta.glob` on MDX files does NOT expose `mod.frontmatter`. The canonical workaround — already implemented for `categories` — is:
 
 ```ts
-import matter from 'gray-matter'; // transitive dep, no install needed
-const rawFiles = import.meta.glob<string>('../content/projects/*.mdx', { eager: true, query: '?raw', import: 'default' });
+import matter from "gray-matter"; // transitive dep, no install needed
+const rawFiles = import.meta.glob<string>("../content/projects/*.mdx", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+});
 const fieldMap: Record<string, any> = {};
 for (const [path, content] of Object.entries(rawFiles)) {
-  const slug = path.split('/').pop()!.replace('.mdx', '').toLowerCase(); // lowercase — Astro lowercases p.id
+  const slug = path.split("/").pop()!.replace(".mdx", "").toLowerCase(); // lowercase — Astro lowercases p.id
   fieldMap[slug] = matter(content).data.yourField ?? defaultValue;
 }
 // In .map(): yourField: fieldMap[p.id] ?? defaultValue
@@ -63,6 +68,7 @@ The visual identity is a dark editorial/terminal aesthetic. Key constraints to r
 ## UI Components
 
 Shared primitives live in `src/components/UI.tsx`:
+
 - `<SyntaxCard>` — the standard card container with optional `#label` header
 - `<Tag>` — polymorphic: renders as `<span>` by default, as `<button>` when `onClick` is passed. `active` variant fills the bg with primary color.
 - `<KeyValue k v>` — renders `key = "value";` syntax pairs (orange key, white value)
@@ -74,7 +80,16 @@ Project and page titles use `//` as a marker for the accent-colored word: `"Comp
 ## Home page interactive features
 
 `ClientHome.tsx` manages two independent UI states:
-- **Layout** (`'cards' | 'list'`): toggles between the glass-card grid and a Josh Comeau–style typographic list grouped by project `type`.
+
+- **Layout** (`'cards' | 'list'`): toggles between the glass-card grid and typographic list grouped by project `type`.
 - **Filter** (`'all' | <category value>`): filters `projects[]` by `p.categories.includes(activeFilter)` before rendering either view. The `filteredProjects` array drives both the featured card (`filteredProjects[0]`) and the grid/list.
 
 The sidebar's `# Filters` and `# Layout` blocks are rendered inside `home__sidebar` which applies a global `SyntaxCard` override (transparent bg, no padding) — do not add other `SyntaxCard` children outside `home__sidebar` without checking that override.
+
+## Git Workflow
+
+- NUNCA crear branches automáticamente
+- NUNCA crear worktrees
+- Trabajar siempre sobre la branch activa actual
+- Commits directos a la branch en uso
+- Si necesitás cambiar de branch, pedíselo al usuario

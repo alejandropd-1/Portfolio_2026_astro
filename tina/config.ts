@@ -98,7 +98,12 @@ export default defineConfig({
           {
             type: "image",
             name: "image",
-            label: "Cover Image",
+            label: "Cover Image (Landscape)",
+          },
+          {
+            type: "image",
+            name: "imagePortrait",
+            label: "Card Image (Portrait 3:4)",
           },
           {
             type: "boolean",
