@@ -78,6 +78,7 @@ html {
 }
 
 body {
+  position: relative;
   background-color: $body-bg;
   color: $body-text;
   font-family: $body-font;
@@ -171,4 +172,15 @@ article {
       color: $clr-brand-on-surface-variant;
     }
   }
+}
+
+@keyframes fade-in-bg {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animated-bg-container {
+  @include compiled-animated-bg();
+  opacity: 0;
+  animation: fade-in-bg 1.5s ease-out forwards;
 }
