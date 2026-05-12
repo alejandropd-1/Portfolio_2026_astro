@@ -306,7 +306,6 @@ export default function ClientHome({ projects, query, variables, data, exportDat
                     {typeProjects.map((project) => (
                       <li key={project.slug}>
                         <a href={`/projects/${project.slug}`} className={styles.home__listItem}>
-                          <ArrowRight size={22} className={styles.home__listItemArrow} />
 
                           <div className={styles.home__listItemContent}>
                             {/* Title + year */}
