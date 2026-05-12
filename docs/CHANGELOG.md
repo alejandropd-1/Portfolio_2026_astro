@@ -6,6 +6,73 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-12] — Imágenes responsive por contexto (portrait en desktop, landscape en mobile)
+
+### Objetivo
+
+Resolver el problema de que una sola imagen de proyecto se usaba tanto en las tarjetas del home (3:4 portrait) como en el hero del detail page (21:9 landscape), causando crops/estiramientos indeseados. Se implementó un sistema de dos imágenes por proyecto con switch automático según viewport.
+
+###  Cambios
+
+#### `tina/config.ts`
+- Campo `image` renombrado a **"Cover Image (Landscape)"** — imagen apaisada para el hero del detail page.
+- Nuevo campo **`imagePortrait`** (`type: "image"`) — **"Card Image (Portrait 3:4)"** — imagen vertical optimizada para las tarjetas del home.
+- Ambos campos son opcionales. Si `imagePortrait` no se define, se hace fallback a `image` (comportamiento anterior).
+
+#### `src/content.config.ts`
+- Agregado `imagePortrait: z.string().optional()` al schema Zod de `projectsCollection` (línea 18).
+
+#### `src/components/ClientHome.tsx`
+- **Featured image** (línea ~179): reemplazado `<img>` por `<picture>` con `<source media="(max-width: 768px)" srcSet={image}>`. En mobile carga la landscape, en desktop la portrait.
+- **Grid card images** (línea ~236): mismo patrón `<picture>` con media query.
+- Fallback a `image` cuando `imagePortrait` no está definido.
+
+#### `src/styles/pages/_home.module.scss`
+- **Featured container** (`&__featuredImageContainer`): `aspect-ratio: 16 / 9` en mobile, `3 / 4` en desktop (`@include mq(md)`).
+- **Grid card container** (`&ImageContainer`): mismo patrón — `16 / 9` en mobile, `3 / 4` en desktop.
+
+### Comportamiento resultante
+
+| Viewport | Imagen | Aspect ratio |
+|----------|--------|--------------|
+| Mobile (≤768px) | `image` (landscape) | 16:9 |
+| Desktop (>768px) | `imagePortrait` (o fallback a `image`) | 3:4 |
+
+El navegador carga solo la imagen que necesita gracias al elemento `<picture>` con `media` query — no hay doble request.
+
+### Archivos modificados
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `tina/config.ts` | MOD | Campo `imagePortrait` agregado, `image` renombrado |
+| `src/content.config.ts` | MOD | `imagePortrait` en schema Zod |
+| `src/components/ClientHome.tsx` | MOD | `<picture>` con media query en featured y grid cards |
+| `src/styles/pages/_home.module.scss` | MOD | Aspect ratio responsive (16:9 mobile → 3:4 desktop) |
+
+---
+
+## [2026-05-12] — Refactor y mejora de grid-reveal-bg
+
+### Objetivo
+Optimizar la implementación técnica y el diseño visual de la animación de fondo principal (`grid-reveal-bg`) basándose en feedback de diseño.
+
+### Cambios realizados
+
+#### Refactorización HTML/CSS (`MainLayout.astro` y `_mixins.scss`)
+- Se eliminaron los divs vacíos `.wireframe-grid` y `.wireframe-grid-2` en `MainLayout.astro` que ensuciaban el DOM.
+- Las dos luces animadas (`drift-1` y `drift-2`) ahora se aplican de forma limpia utilizando pseudo-elementos (`&::before` y `&::after`) en el contenedor `.bg-grid-reveal`.
+
+#### Ajustes de diseño "Calma"
+- **Velocidad:** Las animaciones de las luces se ralentizaron sustancialmente (de 40s/50s a 90s/110s) con una curva de easing (`ease-in-out`) para lograr un movimiento mucho más tranquilo.
+- **Difuminado:** Se modificó el `mask-image` de los pseudo-elementos. En lugar de partir de un 100% de opacidad en el centro, inician con un 50% de opacidad (`rgba(0,0,0,0.5)`) y se funden progresivamente en un radio más amplio, logrando que el centro de la luz se perciba mucho más suave y orgánico ("difuminado").
+
+### Archivos modificados
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `src/layouts/MainLayout.astro` | MOD | Eliminación de nodos innecesarios del DOM |
+| `src/styles/abstracts/_mixins.scss` | MOD | Refactorización a pseudo-elementos, ajuste de timings y mask-image |
+
 ## [2026-05-11] — Fallow-02: limpieza de dependencias y archivos MDX rotos
 
 ### Objetivo
