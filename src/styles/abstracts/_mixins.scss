@@ -39,7 +39,7 @@
 
     :global(.light) & {
       // Soften grain inversion or remove if it affects patterns poorly
-      filter: invert(0.8); 
+      filter: invert(0.8);
       opacity: 0.15;
     }
   }
@@ -108,5 +108,62 @@
 
   @include mq(md) {
     font-size: $fs-2xl;
+  }
+}
+
+// Background Animation Keyframes
+@keyframes drift-1 {
+  0% { transform: translate(-30vw, -30vh); background-position: 30vw 30vh, 30vw 30vh, center; }
+  50% { transform: translate(40vw, 20vh); background-position: -40vw -20vh, -40vw -20vh, center; }
+  100% { transform: translate(-30vw, -30vh); background-position: 30vw 30vh, 30vw 30vh, center; }
+}
+
+@keyframes drift-2 {
+  0% { transform: translate(30vw, 30vh); background-position: -30vw -30vh, -30vw -30vh, center; }
+  50% { transform: translate(-40vw, -15vh); background-position: 40vw 15vh, 40vw 15vh, center; }
+  100% { transform: translate(30vw, 30vh); background-position: -30vw -30vh, -30vw -30vh, center; }
+}
+
+/**
+ * Mixin: grid-reveal-bg
+ * Creates a background where a technical grid is revealed by moving lights.
+ */
+@mixin grid-reveal-bg($grid-size: 40px) {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: $clr-brand-surface;
+  overflow: hidden;
+
+  // Common properties for the lights
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: -50vh; left: -50vw;
+    width: 200vw; height: 200vh;
+    pointer-events: none;
+    // Difuminado en el centro y hacia los bordes
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 15%, transparent 35%);
+    -webkit-mask-image: radial-gradient(circle at center, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 15%, transparent 35%);
+  }
+
+  // Light Source 1 (Emerald -> Cyan)
+  &::before {
+    background-image: 
+      linear-gradient(to right, rgba(var(--clr-brand-primary-rgb), 0.25) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(var(--clr-brand-primary-rgb), 0.25) 1px, transparent 1px),
+      radial-gradient(circle at center, rgba(var(--clr-brand-primary-rgb), 0.15) 0%, rgba(var(--clr-brand-tertiary-rgb), 0.1) 15%, transparent 40%);
+    background-size: $grid-size $grid-size, $grid-size $grid-size, 100% 100%;
+    animation: drift-1 90s infinite ease-in-out;
+  }
+
+  // Light Source 2 (Fuchsia -> Orange)
+  &::after {
+    background-image: 
+      linear-gradient(to right, rgba(var(--clr-brand-secondary-rgb), 0.2) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(var(--clr-brand-secondary-rgb), 0.2) 1px, transparent 1px),
+      radial-gradient(circle at center, rgba(255, 0, 128, 0.12) 0%, rgba(var(--clr-brand-secondary-rgb), 0.1) 15%, transparent 40%);
+    background-size: $grid-size $grid-size, $grid-size $grid-size, 100% 100%;
+    animation: drift-2 110s infinite ease-in-out;
   }
 }
