@@ -9,7 +9,6 @@
     padding-bottom: $size-8;
   }
 
-
   position: relative;
   overflow: hidden;
   isolation: isolate;
@@ -30,8 +29,12 @@
     height: 60vw;
     top: 10%;
     left: 10%;
-        opacity: .7;
-    background: radial-gradient(circle, rgba(var(--clr-brand-tertiary-rgb), 0.4) 0%, transparent 70%);
+    opacity: 0.7;
+    background: radial-gradient(
+      circle,
+      rgba(var(--clr-brand-tertiary-rgb), 0.4) 0%,
+      transparent 70%
+    );
   }
 
   &::after {
@@ -39,8 +42,12 @@
     height: 60vw;
     top: 25%;
     right: -1%;
-    opacity: .5;
-    background: radial-gradient(circle, rgba(var(--clr-brand-primary-rgb), 0.3) 0%, transparent 70%);
+    opacity: 0.5;
+    background: radial-gradient(
+      circle,
+      rgba(var(--clr-brand-primary-rgb), 0.3) 0%,
+      transparent 70%
+    );
   }
 
   &__backLink {
@@ -106,7 +113,11 @@
     @include page-title;
 
     span {
-      background: linear-gradient(to right, $clr-brand-primary, $clr-brand-tertiary);
+      background: linear-gradient(
+        to right,
+        $clr-brand-primary,
+        $clr-brand-tertiary
+      );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -175,11 +186,15 @@
   }
 
   &__hero {
-    margin-bottom: $size-32;
+    margin-bottom: $size-2;
     position: relative;
 
     &:hover .heroImage {
       transform: scale(1.05);
+    }
+
+    @include mq(md) {
+      margin-bottom: $size-20;
     }
   }
 
@@ -245,11 +260,31 @@
     }
 
     // Prosa styles for MDX
-    h2 { font-size: $fs-3xl; margin-top: $size-12; margin-bottom: $size-6; }
-    h3 { font-size: $fs-2xl; margin-top: $size-10; margin-bottom: $size-4; }
-    p { font-size: $fs-base; line-height: 1.8; color: $clr-brand-on-surface-variant; margin-bottom: $size-6; }
-    ul { list-style: disc; margin-left: $size-6; margin-bottom: $size-6; }
-    li { margin-bottom: $size-2; color: $clr-brand-on-surface-variant; }
+    h2 {
+      font-size: $fs-3xl;
+      margin-top: $size-12;
+      margin-bottom: $size-6;
+    }
+    h3 {
+      font-size: $fs-2xl;
+      margin-top: $size-10;
+      margin-bottom: $size-4;
+    }
+    p {
+      font-size: $fs-base;
+      line-height: 1.8;
+      color: $clr-brand-on-surface-variant;
+      margin-bottom: $size-6;
+    }
+    ul {
+      list-style: disc;
+      margin-left: $size-6;
+      margin-bottom: $size-6;
+    }
+    li {
+      margin-bottom: $size-2;
+      color: $clr-brand-on-surface-variant;
+    }
 
     pre {
       @include glass("--clr-brand-tertiary-rgb", 135deg);
@@ -308,7 +343,7 @@
     border-radius: $radius-soft;
     overflow: hidden;
     margin-bottom: $size-12;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   }
 
   &__stickyHeader {
@@ -328,7 +363,9 @@
       height: 8px;
       border-radius: 50%;
       background: #ff5f56;
-      box-shadow: 14px 0 0 #ffbd2e, 28px 0 0 #27c93f;
+      box-shadow:
+        14px 0 0 #ffbd2e,
+        28px 0 0 #27c93f;
       margin-right: auto;
     }
   }
@@ -416,14 +453,29 @@
     line-height: 1;
     margin-bottom: $size-2;
 
-    &--primary { color: $clr-brand-primary; }
-    &--secondary { color: $clr-brand-secondary; }
-    &--tertiary { color: $clr-brand-tertiary; }
+    &--primary {
+      color: $clr-brand-primary;
+    }
+    &--secondary {
+      color: $clr-brand-secondary;
+    }
+    &--tertiary {
+      color: $clr-brand-tertiary;
+    }
   }
 }
 
 @keyframes pulse {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(var(--clr-brand-primary-rgb), 0.7); }
-  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(var(--clr-brand-primary-rgb), 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(var(--clr-brand-primary-rgb), 0); }
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(var(--clr-brand-primary-rgb), 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(var(--clr-brand-primary-rgb), 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(var(--clr-brand-primary-rgb), 0);
+  }
 }

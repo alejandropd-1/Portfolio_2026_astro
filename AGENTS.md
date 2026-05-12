@@ -81,7 +81,7 @@ Project and page titles use `//` as a marker for the accent-colored word: `"Comp
 
 `ClientHome.tsx` manages two independent UI states:
 
-- **Layout** (`'cards' | 'list'`): toggles between the glass-card grid and a Josh Comeau–style typographic list grouped by project `type`.
+- **Layout** (`'cards' | 'list'`): toggles between the glass-card grid and typographic list grouped by project `type`.
 - **Filter** (`'all' | <category value>`): filters `projects[]` by `p.categories.includes(activeFilter)` before rendering either view. The `filteredProjects` array drives both the featured card (`filteredProjects[0]`) and the grid/list.
 
 The sidebar's `# Filters` and `# Layout` blocks are rendered inside `home__sidebar` which applies a global `SyntaxCard` override (transparent bg, no padding) — do not add other `SyntaxCard` children outside `home__sidebar` without checking that override.

@@ -146,7 +146,10 @@
     border-radius: $radius-soft;
     cursor: pointer;
     color: $clr-brand-primary;
-    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    transition:
+      background 0.25s ease,
+      border-color 0.25s ease,
+      color 0.25s ease;
     z-index: 210;
 
     &--active {
@@ -187,10 +190,11 @@
   height: 100dvh; // exact viewport height, no overflow
   overflow: hidden;
   overscroll-behavior: none; // blocks pull-to-refresh and bounce on iOS
-  touch-action: none;         // prevents touch scroll bleed-through on iOS Safari
+  touch-action: none; // prevents touch scroll bleed-through on iOS Safari
+  border: none;
 
   // Additional deep overlay tinting
-  background-color: rgba(var(--clr-brand-surface-rgb), 0.97);
+  background-color: rgba(var(--clr-brand-surface-rgb), 0.1);
 
   // Visible only below md
   @include mq(md) {
@@ -225,7 +229,7 @@
     gap: 0;
   }
 
-    &__container_link{
+  &__container_link {
     border-bottom: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.06);
     border-top: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.06);
     &:first-child {
@@ -240,14 +244,16 @@
     display: flex;
     align-items: baseline;
     gap: $size-3;
-    padding: $size-4 0;  // reduced from $size-6 for better fit
+    padding: $size-4 0; // reduced from $size-6 for better fit
     text-decoration: none;
     color: $clr-brand-on-surface-variant;
     font-family: $mono-font;
-    font-size: $fs-xl;  // reduced from $fs-2xl for tighter vertical rhythm
+    font-size: $fs-xl; // reduced from $fs-2xl for tighter vertical rhythm
     font-weight: $fw-bold;
     letter-spacing: $ls-wide;
-    transition: color 0.25s ease, padding-left 0.25s ease;
+    transition:
+      color 0.25s ease,
+      padding-left 0.25s ease;
 
     &:hover {
       color: $clr-brand-on-surface;
@@ -262,7 +268,6 @@
       }
     }
   }
-
 
   &__index {
     font-size: $fs-xs;
