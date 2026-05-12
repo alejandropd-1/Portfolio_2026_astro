@@ -113,80 +113,57 @@
 
 // Background Animation Keyframes
 @keyframes drift-1 {
-  0% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(40vw, 30vh) scale(1.2); }
-  66% { transform: translate(10vw, 60vh) scale(0.8); }
-  100% { transform: translate(0, 0) scale(1); }
+  0% { transform: translate(-30vw, -30vh); background-position: 30vw 30vh, 30vw 30vh, center; }
+  50% { transform: translate(40vw, 20vh); background-position: -40vw -20vh, -40vw -20vh, center; }
+  100% { transform: translate(-30vw, -30vh); background-position: 30vw 30vh, 30vw 30vh, center; }
 }
 
 @keyframes drift-2 {
-  0% { transform: translate(0, 0) scale(1.1); }
-  33% { transform: translate(-40vw, -40vh) scale(0.8); }
-  66% { transform: translate(-60vw, 10vh) scale(1.2); }
-  100% { transform: translate(0, 0) scale(1.1); }
+  0% { transform: translate(30vw, 30vh); background-position: -30vw -30vh, -30vw -30vh, center; }
+  50% { transform: translate(-40vw, -15vh); background-position: 40vw 15vh, 40vw 15vh, center; }
+  100% { transform: translate(30vw, 30vh); background-position: -30vw -30vh, -30vw -30vh, center; }
 }
 
 /**
- * Mixin: compiled-animated-bg
- * Creates a fixed, full-screen background with two drifting radial gradients
- * and a technical noise overlay.
+ * Mixin: grid-reveal-bg
+ * Creates a background where a technical grid is revealed by moving lights.
  */
-@mixin compiled-animated-bg($primary-rgb: "--clr-brand-primary-rgb", $secondary-rgb: "--clr-brand-tertiary-rgb") {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+@mixin grid-reveal-bg($grid-size: 40px) {
+  position: fixed;
+  inset: 0;
   z-index: -1;
   background-color: $clr-brand-surface;
   overflow: hidden;
 
-  // Primary Source - Top Left
-  &::before {
+  // Common properties for the lights
+  &::before, &::after {
     content: '';
     position: absolute;
-    top: -25%;
-    left: -25%;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(
-      circle at center,
-      rgba(var(#{$primary-rgb}), 0.08) 0%,
-      rgba(var(#{$primary-rgb}), 0.03) 40%,
-      transparent 70%
-    );
-    filter: blur(60px);
-    animation: drift-1 40s infinite ease-in-out;
-  }
-
-  // Secondary Source - Bottom Right
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -25%;
-    right: -25%;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(
-      circle at center,
-      rgba(var(#{$secondary-rgb}), 0.06) 0%,
-      rgba(var(#{$secondary-rgb}), 0.02) 40%,
-      transparent 70%
-    );
-    filter: blur(80px);
-    animation: drift-2 50s infinite ease-in-out;
-  }
-
-  // Noise Overlay
-  .bg-noise {
-    position: absolute;
-    inset: 0;
-    // background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: $noise-opacity;
+    top: -50vh; left: -50vw;
+    width: 200vw; height: 200vh;
     pointer-events: none;
+    // Difuminado en el centro y hacia los bordes
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 15%, transparent 35%);
+    -webkit-mask-image: radial-gradient(circle at center, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 15%, transparent 35%);
+  }
 
-    :global(.light) & {
-      opacity: $noise-opacity * 1.5; // Slightly more visible in light mode if needed
-    }
+  // Light Source 1 (Emerald -> Cyan)
+  &::before {
+    background-image: 
+      linear-gradient(to right, rgba(var(--clr-brand-primary-rgb), 0.25) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(var(--clr-brand-primary-rgb), 0.25) 1px, transparent 1px),
+      radial-gradient(circle at center, rgba(var(--clr-brand-primary-rgb), 0.15) 0%, rgba(var(--clr-brand-tertiary-rgb), 0.1) 15%, transparent 40%);
+    background-size: $grid-size $grid-size, $grid-size $grid-size, 100% 100%;
+    animation: drift-1 90s infinite ease-in-out;
+  }
+
+  // Light Source 2 (Fuchsia -> Orange)
+  &::after {
+    background-image: 
+      linear-gradient(to right, rgba(var(--clr-brand-secondary-rgb), 0.2) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(var(--clr-brand-secondary-rgb), 0.2) 1px, transparent 1px),
+      radial-gradient(circle at center, rgba(255, 0, 128, 0.12) 0%, rgba(var(--clr-brand-secondary-rgb), 0.1) 15%, transparent 40%);
+    background-size: $grid-size $grid-size, $grid-size $grid-size, 100% 100%;
+    animation: drift-2 110s infinite ease-in-out;
   }
 }
