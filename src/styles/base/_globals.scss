@@ -1,6 +1,20 @@
 // src/styles/base/_globals.scss
 @use "../abstracts" as *;
 
+// Animated custom properties for the energy grid.
+// Must be @property so CSS can interpolate them inside mask-image gradients.
+@property --eg-x1 { syntax: "<percentage>"; inherits: false; initial-value: 18%; }
+@property --eg-y1 { syntax: "<percentage>"; inherits: false; initial-value: 28%; }
+@property --eg-x2 { syntax: "<percentage>"; inherits: false; initial-value: 78%; }
+@property --eg-y2 { syntax: "<percentage>"; inherits: false; initial-value: 62%; }
+@property --eg-x3 { syntax: "<percentage>"; inherits: false; initial-value: 55%; }
+@property --eg-y3 { syntax: "<percentage>"; inherits: false; initial-value: 88%; }
+@property --eg-pulse { syntax: "<number>"; inherits: false; initial-value: 1; }
+@property --eg-sweep-r { syntax: "<percentage>"; inherits: false; initial-value: -20%; }
+@property --eg-sweep-l { syntax: "<percentage>"; inherits: false; initial-value: 120%; }
+@property --eg-sweep-d { syntax: "<percentage>"; inherits: false; initial-value: -20%; }
+@property --eg-sweep-u { syntax: "<percentage>"; inherits: false; initial-value: 120%; }
+
 :root {
   // Dark Theme (Default)
   --clr-brand-surface-rgb: 13, 19, 28; // #0D131C (Surface base)
@@ -183,4 +197,8 @@ article {
   @include grid-reveal-bg();
   opacity: 0;
   animation: fade-in-bg 1.5s ease-out forwards;
+}
+
+.bg-energy-grid {
+  @include energy-grid-bg;
 }

@@ -78,7 +78,37 @@ const {
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     
-    <div class="bg-grid-reveal"></div>
+    <div class="bg-energy-grid" aria-hidden="true">
+      <div class="eg-dim"></div>
+      <div class="eg-sweep eg-sweep--right"></div>
+      <div class="eg-sweep eg-sweep--left"></div>
+      <div class="eg-sweep eg-sweep--down"></div>
+      <div class="eg-sweep eg-sweep--up"></div>
+      <div class="eg-spot eg-spot--tertiary"></div>
+      <div class="eg-spot eg-spot--secondary"></div>
+      <div class="eg-spot eg-spot--primary"></div>
+      <div class="eg-nodes"></div>
+      <div class="eg-glow eg-glow--tertiary"></div>
+      <div class="eg-glow eg-glow--secondary"></div>
+      <div class="eg-glow eg-glow--primary"></div>
+      <div class="eg-beams">
+        <!-- Primary cascade (green) — 6 beams @ 0.35s apart -->
+        <div class="eg-beam eg-beam--v eg-beam--m1" style="--bp:192px; --bc:var(--clr-brand-primary-rgb);    --bdy:0s;    --bd:8s;"></div>
+        <div class="eg-beam eg-beam--h eg-beam--m1" style="--bp:192px; --bc:var(--clr-brand-primary-rgb);    --bdy:0.35s; --bd:8s;"></div>
+        <div class="eg-beam eg-beam--v eg-beam--m1" style="--bp:528px; --bc:var(--clr-brand-primary-rgb);    --bdy:0.7s;  --bd:8s;"></div>
+        <div class="eg-beam eg-beam--h eg-beam--m1" style="--bp:432px; --bc:var(--clr-brand-primary-rgb);    --bdy:1.05s; --bd:8s;"></div>
+        <div class="eg-beam eg-beam--v eg-beam--m1" style="--bp:864px; --bc:var(--clr-brand-primary-rgb);    --bdy:1.4s;  --bd:8s;"></div>
+        <div class="eg-beam eg-beam--h eg-beam--m1" style="--bp:624px; --bc:var(--clr-brand-primary-rgb);    --bdy:1.75s; --bd:8s;"></div>
+        <!-- Tertiary cascade (cyan) -->
+        <div class="eg-beam eg-beam--v eg-beam--m2" style="--bp:720px;  --bc:var(--clr-brand-tertiary-rgb);  --bdy:0.5s;  --bd:7s;"></div>
+        <div class="eg-beam eg-beam--h eg-beam--m2" style="--bp:528px;  --bc:var(--clr-brand-tertiary-rgb);  --bdy:1s;    --bd:7s;"></div>
+        <div class="eg-beam eg-beam--v eg-beam--m2" style="--bp:1152px; --bc:var(--clr-brand-tertiary-rgb);  --bdy:1.5s;  --bd:7s;"></div>
+        <!-- Secondary cascade (flame) -->
+        <div class="eg-beam eg-beam--v eg-beam--m3" style="--bp:336px;  --bc:var(--clr-brand-secondary-rgb); --bdy:2.5s;  --bd:9s;"></div>
+        <div class="eg-beam eg-beam--h eg-beam--m3" style="--bp:768px;  --bc:var(--clr-brand-secondary-rgb); --bdy:3s;    --bd:9s;"></div>
+      </div>
+      <div class="eg-vignette"></div>
+    </div>
     
     <Navigation client:load pathname={Astro.url.pathname} />
     <main>
