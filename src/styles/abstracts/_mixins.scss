@@ -663,39 +663,39 @@
     @include energy-grid-spot(
       "clr-brand-primary-rgb",
       1,
-      360px,
+      520px,
       $grid-size,
       0.65
     );
     animation:
-      eg-drift-1 26s ease-in-out infinite,
-      eg-pulse 5.8s ease-in-out infinite;
+      eg-drift-1 48s ease-in-out infinite,
+      eg-pulse 8s ease-in-out infinite;
   }
   .eg-spot--tertiary {
     @include energy-grid-spot(
       "clr-brand-tertiary-rgb",
       2,
-      420px,
+      620px,
       $grid-size,
       0.55,
       $glow-far: 10px,
       $glow-near-alpha: 0.45,
       $glow-far-alpha: 0.22
     );
-    animation: eg-drift-2 34s ease-in-out infinite;
+    animation: eg-drift-2 64s ease-in-out infinite;
   }
   .eg-spot--secondary {
     @include energy-grid-spot(
       "clr-brand-secondary-rgb",
       3,
-      280px,
+      400px,
       $grid-size,
       0.5,
       $glow-far: 10px,
       $glow-near-alpha: 0.4,
       $glow-far-alpha: 0.18
     );
-    animation: eg-drift-3 42s ease-in-out infinite;
+    animation: eg-drift-3 80s ease-in-out infinite;
   }
 
   .eg-nodes {
@@ -735,30 +735,30 @@
   }
   .eg-glow--primary {
     background: radial-gradient(
-      circle 520px at var(--eg-x1) var(--eg-y1),
+      circle 700px at var(--eg-x1) var(--eg-y1),
       rgba(var(--clr-brand-primary-rgb), 0.1),
       rgba(var(--clr-brand-primary-rgb), 0.04) 35%,
-      transparent 70%
+      transparent 65%
     );
-    animation: eg-drift-1 26s ease-in-out infinite;
+    animation: eg-drift-1 48s ease-in-out infinite;
   }
   .eg-glow--tertiary {
     background: radial-gradient(
-      circle 600px at var(--eg-x2) var(--eg-y2),
+      circle 820px at var(--eg-x2) var(--eg-y2),
       rgba(var(--clr-brand-tertiary-rgb), 0.07),
       rgba(var(--clr-brand-tertiary-rgb), 0.03) 35%,
-      transparent 70%
+      transparent 65%
     );
-    animation: eg-drift-2 34s ease-in-out infinite;
+    animation: eg-drift-2 64s ease-in-out infinite;
   }
   .eg-glow--secondary {
     background: radial-gradient(
-      circle 420px at var(--eg-x3) var(--eg-y3),
+      circle 580px at var(--eg-x3) var(--eg-y3),
       rgba(var(--clr-brand-secondary-rgb), 0.06),
       rgba(var(--clr-brand-secondary-rgb), 0.02) 40%,
-      transparent 75%
+      transparent 65%
     );
-    animation: eg-drift-3 42s ease-in-out infinite;
+    animation: eg-drift-3 80s ease-in-out infinite;
   }
 
   .eg-vignette {
