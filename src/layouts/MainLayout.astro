@@ -1,7 +1,5 @@
 ---
 import '@fontsource/inter/400.css';
-import '@fontsource/inter/500.css';
-import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
 import '@fontsource/roboto-mono/400.css';
 
@@ -91,25 +89,20 @@ const {
       <div class="eg-glow eg-glow--secondary"></div>
       <div class="eg-glow eg-glow--primary"></div>
       <div class="eg-beams">
-        <!-- Primary cascade (green) — 6 beams @ 0.35s apart -->
-        <div class="eg-beam eg-beam--v eg-beam--m1" style="--bp:192px; --bc:var(--clr-brand-primary-rgb);    --bdy:0s;    --bd:8s;"></div>
-        <div class="eg-beam eg-beam--h eg-beam--m1" style="--bp:192px; --bc:var(--clr-brand-primary-rgb);    --bdy:0.35s; --bd:8s;"></div>
-        <div class="eg-beam eg-beam--v eg-beam--m1" style="--bp:528px; --bc:var(--clr-brand-primary-rgb);    --bdy:0.7s;  --bd:8s;"></div>
-        <div class="eg-beam eg-beam--h eg-beam--m1" style="--bp:432px; --bc:var(--clr-brand-primary-rgb);    --bdy:1.05s; --bd:8s;"></div>
-        <div class="eg-beam eg-beam--v eg-beam--m1" style="--bp:864px; --bc:var(--clr-brand-primary-rgb);    --bdy:1.4s;  --bd:8s;"></div>
-        <div class="eg-beam eg-beam--h eg-beam--m1" style="--bp:624px; --bc:var(--clr-brand-primary-rgb);    --bdy:1.75s; --bd:8s;"></div>
-        <!-- Tertiary cascade (cyan) -->
-        <div class="eg-beam eg-beam--v eg-beam--m2" style="--bp:720px;  --bc:var(--clr-brand-tertiary-rgb);  --bdy:0.5s;  --bd:7s;"></div>
-        <div class="eg-beam eg-beam--h eg-beam--m2" style="--bp:528px;  --bc:var(--clr-brand-tertiary-rgb);  --bdy:1s;    --bd:7s;"></div>
-        <div class="eg-beam eg-beam--v eg-beam--m2" style="--bp:1152px; --bc:var(--clr-brand-tertiary-rgb);  --bdy:1.5s;  --bd:7s;"></div>
-        <!-- Secondary cascade (flame) -->
-        <div class="eg-beam eg-beam--v eg-beam--m3" style="--bp:336px;  --bc:var(--clr-brand-secondary-rgb); --bdy:2.5s;  --bd:9s;"></div>
-        <div class="eg-beam eg-beam--h eg-beam--m3" style="--bp:768px;  --bc:var(--clr-brand-secondary-rgb); --bdy:3s;    --bd:9s;"></div>
+        <!-- Primary: 2 beams (v+h) @ 0.4s apart -->
+        <div class="eg-beam eg-beam--v eg-beam--m1" style="--bp:384px; --bc:var(--clr-brand-primary-rgb);    --bdy:0s;   --bd:9s;"></div>
+        <div class="eg-beam eg-beam--h eg-beam--m1" style="--bp:288px; --bc:var(--clr-brand-primary-rgb);    --bdy:0.4s; --bd:9s;"></div>
+        <!-- Tertiary: 2 beams -->
+        <div class="eg-beam eg-beam--v eg-beam--m2" style="--bp:720px; --bc:var(--clr-brand-tertiary-rgb);   --bdy:1s;   --bd:8s;"></div>
+        <div class="eg-beam eg-beam--h eg-beam--m2" style="--bp:480px; --bc:var(--clr-brand-tertiary-rgb);   --bdy:1.4s; --bd:8s;"></div>
+        <!-- Secondary: 2 beams -->
+        <div class="eg-beam eg-beam--v eg-beam--m3" style="--bp:336px; --bc:var(--clr-brand-secondary-rgb);  --bdy:2.5s; --bd:10s;"></div>
+        <div class="eg-beam eg-beam--h eg-beam--m3" style="--bp:624px; --bc:var(--clr-brand-secondary-rgb);  --bdy:3s;   --bd:10s;"></div>
       </div>
       <div class="eg-vignette"></div>
     </div>
 
-    <Navigation client:load pathname={Astro.url.pathname} />
+    <Navigation client:idle pathname={Astro.url.pathname} />
     <main>
       <slot />
     </main>

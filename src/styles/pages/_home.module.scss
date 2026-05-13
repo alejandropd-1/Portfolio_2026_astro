@@ -252,6 +252,10 @@
     gap: $size-6;
     padding: $size-20 0;
 
+    &--fade {
+      animation: home-fade-in 0.5s ease both;
+    }
+
     p {
       font-family: $mono-font;
       font-size: $fs-sm;
@@ -578,4 +582,23 @@
       }
     }
   }
+}
+
+// ── Scroll reveal (replaces framer-motion whileInView) ──────────────
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes home-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }

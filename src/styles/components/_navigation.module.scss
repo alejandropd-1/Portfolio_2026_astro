@@ -173,13 +173,23 @@
   display: inline-block;
   line-height: 1;
   user-select: none;
+  position: absolute;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+
+  &__open { opacity: 1; transform: translateY(0); }
+  &__close { opacity: 0; transform: translateY(4px); }
+
+  &--hidden {
+    opacity: 0 !important;
+    transform: translateY(-4px) !important;
+    pointer-events: none;
+  }
 }
 
 // ──────────────────────────────────────────────
 // MOBILE FULL-SCREEN OVERLAY
 // ──────────────────────────────────────────────
 .mobile_overlay {
-  // Glass base — same mixin as cards
   @include glass();
 
   position: fixed;
@@ -187,14 +197,26 @@
   z-index: 190;
   display: flex;
   flex-direction: column;
-  height: 100dvh; // exact viewport height, no overflow
+  height: 100dvh;
   overflow: hidden;
-  overscroll-behavior: none; // blocks pull-to-refresh and bounce on iOS
-  touch-action: none; // prevents touch scroll bleed-through on iOS Safari
+  overscroll-behavior: none;
+  touch-action: none;
   border: none;
-
-  // Additional deep overlay tinting
   background-color: rgba(var(--clr-brand-surface-rgb), 0.1);
+
+  // CSS-driven open/close — replaces framer-motion AnimatePresence
+  clip-path: inset(0 0 100% 0);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    clip-path 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.38s ease;
+
+  &--open {
+    clip-path: inset(0 0 0% 0);
+    opacity: 1;
+    pointer-events: auto;
+  }
 
   // Visible only below md
   @include mq(md) {
@@ -232,11 +254,20 @@
   &__container_link {
     border-bottom: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.06);
     border-top: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.06);
-    &:first-child {
-      border-top: none;
-    }
-    &:last-child {
-      border-bottom: none;
+    opacity: 0;
+    transform: translateX(20px);
+    transition:
+      opacity 0.32s ease,
+      transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    // stagger driven by CSS variable --link-i set inline
+    transition-delay: calc(0.16s + var(--link-i, 0) * 0.06s);
+
+    &:first-child { border-top: none; }
+    &:last-child  { border-bottom: none; }
+
+    .mobile_overlay--open & {
+      opacity: 1;
+      transform: translateX(0);
     }
   }
 

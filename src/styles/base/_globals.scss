@@ -3,17 +3,61 @@
 
 // Animated custom properties for the energy grid.
 // Must be @property so CSS can interpolate them inside mask-image gradients.
-@property --eg-x1 { syntax: "<percentage>"; inherits: false; initial-value: 18%; }
-@property --eg-y1 { syntax: "<percentage>"; inherits: false; initial-value: 28%; }
-@property --eg-x2 { syntax: "<percentage>"; inherits: false; initial-value: 78%; }
-@property --eg-y2 { syntax: "<percentage>"; inherits: false; initial-value: 62%; }
-@property --eg-x3 { syntax: "<percentage>"; inherits: false; initial-value: 55%; }
-@property --eg-y3 { syntax: "<percentage>"; inherits: false; initial-value: 88%; }
-@property --eg-pulse { syntax: "<number>"; inherits: false; initial-value: 1; }
-@property --eg-sweep-r { syntax: "<percentage>"; inherits: false; initial-value: -20%; }
-@property --eg-sweep-l { syntax: "<percentage>"; inherits: false; initial-value: 120%; }
-@property --eg-sweep-d { syntax: "<percentage>"; inherits: false; initial-value: -20%; }
-@property --eg-sweep-u { syntax: "<percentage>"; inherits: false; initial-value: 120%; }
+@property --eg-x1 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 18%;
+}
+@property --eg-y1 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 28%;
+}
+@property --eg-x2 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 78%;
+}
+@property --eg-y2 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 62%;
+}
+@property --eg-x3 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 55%;
+}
+@property --eg-y3 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 88%;
+}
+@property --eg-pulse {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+@property --eg-sweep-r {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: -20%;
+}
+@property --eg-sweep-l {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 120%;
+}
+@property --eg-sweep-d {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: -20%;
+}
+@property --eg-sweep-u {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 120%;
+}
 
 :root {
   // Dark Theme (Default)
@@ -66,7 +110,8 @@ body {
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: rgba(var(--clr-brand-on-surface-rgb), 0.25) $clr-brand-surface-low;
+  scrollbar-color: rgba(var(--clr-brand-on-surface-rgb), 0.25)
+    $clr-brand-surface-low;
 }
 
 ::-webkit-scrollbar {
@@ -189,8 +234,12 @@ article {
 }
 
 @keyframes fade-in-bg {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .bg-grid-reveal {

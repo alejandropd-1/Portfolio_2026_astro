@@ -1,11 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTina, tinaField } from 'tinacms/dist/react';
-import { motion } from 'motion/react';
 import { Folder, ArrowRight, ExternalLink, RotateCcw } from 'lucide-react';
 import { SyntaxCard, Tag, KeyValue } from '@/components/UI';
-
 
 import styles from '@/styles/pages/_home.module.scss';
 import { PROJECT_CATEGORIES } from '@/lib/categories';
@@ -22,6 +20,40 @@ interface ExportData {
 
 type PageHome = { title?: string; mission?: string; status?: string; location?: string; timezone?: string };
 type Props = { projects: any[]; query: string; variables: object; data: any; exportData?: ExportData };
+
+function useReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add(styles['reveal--visible']);
+          io.disconnect();
+        }
+      },
+      { rootMargin: '0px 0px -60px 0px', threshold: 0.08 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return ref;
+}
+
+function RevealDiv({ className, delay = 0, children, ...props }: React.HTMLAttributes<HTMLDivElement> & { delay?: number }) {
+  const ref = useReveal();
+  return (
+    <div
+      ref={ref}
+      className={clsx(styles.reveal, className)}
+      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
 
 export default function ClientHome({ projects, query, variables, data, exportData }: Props) {
   const { data: tinaData } = useTina({ query, variables, data });
@@ -44,7 +76,6 @@ export default function ClientHome({ projects, query, variables, data, exportDat
     setMounted(true);
   }, []);
 
-  // Filtered projects — 'all' shows everything, otherwise match categories[]
   const filteredProjects = activeFilter === 'all'
     ? projects
     : projects.filter(p =>
@@ -53,7 +84,6 @@ export default function ClientHome({ projects, query, variables, data, exportDat
 
   const featuredProject = filteredProjects[0];
 
-  // Group filtered projects by type for list view
   const groupedProjects = Object.entries(
     filteredProjects.reduce((acc: Record<string, any[]>, p) => {
       const key = p.type || 'Other';
@@ -115,13 +145,12 @@ export default function ClientHome({ projects, query, variables, data, exportDat
                 ))}
               </div>
             </div>
-
-
           </SyntaxCard>
-<SyntaxCard label="Layout">
+
+          <SyntaxCard label="Layout">
             <div className={clsx(styles.home__filterGroup, mounted ? styles['home__filterGroup--ready'] : styles['home__filterGroup--hydrating'])}>
               <div className={styles.home__filterTags}>
-<Tag active={layout === 'cards'} onClick={() => {
+                <Tag active={layout === 'cards'} onClick={() => {
                   setLayout('cards');
                   localStorage.setItem('portfolio-layout', 'cards');
                 }}>Cards</Tag>
@@ -133,23 +162,17 @@ export default function ClientHome({ projects, query, variables, data, exportDat
             </div>
           </SyntaxCard>
 
-            <div className={styles.home__statusInfo}>
-              <KeyValue k="status"   v={`"${page.status   || 'available_for_hire'}",`} data-tina-field={tinaField(page, 'status')} />
-              <KeyValue k="location" v={`"${page.location || 'remote'}",`}             data-tina-field={tinaField(page, 'location')} />
-              <KeyValue k="timezone" v={`"${page.timezone || 'EST'}",`}                data-tina-field={tinaField(page, 'timezone')} />
-            </div>
-
+          <div className={styles.home__statusInfo}>
+            <KeyValue k="status"   v={`"${page.status   || 'available_for_hire'}",`} data-tina-field={tinaField(page, 'status')} />
+            <KeyValue k="location" v={`"${page.location || 'remote'}",`}             data-tina-field={tinaField(page, 'location')} />
+            <KeyValue k="timezone" v={`"${page.timezone || 'EST'}",`}                data-tina-field={tinaField(page, 'timezone')} />
+          </div>
         </aside>
 
         {/* Project Grid */}
         <div className={styles.home__projects}>
-          {/* Empty state when filter has no matches */}
           {filteredProjects.length === 0 && (
-            <motion.div
-              className={styles.home__empty}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
+            <div className={clsx(styles.home__empty, styles['home__empty--fade'])}>
               <p>// no output matches this filter</p>
               <button
                 className={styles.home__emptyReset}
@@ -160,18 +183,13 @@ export default function ClientHome({ projects, query, variables, data, exportDat
               >
                 clear filter →
               </button>
-            </motion.div>
+            </div>
           )}
 
           {filteredProjects.length > 0 && (layout === 'cards' ? (
             <>
-              {/* Featured Project */}
               {featuredProject && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                >
+                <RevealDiv>
                   <article className={styles.home__featured}>
                     <a href={`/projects/${featuredProject.slug}`}>
                       <div className={styles.home__featuredGrid}>
@@ -222,93 +240,77 @@ export default function ClientHome({ projects, query, variables, data, exportDat
                       </div>
                     </a>
                   </article>
-                </motion.div>
+                </RevealDiv>
               )}
 
               <div className={styles.home__projectGrid}>
                 {filteredProjects.slice(1).map((project, i) => (
-                  <motion.div
-                    key={project.slug}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                  >
+                  <RevealDiv key={project.slug} delay={i * 80}>
                     <a href={`/projects/${project.slug}`} className={styles.home__projectLink}>
-                    <article className={styles.home__projectCard}>
-                      {(project.imagePortrait ?? project.image) ? (
-                        <div className={styles.home__projectCardImageContainer}>
-                          <picture>
-                            <source media="(max-width: 768px)" srcSet={project.image} />
-                            <img
-                              src={project.imagePortrait ?? project.image}
-                              alt={cleanTitle(project.title)}
-                              className={styles.home__projectCardImage}
-                              referrerPolicy="no-referrer"
-                            />
-                          </picture>
-                        </div>
-                      ) : (
-                        <div className={styles.home__projectCardCode}>
-                           <pre>
-                            <code>{project.codeSnippet}</code>
-                           </pre>
-                        </div>
-                      )}
+                      <article className={styles.home__projectCard}>
+                        {(project.imagePortrait ?? project.image) ? (
+                          <div className={styles.home__projectCardImageContainer}>
+                            <picture>
+                              <source media="(max-width: 768px)" srcSet={project.image} />
+                              <img
+                                src={project.imagePortrait ?? project.image}
+                                alt={cleanTitle(project.title)}
+                                className={styles.home__projectCardImage}
+                                referrerPolicy="no-referrer"
+                              />
+                            </picture>
+                          </div>
+                        ) : (
+                          <div className={styles.home__projectCardCode}>
+                            <pre>
+                              <code>{project.codeSnippet}</code>
+                            </pre>
+                          </div>
+                        )}
 
-                      <div className={styles.home__projectCardBody}>
-                        <div className={styles.home__projectCardMeta}>
-                           <span className={clsx(project.slug === 'aura-meditation' ? 'tertiary-text' : 'primary-text')}>
-                             {project.slug === 'aura-meditation' ? "🗏" : "⟡"}
-                           </span> {project.year}
-                        </div>
+                        <div className={styles.home__projectCardBody}>
+                          <div className={styles.home__projectCardMeta}>
+                            <span className={clsx(project.slug === 'aura-meditation' ? 'tertiary-text' : 'primary-text')}>
+                              {project.slug === 'aura-meditation' ? "🗏" : "⟡"}
+                            </span> {project.year}
+                          </div>
 
-                        <h3 className={styles.home__projectCardTitle}>
-                          {cleanTitle(project.title)}
-                        </h3>
+                          <h3 className={styles.home__projectCardTitle}>
+                            {cleanTitle(project.title)}
+                          </h3>
 
-                        <div className={styles.home__projectCardDetails}>
-                          {project.role && <KeyValue k="Role" v={project.role} />}
-                          {project.impact && <KeyValue k="Impact" v={project.impact} />}
-                          {project.type && <KeyValue k="Type" v={project.type} />}
-                          {project.status && <KeyValue k="Status" v={project.status} />}
-                        </div>
+                          <div className={styles.home__projectCardDetails}>
+                            {project.role && <KeyValue k="Role" v={project.role} />}
+                            {project.impact && <KeyValue k="Impact" v={project.impact} />}
+                            {project.type && <KeyValue k="Type" v={project.type} />}
+                            {project.status && <KeyValue k="Status" v={project.status} />}
+                          </div>
 
-                        <div className={styles.home__projectCardFooter}>
-                           <div className={styles.home__projectCardLink}>
+                          <div className={styles.home__projectCardFooter}>
+                            <div className={styles.home__projectCardLink}>
                               {project.slug === 'aura-meditation' ? 'EXECUTE' : 'VIEW LOG'}
                               <span>
                                 {project.slug === 'aura-meditation' ? <ExternalLink size={12} /> : <RotateCcw size={12} />}
                               </span>
-                           </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </article>
+                      </article>
                     </a>
-                  </motion.div>
+                  </RevealDiv>
                 ))}
               </div>
             </>
           ) : (
-            /* List View — grouped by type, arrow + big title */
             <div className={styles.home__listView}>
               {groupedProjects.map(([type, typeProjects], groupIdx) => (
-                <motion.div
-                  key={type}
-                  className={styles.home__listGroup}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: groupIdx * 0.08 }}
-                >
+                <RevealDiv key={type} className={styles.home__listGroup} delay={groupIdx * 80}>
                   <p className={styles.home__listGroupTitle}>{type}</p>
                   <ul className={styles.home__listItems}>
                     {typeProjects.map((project) => (
                       <li key={project.slug}>
                         <a href={`/projects/${project.slug}`} className={styles.home__listItem}>
-
                           <div className={styles.home__listItemContent}>
-                            {/* Title + year */}
                             <div className={styles.home__listItemHeader}>
                               <span className={styles.home__listItemTitle}>
                                 {cleanTitle(project.title)}
@@ -318,7 +320,6 @@ export default function ClientHome({ projects, query, variables, data, exportDat
                               )}
                             </div>
 
-                            {/* KeyValue metadata */}
                             {(project.role || project.impact || project.status) && (
                               <div className={styles.home__listItemMeta}>
                                 {project.role   && <KeyValue k="Role"   v={project.role} />}
@@ -327,14 +328,12 @@ export default function ClientHome({ projects, query, variables, data, exportDat
                               </div>
                             )}
 
-                            {/* Description */}
                             {project.description && (
                               <p className={styles.home__listItemDesc}>
                                 {project.description}
                               </p>
                             )}
 
-                            {/* Stack tags */}
                             {Array.isArray(project.stack) && project.stack.length > 0 && (
                               <div className={styles.home__listItemTags}>
                                 {project.stack.map((s: string) => (
@@ -347,7 +346,7 @@ export default function ClientHome({ projects, query, variables, data, exportDat
                       </li>
                     ))}
                   </ul>
-                </motion.div>
+                </RevealDiv>
               ))}
             </div>
           ))}
