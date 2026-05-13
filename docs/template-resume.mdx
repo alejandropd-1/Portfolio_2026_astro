@@ -1,0 +1,97 @@
+---
+# ════════════════════════════════════════════════════════════════
+#  PLANTILLA DE RESUME / CV
+#  Completá los campos de abajo y copiá el contenido a:
+#  src/content/pages/resume.mdx  (sobreescribís el que ya existe)
+# ════════════════════════════════════════════════════════════════
+
+_template: resume
+
+# ── ENCABEZADO ───────────────────────────────────────────────────
+title: "Tu título profesional"
+# Ejemplo: "UX/UI Designer & Frontend Developer"
+
+location: "Ciudad, País"
+# Ejemplo: "Buenos Aires, Argentina"
+
+email: "tu@email.com"
+
+status: "Available for new opportunities"
+# Opciones: "Available for new opportunities" | "Open to freelance"
+#           | "Currently employed" | "Not looking"
+
+# ── GRUPOS DE HABILIDADES ────────────────────────────────────────
+# Cada grupo tiene un nombre de categoría y una lista de skills.
+# "value" puede ser un porcentaje ("95%") o "Yes" para habilidades booleanas.
+# Podés agregar o quitar categorías completas según tu perfil.
+skillGroups:
+
+  - category: DESIGN & UX
+    items:
+      - name: Design Systems
+        value: "95%"
+      - name: Interaction Design
+        value: "90%"
+      - name: UX Research
+        value: "85%"
+      - name: Wireframing & Prototyping
+        value: "95%"
+      - name: Figma
+        value: "98%"
+
+  - category: FRONT-END
+    items:
+      - name: HTML / Semantic DOM
+        value: "95%"
+      - name: CSS / SASS / Tokens
+        value: "98%"
+      - name: React
+        value: "80%"
+      - name: TypeScript
+        value: "75%"
+      - name: Astro
+        value: "70%"
+      - name: Git & Version Control
+        value: "85%"
+
+  - category: TOOLS & WORKFLOW
+    items:
+      - name: Adobe Creative Suite
+        value: "Yes"
+      - name: Accessibility (WCAG 2.1)
+        value: "Yes"
+      - name: Agile / Scrum
+        value: "Yes"
+      # Agregá herramientas que uses cotidianamente
+
+# ── EDUCACIÓN ────────────────────────────────────────────────────
+# Un bloque por título, certificación o curso relevante.
+# Ordenalos de más reciente a más antiguo.
+education:
+
+  - degree: "Nombre del título o carrera"
+    institution: "Institución"
+    year: "AAAA - AAAA"
+
+  - degree: "Otro título o certificación"
+    institution: "Institución"
+    year: "AAAA"
+
+  # Ejemplo real:
+  # - degree: "Multimedia Designer"
+  #   institution: "Da Vinci School"
+  #   year: "2007 - 2018"
+---
+
+{/* ════════════════════════════════════════════════════════════════
+    BIO / INTRO
+    Este texto aparece en la parte superior del CV (/resume).
+    2-4 oraciones que cuenten quién sos y qué hacés.
+    ════════════════════════════════════════════════════════════════ */}
+
+Diseñador UX/UI y desarrollador frontend con más de X años de experiencia
+creando productos digitales que combinan criterio visual con ejecución técnica.
+
+Especializado en design systems, interfaces complejas y colaboración cercana
+con equipos de ingeniería. Trabajo con clientes que valoran el proceso tanto
+como el resultado.
