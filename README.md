@@ -78,6 +78,15 @@ Portfolio_2026_astro/
 3. **Glassmorphism:** El efecto base está en `_mixins.scss`. Usar `@include glass-surface` para cualquier nueva superficie.
 4. **Tipografía:** Solo **Inter**. Variar peso (Thin → Bold) y tamaño para crear contraste.
 
+### Fondo animado — Energy Grid
+
+El fondo del sitio usa un sistema de spotlights animados via `@property` CSS (`--eg-x1/y1`, `--eg-x2/y2`, `--eg-x3/y3`). Las custom properties registradas se interpolan en el compositor GPU sin repaints.
+
+- **HTML:** `<div class="bg-energy-grid">` con 3 hijos `<div class="eg-spot eg-spot--{primary|tertiary|secondary}">`.
+- **Mixin:** `@include energy-grid-bg()` en `_globals.scss`. No modificar la estructura HTML sin actualizar el mixin.
+- **Cursor:** Un `<canvas>` creado por script inline en `MainLayout.astro` dibuja celdas de la grilla (48px) alrededor del cursor con `requestAnimationFrame`. Solo activo en `pointer: fine`.
+- **Temas:** `mix-blend-mode: screen` en dark, `multiply` en light (controlado por clase `.light` en `<html>`).
+
 ---
 
 ## 📝 Content Management
@@ -365,4 +374,4 @@ Se ha implementado un panel de monitoreo avanzado dentro de TinaCMS (Screen Plug
 
 ---
 
-*Última actualización: 2026-05-12 (Imágenes responsive por contexto: portrait en desktop, landscape en mobile)*
+*Última actualización: 2026-05-13 (Energy Grid: spotlights GPU con `@property` + cursor canvas interactivo)*

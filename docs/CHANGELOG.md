@@ -51,6 +51,51 @@ El navegador carga solo la imagen que necesita gracias al elemento `<picture>` c
 
 ---
 
+## [2026-05-12] — Sistema de fondo energy-grid con spotlights GPU y cursor interactivo
+
+### Objetivo
+
+Reemplazar el sistema de fondo animado anterior (`grid-reveal-bg` con `transform: translate` en pseudo-elementos de 200vw×200vh) por un sistema más eficiente y visualmente superior basado en `@property` CSS para animación de custom properties en el compositor GPU. Se añadió además un efecto interactivo de relleno de celdas de la grilla al mover el cursor.
+
+### Cambios
+
+#### `src/styles/abstracts/_mixins.scss`
+
+- **Eliminados:** keyframes `drift-1` / `drift-2` y mixin `grid-reveal-bg`.
+- **Agregados:**
+  - `@property` declarations para `--eg-x1/y1`, `--eg-x2/y2`, `--eg-x3/y3`, `--eg-pulse` — registran los valores como `<percentage>` o `<number>`, habilitando interpolación directa en el compositor GPU sin pasar por el main thread.
+  - Keyframes `eg-drift-1` (26s), `eg-drift-2` (34s), `eg-drift-3` (42s) y `eg-pulse` (5.8s) que animan únicamente las coordenadas `--eg-x/y` de cada spotlight.
+  - Mixin `energy-grid-spot` — dibuja un grid coloreado a pantalla completa recortado por un `mask-image: radial-gradient` cuyo centro se desplaza vía las custom properties animadas. Soporta parámetros de color, radio, tamaño de grilla y opacidades de glow.
+  - Mixin `energy-grid-bg` — wrapper del sistema. Configura el fondo y aplica los tres spotlights (primary, tertiary, secondary). Incluye regla de `mix-blend-mode: multiply` para `.light &` (tema claro) y soporte de `prefers-reduced-motion`.
+
+#### `src/styles/base/_globals.scss`
+
+- Clase `.bg-grid-reveal` renombrada a `.bg-energy-grid` usando el nuevo mixin `energy-grid-bg()`.
+
+#### `src/layouts/MainLayout.astro`
+
+- HTML del fondo actualizado: `<div class="bg-energy-grid">` con 3 hijos `<div class="eg-spot eg-spot--{color}">`.
+- **Script inline cursor grid-fill:** crea un `<canvas>` dinámicamente dentro del wrapper. En cada `mousemove` (throttleado con `requestAnimationFrame`) calcula las celdas de 48px cercanas al cursor dentro de un radio de ~77px y las pinta con `fillRect` alineado exactamente a la grilla. La opacidad de cada celda decae linealmente con la distancia al cursor (máx. 18%). Funciona solo en dispositivos `pointer: fine`. Cambia entre `mix-blend-mode: screen` (dark) y `multiply` (light) mediante `MutationObserver` en el `classList` de `<html>`.
+
+### Decisiones técnicas
+
+| Decisión | Razón |
+|----------|-------|
+| `@property` en lugar de `transform` | Las custom properties registradas se interpolan en el compositor sin repaints ni layout; los `transform` en capas de 200vw×200vh forzaban compositing layers costosas |
+| Solo 3 `eg-spot` (sin `eg-sweep`, `eg-nodes`, `eg-glow`, `eg-beams`) | Balance entre efecto visual y rendimiento; los spotlights son la capa de mayor impacto con el menor costo |
+| Canvas para el cursor | El efecto requiere celdas discretas alineadas a la grilla; no es posible replicarlo fielmente con `mask-image` circular en CSS |
+| `mix-blend-mode: multiply` en light mode | `screen` es invisible sobre fondos claros (suma hacia blanco); `multiply` oscurece y hace la grilla visible sobre el fondo claro |
+
+### Archivos modificados
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `src/styles/abstracts/_mixins.scss` | MOD | Nuevo sistema `@property` + keyframes + mixins `energy-grid-spot` y `energy-grid-bg` |
+| `src/styles/base/_globals.scss` | MOD | `.bg-grid-reveal` → `.bg-energy-grid` |
+| `src/layouts/MainLayout.astro` | MOD | Nueva estructura HTML del fondo + script canvas cursor |
+
+---
+
 ## [2026-05-12] — Refactor y mejora de grid-reveal-bg
 
 ### Objetivo
