@@ -383,36 +383,16 @@
 }
 // Sharp attack, double pulse, slow decay — only ~40% of cycle visible.
 @keyframes eg-beam-flash {
-  0% {
-    opacity: 0;
-  }
-  1% {
-    opacity: 0.15;
-  }
-  3% {
-    opacity: 0.55;
-  }
-  5% {
-    opacity: 0.38;
-  }
-  8% {
-    opacity: 0.5;
-  }
-  12% {
-    opacity: 0.35;
-  }
-  18% {
-    opacity: 0.22;
-  }
-  28% {
-    opacity: 0.07;
-  }
-  40% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
+  0%   { opacity: 0; }
+  1%   { opacity: 0.08; }
+  3%   { opacity: 0.28; }
+  5%   { opacity: 0.18; }
+  8%   { opacity: 0.24; }
+  12%  { opacity: 0.16; }
+  18%  { opacity: 0.09; }
+  28%  { opacity: 0.03; }
+  40%  { opacity: 0; }
+  100% { opacity: 0; }
 }
 
 // --- Mixins ----------------------------------------------------------
@@ -619,14 +599,13 @@
     );
   }
 
-  // Two sweeps instead of four — halves full-viewport animated layer count
   .eg-sweep--right {
-    @include energy-grid-sweep("right", $line-alpha: 0.18, $grid-size: $grid-size);
-    animation: eg-sweep-right 14s ease-in-out infinite;
+    @include energy-grid-sweep("right", $line-alpha: 0.09, $grid-size: $grid-size);
+    animation: eg-sweep-right 28s ease-in-out infinite;
   }
   .eg-sweep--down {
-    @include energy-grid-sweep("down", $line-alpha: 0.18, $grid-size: $grid-size);
-    animation: eg-sweep-down 17s ease-in-out infinite;
+    @include energy-grid-sweep("down", $line-alpha: 0.09, $grid-size: $grid-size);
+    animation: eg-sweep-down 34s ease-in-out infinite;
   }
 
   .eg-spot--primary {
@@ -635,11 +614,11 @@
       1,
       520px,
       $grid-size,
-      0.65
+      0.30
     );
     animation:
-      eg-drift-1 48s ease-in-out infinite,
-      eg-pulse 8s ease-in-out infinite;
+      eg-drift-1 75s ease-in-out infinite,
+      eg-pulse 14s ease-in-out infinite;
   }
   .eg-spot--tertiary {
     @include energy-grid-spot(
@@ -647,12 +626,12 @@
       2,
       620px,
       $grid-size,
-      0.55,
+      0.25,
       $glow-far: 10px,
-      $glow-near-alpha: 0.45,
-      $glow-far-alpha: 0.22
+      $glow-near-alpha: 0.20,
+      $glow-far-alpha: 0.08
     );
-    animation: eg-drift-2 64s ease-in-out infinite;
+    animation: eg-drift-2 100s ease-in-out infinite;
   }
   .eg-spot--secondary {
     @include energy-grid-spot(
@@ -660,15 +639,13 @@
       3,
       400px,
       $grid-size,
-      0.5,
+      0.22,
       $glow-far: 10px,
-      $glow-near-alpha: 0.4,
-      $glow-far-alpha: 0.18
+      $glow-near-alpha: 0.18,
+      $glow-far-alpha: 0.07
     );
-    animation: eg-drift-3 80s ease-in-out infinite;
+    animation: eg-drift-3 120s ease-in-out infinite;
   }
-
-  // .eg-nodes removed — filter+mix-blend-mode+animated-mask was the most expensive single layer
 
   .eg-glow {
     position: absolute;
@@ -678,29 +655,29 @@
   .eg-glow--primary {
     background: radial-gradient(
       circle 700px at var(--eg-x1) var(--eg-y1),
-      rgba(var(--clr-brand-primary-rgb), 0.1),
-      rgba(var(--clr-brand-primary-rgb), 0.04) 35%,
+      rgba(var(--clr-brand-primary-rgb), 0.055),
+      rgba(var(--clr-brand-primary-rgb), 0.018) 40%,
       transparent 65%
     );
-    animation: eg-drift-1 48s ease-in-out infinite;
+    animation: eg-drift-1 75s ease-in-out infinite;
   }
   .eg-glow--tertiary {
     background: radial-gradient(
       circle 820px at var(--eg-x2) var(--eg-y2),
-      rgba(var(--clr-brand-tertiary-rgb), 0.07),
-      rgba(var(--clr-brand-tertiary-rgb), 0.03) 35%,
+      rgba(var(--clr-brand-tertiary-rgb), 0.040),
+      rgba(var(--clr-brand-tertiary-rgb), 0.012) 40%,
       transparent 65%
     );
-    animation: eg-drift-2 64s ease-in-out infinite;
+    animation: eg-drift-2 100s ease-in-out infinite;
   }
   .eg-glow--secondary {
     background: radial-gradient(
       circle 580px at var(--eg-x3) var(--eg-y3),
-      rgba(var(--clr-brand-secondary-rgb), 0.06),
-      rgba(var(--clr-brand-secondary-rgb), 0.02) 40%,
+      rgba(var(--clr-brand-secondary-rgb), 0.032),
+      rgba(var(--clr-brand-secondary-rgb), 0.010) 40%,
       transparent 65%
     );
-    animation: eg-drift-3 80s ease-in-out infinite;
+    animation: eg-drift-3 120s ease-in-out infinite;
   }
 
   .eg-vignette {
@@ -709,8 +686,8 @@
     pointer-events: none;
     background: radial-gradient(
       ellipse 90% 70% at 50% 35%,
-      transparent 40%,
-      rgba(0, 0, 0, 0.55)
+      transparent 35%,
+      rgba(0, 0, 0, 0.68)
     );
   }
 
