@@ -212,6 +212,13 @@
     animation: eg-drift-3 42s ease-in-out infinite;
   }
 
+  // Light theme: screen no es visible sobre fondos claros → multiply
+  .light & .eg-spot--primary,
+  .light & .eg-spot--tertiary,
+  .light & .eg-spot--secondary {
+    mix-blend-mode: multiply;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .eg-spot--primary,
     .eg-spot--tertiary,

@@ -110,6 +110,13 @@ const {
 
         var ctx = canvas.getContext('2d');
 
+        function updateBlendMode() {
+          canvas.style.mixBlendMode = document.documentElement.classList.contains('light')
+            ? 'multiply'
+            : 'screen';
+        }
+        updateBlendMode();
+
         function resize() {
           // El bitmap se ajusta al tamaño CSS real del canvas
           var r = canvas.getBoundingClientRect();
@@ -165,10 +172,10 @@ const {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
         });
 
-        new MutationObserver(draw).observe(
-          document.documentElement,
-          { attributes: true, attributeFilter: ['class'] }
-        );
+        new MutationObserver(function () {
+          updateBlendMode();
+          draw();
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
       })();
     </script>
   </body>
