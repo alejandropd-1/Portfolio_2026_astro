@@ -84,11 +84,13 @@ points:
   - "Tecnología o metodología que aplicaste y por qué fue relevante."
 ---
 
-{/* ════════════════════════════════════════════════════════════════
-    CUERPO DEL PROYECTO
-    Podés usar Markdown completo: títulos, listas, negritas, links, etc.
-    Este contenido aparece en la página de detalle /projects/nombre-proyecto
-    ════════════════════════════════════════════════════════════════ */}
+{/*
+  ════════════════════════════════════════════════════════════════
+  CUERPO DEL PROYECTO  —  formato MDX
+  Podés mezclar libremente Markdown y JSX en este espacio.
+  Todo lo de abajo son EJEMPLOS — borrá lo que no uses.
+  ════════════════════════════════════════════════════════════════
+*/}
 
 ## El Problema
 
@@ -97,14 +99,63 @@ Describí en 1-3 párrafos el contexto y el problema que este proyecto resolvía
 
 ## Mi Rol y Proceso
 
-Contá qué hiciste vos específicamente. Si fue trabajo en equipo, aclará
-tu área de responsabilidad. Mencioná las etapas: discovery, wireframes,
-prototipado, desarrollo, QA, handoff, etc.
+Contá qué hiciste vos específicamente. Mencioná las etapas: discovery,
+wireframes, prototipado, desarrollo, QA, handoff.
 
 ## Decisiones Clave
 
 - **Decisión 1:** Por qué elegiste X sobre Y.
 - **Decisión 2:** Un tradeoff que tuviste que resolver.
+
+---
+
+{/* ── IMAGEN SIMPLE ─────────────────────────────────────────────
+    Usá la sintaxis MDX para imágenes con alt text descriptivo.
+    Ruta relativa desde public/, o URL absoluta.             */}
+
+![Descripción de la imagen para accesibilidad](/uploads/projects/nombre-proyecto-detalle.jpg)
+
+{/* ── IMAGEN CON CAPTION ────────────────────────────────────────
+    Wrapeá la imagen en una figura para agregar epígrafe.    */}
+
+<figure>
+  <img src="/uploads/projects/nombre-proyecto-wireframes.jpg" alt="Wireframes de baja fidelidad" />
+  <figcaption>Wireframes de la etapa de discovery — Figma, Enero 2023</figcaption>
+</figure>
+
+{/* ── GALERÍA / GRID DE IMÁGENES ────────────────────────────────
+    Dos imágenes lado a lado con CSS inline. Ajustá el gap.  */}
+
+<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+  <img src="/uploads/projects/nombre-proyecto-antes.jpg" alt="Pantalla antes del rediseño" />
+  <img src="/uploads/projects/nombre-proyecto-despues.jpg" alt="Pantalla después del rediseño" />
+</div>
+
+{/* ── VIDEO (archivo local o CDN propio) ───────────────────────
+    Formato recomendado: mp4. Siempre incluí el atributo muted
+    para que el autoplay funcione en todos los browsers.     */}
+
+<video
+  src="/uploads/projects/nombre-proyecto-demo.mp4"
+  autoPlay
+  muted
+  loop
+  playsInline
+  style={{ width: "100%", borderRadius: "8px" }}
+/>
+
+{/* ── VIDEO DE YOUTUBE / VIMEO ──────────────────────────────────
+    Embed estándar con iframe. Reemplazá el src con tu URL.  */}
+
+<iframe
+  src="https://www.youtube.com/embed/VIDEO_ID"
+  width="100%"
+  style={{ aspectRatio: "16/9", border: "none", borderRadius: "8px" }}
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+  allowFullScreen
+/>
+
+---
 
 ## Resultado
 
