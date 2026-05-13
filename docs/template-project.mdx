@@ -1,0 +1,112 @@
+---
+# ════════════════════════════════════════════════════════════════
+#  PLANTILLA DE PROYECTO
+#  Completá los campos de abajo, borrá los comentarios si querés,
+#  y guardá el archivo como:  src/content/projects/nombre-proyecto.mdx
+#  El nombre del archivo (sin .mdx) se convierte en la URL del proyecto.
+# ════════════════════════════════════════════════════════════════
+
+# ── TÍTULO ──────────────────────────────────────────────────────
+# Poné "//" antes de la palabra que querés resaltada en verde.
+# Ejemplo: "Multimedia // Designer"  →  "Multimedia" normal, "Designer" en verde
+title: "Nombre del // Proyecto"
+
+# ── PERÍODO ─────────────────────────────────────────────────────
+year: "AAAA - AAAA"
+# Rango legible. Ejemplos: "2018 - 2023"  |  "2021 - Present"
+
+date: "AAAA-MM-DD"
+# Fecha de FIN del proyecto. Usada para ordenar cronológicamente.
+# Formato ISO: 2024-04-28
+
+# ── TIPO DE TRABAJO ─────────────────────────────────────────────
+type: "Freelance"
+# Ejemplos: Freelance | Fixed-term contract | Full-time | Personal project
+
+# ── DESCRIPCIÓN CORTA ────────────────────────────────────────────
+description: "Una o dos oraciones que resumen el proyecto. Aparece en la card del home."
+
+# ── TECH STACK / SKILLS ──────────────────────────────────────────
+# Una entrada por línea. Aparecen como tags en la vista de detalle.
+stack:
+  - UI
+  - UX
+  - Figma
+  # Agregá o quitá según el proyecto
+
+# ── ROL ──────────────────────────────────────────────────────────
+role: "Tu rol en este proyecto"
+# Ejemplos: UX/UI Designer | Frontend Developer | Art Director | Tech Lead
+
+# ── CLIENTE / EMPRESA ────────────────────────────────────────────
+client: "Nombre del cliente o empresa"
+# Si fue proyecto propio: "Personal Project"
+
+# ── DURACIÓN ─────────────────────────────────────────────────────
+timeline: "12 Weeks"
+# Ejemplos: "12 Weeks" | "6 Months" | "2 Years" | "2021 - 2023"
+
+# ── ORDEN EN EL PORTFOLIO ────────────────────────────────────────
+order: 99
+# Número entero. 1 = primero en la grilla. Cambialo cuando ya tengás todos los proyectos cargados.
+
+# ── VISIBILIDAD ──────────────────────────────────────────────────
+showInPortfolio: true
+# true  → aparece en la grilla/lista del home
+# false → existe en el CMS pero no se muestra públicamente
+
+showInResume: false
+# true  → aparece en la sección de experiencia del CV (/resume)
+# false → no aparece en el CV
+
+# ── CATEGORÍAS DE FILTRO ─────────────────────────────────────────
+# Determinan qué botón de filtro del sidebar muestra este proyecto.
+# Valores válidos: ui-ux | web-dev | branding | motion | illustration | print
+categories:
+  - ui-ux
+  # - web-dev
+
+# ── IMÁGENES ─────────────────────────────────────────────────────
+image: "/uploads/projects/nombre-proyecto-cover.jpg"
+# Imagen HORIZONTAL (landscape). Ratio ideal: 16:9 o 3:2.
+# Usada en la vista de detalle del proyecto y como featured card.
+
+imagePortrait: "/uploads/projects/nombre-proyecto-card.jpg"
+# Imagen VERTICAL (portrait). Ratio ideal: 3:4.
+# Usada en las cards de la grilla del home.
+
+# ── PUNTOS DE EXPERIENCIA (CV) ────────────────────────────────────
+# Aparecen como bullet points en /resume cuando showInResume: true.
+# Escribilos como LOGROS concretos, no como responsabilidades genéricas.
+points:
+  - "Breve logro concreto con resultado medible si es posible."
+  - "Otra contribución clave que muestre tu impacto en el proyecto."
+  - "Tecnología o metodología que aplicaste y por qué fue relevante."
+---
+
+{/* ════════════════════════════════════════════════════════════════
+    CUERPO DEL PROYECTO
+    Podés usar Markdown completo: títulos, listas, negritas, links, etc.
+    Este contenido aparece en la página de detalle /projects/nombre-proyecto
+    ════════════════════════════════════════════════════════════════ */}
+
+## El Problema
+
+Describí en 1-3 párrafos el contexto y el problema que este proyecto resolvía.
+¿Qué necesitaba el cliente? ¿Cuál era el pain point del usuario final?
+
+## Mi Rol y Proceso
+
+Contá qué hiciste vos específicamente. Si fue trabajo en equipo, aclará
+tu área de responsabilidad. Mencioná las etapas: discovery, wireframes,
+prototipado, desarrollo, QA, handoff, etc.
+
+## Decisiones Clave
+
+- **Decisión 1:** Por qué elegiste X sobre Y.
+- **Decisión 2:** Un tradeoff que tuviste que resolver.
+
+## Resultado
+
+¿Qué se logró? Métricas si tenés (tráfico, conversión, tiempo reducido).
+Si no hay métricas, describí el impacto cualitativo o lo que aprendiste.
