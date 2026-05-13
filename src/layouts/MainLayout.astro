@@ -77,9 +77,13 @@ const {
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KNVXGZVD"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    
-    <div class="bg-grid-reveal"></div>
-    
+
+    <div class="bg-energy-grid" aria-hidden="true">
+      <div class="eg-spot eg-spot--tertiary"></div>
+      <div class="eg-spot eg-spot--secondary"></div>
+      <div class="eg-spot eg-spot--primary"></div>
+    </div>
+
     <Navigation client:load pathname={Astro.url.pathname} />
     <main>
       <slot />
