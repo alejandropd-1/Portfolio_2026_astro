@@ -32,3 +32,5 @@ public/admin
 .claude/worktrees/
 
 package-lock.json
+
+Portfolio_2026_astro.code-workspace
