@@ -5,21 +5,43 @@
 // ──────────────────────────────────────────────
 .nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: $size-4;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - #{$size-12});
   height: $nav-height;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 $size-6;
-  background: rgba(var(--clr-brand-surface-rgb), 0.8);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(white, 0.05);
+  border-radius: 12px;
   z-index: 200;
 
+  // Custom transparent glassmorphism optimized to see elements behind
+  background: linear-gradient(
+    135deg,
+    rgba(var(--clr-brand-surface-rgb), 0.25) 0%,
+    rgba(var(--clr-brand-surface-rgb), 0.1) 100%
+  );
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  border: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.12);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(var(--clr-brand-on-surface-rgb), 0.15);
+
   @include mq(md) {
+    top: $size-6;
+    width: calc(100% - #{$size-24});
+    max-width: calc(#{$container-max} - #{$size-24});
     padding: 0 $size-12;
+    border-radius: 16px;
+
+    background: linear-gradient(
+      135deg,
+      rgba(var(--clr-brand-surface-rgb), 0.3) 0%,
+      rgba(var(--clr-brand-surface-rgb), 0.15) 100%
+    );
   }
 
   // ── Logo ──
@@ -207,7 +229,7 @@
     flex-direction: column;
     gap: $size-1;
     padding: $size-3 $size-6;
-    padding-top: calc(#{$nav-height} + #{$size-2}); // clear the fixed nav
+    padding-top: calc(#{$nav-height} + #{$size-8}); // clear the floating nav
     border-bottom: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.07);
     flex-shrink: 0;
   }

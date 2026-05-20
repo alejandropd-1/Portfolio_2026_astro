@@ -374,4 +374,4 @@ Se ha implementado un panel de monitoreo avanzado dentro de TinaCMS (Screen Plug
 
 ---
 
-*Última actualización: 2026-05-13 (Energy Grid: spotlights GPU con `@property` + cursor canvas interactivo)*
+*Última actualización: 2026-05-20 (Cursor de terminal parpadeante interactivo y suave en buscador de Resume con caret-shape: block)*

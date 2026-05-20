@@ -34,3 +34,5 @@ public/admin
 package-lock.json
 
 Portfolio_2026_astro.code-workspace
+.codegraph/.gitignore
+.codegraph/config.json

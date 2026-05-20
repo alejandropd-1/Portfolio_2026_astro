@@ -6,6 +6,34 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-20] — Cursor de terminal parpadeante interactivo en el buscador de Resume
+
+### Objetivo
+Implementar un cursor parpadeante estilo terminal (un caret block verde neón) al inicio del buscador de la página Resume cuando está vacío, logrando que destaque de manera interactiva su capacidad de búsqueda, con una animación de desvanecimiento ("fade") sumamente fluida y soporte progresivo para el cursor nativo de escritura en navegadores modernos.
+
+### Cambios realizados
+
+#### `src/components/ClientResume.tsx`
+- **Estructura HTML**: Envolvimos el `<input>` dentro de un contenedor relativo `div` con la clase `styles.resume__inputWrapper` y agregamos un `<span className={styles.resume__caret} />` condicional cuando `searchQuery === ''`.
+- **Limpieza de TypeScript**: Añadimos tipado explícito a la constante `experiences` (`string`, `string[]`) para resolver 6 errores implícitos de tipo `any` preexistentes en TypeScript y lograr una compilación perfectamente limpia.
+
+#### `src/styles/pages/_resume.module.scss`
+- **`&__inputWrapper`**: Define el contexto de posicionamiento relativo para el cursor personalizado.
+- **`&__caret`**: Cursor bloque retro de terminal de `8px` de ancho, color verde neón (`$clr-brand-primary`), opacidad inicial del `75%` y un resplandor sutil. Configurado con animación suave de respiración (`ease-in-out` de `1.4s`) y transición de opacidad de `0.2s` para entrada/salida.
+- **Transición suave en focus**: La regla `&__input:focus ~ &__caret` remueve la animación y reduce la opacidad a `0` para que el cursor personalizado haga un fade-out suave al hacer foco, en lugar de ocultarse abruptamente.
+- **`&__input`**: Agregado `caret-shape: block` para que el cursor nativo de escritura de los navegadores basados en Chromium (Chrome, Edge, Opera, etc.) también se renderice como un bloque sólido retro, haciendo juego perfecto.
+- **`&::placeholder`**: Agregado `text-indent: 14px` para desplazar a la derecha únicamente el texto del placeholder cuando el buscador no tiene foco, garantizando que el cursor de `8px` parpadee libremente en ese espacio sin solapar las letras.
+- **`@keyframes resume-caret-blink`**: Define el ciclo de respiración suave de la opacidad del cursor personalizado.
+
+### Archivos modificados
+
+| Archivo | Tipo | Descripción |
+|---------|------|-------------|
+| `src/components/ClientResume.tsx` | MOD | Input wrapper, span del cursor dinámico y tipado explícito de `experiences` |
+| `src/styles/pages/_resume.module.scss` | MOD | Estilos del wrapper, cursor, transición en focus, `caret-shape: block`, `text-indent` en placeholder y keyframes |
+
+---
+
 ## [2026-05-12] — Imágenes responsive por contexto (portrait en desktop, landscape en mobile)
 
 ### Objetivo

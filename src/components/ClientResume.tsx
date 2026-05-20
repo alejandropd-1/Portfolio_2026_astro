@@ -74,13 +74,13 @@ export default function ClientResume({ jobs, query, variables, data, exportData 
 
   const experiences = useMemo(() => {
     return jobs.map(job => ({
-      role: job.role || job.title,
-      company: job.client,
-      period: job.year,
-      description: job.description,
-      stack: job.stack || [],
-      type: job.type,
-      points: job.points
+      role: (job.role || job.title || '') as string,
+      company: (job.client || '') as string,
+      period: (job.year || '') as string,
+      description: (job.description || '') as string,
+      stack: (job.stack || []) as string[],
+      type: (job.type || '') as string,
+      points: (job.points || []) as string[]
     }));
   }, [jobs]);
 
@@ -166,13 +166,18 @@ export default function ClientResume({ jobs, query, variables, data, exportData 
             <div className={styles.resume__terminalBody}>
               <div className={styles.resume__searchBox}>
                 <span className={styles.resume__prompt}>{">"}</span>
-                <input
-                  type="text"
-                  placeholder="Search for keywords, skills, or roles..."
-                  className={styles.resume__input}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+                <div className={styles.resume__inputWrapper}>
+                  <input
+                    type="text"
+                    placeholder="Search for keywords, skills, or roles..."
+                    className={styles.resume__input}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  {searchQuery === '' && (
+                    <span className={styles.resume__caret} />
+                  )}
+                </div>
               </div>
               <div className={styles.resume__filters}>
                 <div className={styles.resume__tags}>
