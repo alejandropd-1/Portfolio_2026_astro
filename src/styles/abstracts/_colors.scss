@@ -13,3 +13,15 @@ $clr-brand-danger: var(--clr-brand-danger);
 $ghost-border-opacity: 0.1;
 
 $noise-opacity: 0.0125;
+
+$colors: (
+  brand-surface: $clr-brand-surface,
+  brand-surface-low: $clr-brand-surface-low,
+  brand-on-surface: $clr-brand-on-surface,
+  brand-on-surface-variant: $clr-brand-on-surface-variant,
+  brand-primary: $clr-brand-primary,
+  brand-on-primary: $clr-brand-on-primary,
+  brand-secondary: $clr-brand-secondary,
+  brand-tertiary: $clr-brand-tertiary,
+  brand-danger: $clr-brand-danger,
+) !default;

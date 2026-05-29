@@ -52,7 +52,7 @@ body {
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: rgba(var(--clr-brand-on-surface-rgb), 0.25) $clr-brand-surface-low;
+  scrollbar-color: rgba(var(--clr-brand-on-surface-rgb), 0.25) clr(brand-surface-low);
 }
 
 ::-webkit-scrollbar {
@@ -61,28 +61,28 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: $clr-brand-surface-low;
+  background: clr(brand-surface-low);
 }
 
 ::-webkit-scrollbar-thumb {
   background: rgba(var(--clr-brand-on-surface-rgb), 0.25);
-  border-radius: $radius-soft;
+  border-radius: radius(soft);
 
   &:hover {
-    background: $clr-brand-primary;
+    background: clr(brand-primary);
   }
 }
 
 ::-webkit-scrollbar-corner {
-  background: $clr-brand-surface-low;
+  background: clr(brand-surface-low);
 }
 
 body {
   position: relative;
-  background-color: $body-bg;
-  color: $body-text;
-  font-family: $body-font;
-  font-size: $fs-base;
+  background-color: semantic-color(body-bg);
+  color: semantic-color(body-text);
+  font-family: semantic-font(body);
+  font-size: fs(base);
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
@@ -94,9 +94,9 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: $heading-font;
-  font-weight: $heading-font-weight;
-  letter-spacing: $heading-letter-spacing;
+  font-family: semantic-font(heading);
+  font-weight: fw(bold);
+  letter-spacing: ls(tighter);
   line-height: 1.1;
 }
 
@@ -108,68 +108,68 @@ main {
 
 .page-container {
   width: 100%;
-  max-width: $container-max;
+  max-width: container(max);
   margin: 0 auto;
-  padding: $size-16 $size-6;
+  padding: size(16) size(6);
 
   @include mq(md) {
-    padding: $size-24 $size-12;
+    padding: size(24) size(12);
   }
 }
 
 .bold {
-  font-weight: $fw-bold;
+  font-weight: fw(bold);
 }
 .italic {
   font-style: italic;
 }
 .primary-text,
 .text-primary {
-  color: $clr-brand-primary;
+  color: clr(brand-primary);
 }
 .secondary-text,
 .text-secondary {
-  color: $clr-brand-secondary;
+  color: clr(brand-secondary);
 }
 .tertiary-text,
 .text-tertiary {
-  color: $clr-brand-tertiary;
+  color: clr(brand-tertiary);
 }
 .mono {
-  font-family: $mono-font;
+  font-family: semantic-font(mono);
 }
 
 // Basic MDX Content Styling (Prose)
 article {
   h2 {
-    font-size: $fs-4xl;
-    margin-top: $size-10;
-    margin-bottom: $size-8;
-    color: $clr-brand-on-surface;
+    font-size: fs("4xl");
+    margin-top: size(10);
+    margin-bottom: size(8);
+    color: clr(brand-on-surface);
   }
 
   h3 {
-    font-size: $fs-2xl;
-    margin-top: $size-6;
-    margin-bottom: $size-6;
-    color: $clr-brand-on-surface;
+    font-size: fs("2xl");
+    margin-top: size(6);
+    margin-bottom: size(6);
+    color: clr(brand-on-surface);
   }
 
   p {
-    margin-bottom: $size-8;
-    line-height: $lh-relaxed;
-    color: $clr-brand-on-surface-variant;
-    font-size: $fs-lg;
+    margin-bottom: size(8);
+    line-height: lh(relaxed);
+    color: clr(brand-on-surface-variant);
+    font-size: fs(lg);
   }
 
   ul {
-    margin-bottom: $size-8;
-    padding-left: $size-6;
+    margin-bottom: size(8);
+    padding-left: size(6);
     list-style: disc;
 
     li {
-      margin-bottom: $size-4;
-      color: $clr-brand-on-surface-variant;
+      margin-bottom: size(4);
+      color: clr(brand-on-surface-variant);
     }
   }
 }

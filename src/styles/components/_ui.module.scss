@@ -2,22 +2,22 @@
 
 .syntaxCard {
   @include syntax-card;
-  padding: $size-8;
+  padding: size(8);
   position: relative;
 
   &__label {
     position: absolute;
-    top: -$size-3;
-    left: $size-8;
-    background: $body-bg;
-    padding: 0 $size-2;
-    font-family: $mono-font;
-    font-size: $fs-xs;
-    color: $clr-brand-on-surface-variant;
-    background-color: $clr-brand-primary;
+    top: -size(3);
+    left: size(8);
+    background: semantic-color(body-bg);
+    padding: 0 size(2);
+    font-family: semantic-font(mono);
+    font-size: fs(xs);
+    color: clr(brand-on-surface-variant);
+    background-color: clr(brand-primary);
 
     span {
-      color: $clr-brand-secondary;
+      color: clr(brand-secondary);
     }
   }
 }
@@ -25,22 +25,22 @@
 .tag {
   display: inline-flex;
   align-items: center;
-  padding: $size-1 $size-3;
+  padding: size(1) size(3);
   background: rgba(var(--clr-brand-surface-low-rgb), 0.8);
   border: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.1);
-  color: $clr-brand-on-surface-variant;
-  font-family: $mono-font;
+  color: clr(brand-on-surface-variant);
+  font-family: semantic-font(mono);
   font-size: 10px;
-  font-weight: $fw-bold;
+  font-weight: fw(bold);
   text-transform: uppercase;
-  letter-spacing: $ls-wide;
+  letter-spacing: ls(wide);
   border-radius: 4px;
   transition: all 0.2s ease;
 
   &--active {
     background: rgba(var(--clr-brand-primary-rgb), 0.1);
     border-color: rgba(var(--clr-brand-primary-rgb), 0.3);
-    color: $clr-brand-primary;
+    color: clr(brand-primary);
   }
 
   &--interactive {
@@ -50,32 +50,32 @@
   }
 
   &:hover {
-    color: $clr-brand-primary;
+    color: clr(brand-primary);
     background: rgba(var(--clr-brand-primary-rgb), 0.06);
   }
 
   &:focus-visible {
-    outline: 2px solid $clr-brand-primary;
+    outline: 2px solid clr(brand-primary);
     outline-offset: -2px;
   }
 }
 
 .keyValue {
   display: flex;
-  gap: $size-2;
-  font-family: $mono-font;
+  gap: size(2);
+  font-family: semantic-font(mono);
   font-size: 10px;
   line-height: 1.6;
   flex-wrap: wrap;
   word-break: break-word;
 
   &__key {
-    color: $clr-brand-secondary;
-    font-weight: $fw-bold;
+    color: clr(brand-secondary);
+    font-weight: fw(bold);
   }
 
   &__val {
-    color: $clr-brand-on-surface;
-    font-weight: $fw-bold;
+    color: clr(brand-on-surface);
+    font-weight: fw(bold);
   }
 }

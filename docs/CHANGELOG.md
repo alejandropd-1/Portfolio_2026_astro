@@ -6,6 +6,87 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-29] — Consolidación SASS con maps/functions y arquitectura compartida
+
+### Objetivo
+
+Llevar el sistema SASS del portfolio al mismo nivel de arquitectura usado en OdontoPia, respetando las diferencias del proyecto: CSS Modules, abstracts inyectados por `astro.config.mjs` mediante `additionalData`, estética dark editorial/terminal y reglas de diseño propias como la "No-line rule".
+
+### Cambios realizados
+
+#### `src/styles/abstracts/`
+- Agregado `src/styles/abstracts/_functions.scss` como API de lectura para mapas:
+  - `clr(*)`
+  - `semantic-color(*)`
+  - `size(*)`
+  - `container(*)`
+  - `radius(*)`
+  - `ff(*)`
+  - `fs(*)`
+  - `fw(*)`
+  - `ls(*)`
+  - `lh(*)`
+  - `layout(*)`
+  - `semantic-font(*)`
+- Agregados mapas SASS en:
+  - `_colors.scss` → `$colors`
+  - `_sizes.scss` → `$sizes`, `$containers`, `$radii`
+  - `_typography.scss` → `$font-families`, `$font-sizes`, `$font-weights`, `$letter-spacings`, `$line-heights`
+  - `_tokens.scss` → `$semantic-colors`, `$semantic-fonts`, `$layout-tokens`
+- Actualizado `_breakpoints.scss` para usar mapa `$breakpoints` y un mixin `mq()` validado, con valores en `em`:
+  - `sm: 40em`
+  - `md: 48em`
+  - `lg: 64em`
+  - `xl: 80em`
+- Actualizado `_index.scss` para exportar `functions`.
+
+#### `src/styles/layout/` y `src/styles/utilities/`
+- Agregada carpeta `layout/` con helpers globales:
+  - `.cluster`
+  - `.even-columns`
+  - `.grid-auto-fit`
+  - `.pile`
+- Agregada carpeta `utilities/` con utilidades globales:
+  - `.container`
+  - `.flex-group`
+  - `.flow`
+  - `.round-soft`
+  - `.round-full`
+  - `.text-center`, `.text-start`, `.text-end`
+  - `.uppercase`
+- Actualizado `src/styles/main.scss` para importar `layout` y `utilities`.
+
+#### Refactor de consumidores SCSS
+- Refactorizados estilos en `base/`, `components/` y `pages/` para consumir funciones en lugar de variables directas cuando existe token exacto.
+- Se preservó la convención existente de CSS Modules (`*.module.scss`).
+- No se agregaron imports manuales redundantes de abstracts en los módulos porque el proyecto ya usa `vite.css.preprocessorOptions.scss.additionalData`.
+
+#### Documentación
+- Agregada `PROMPT_MIGRACION_TAILWIND_A_SASS.md` como plantilla reusable para futuras migraciones de Tailwind a SASS tokenizado.
+- La plantilla fue ajustada para contemplar proyectos con CSS Modules y abstracts inyectados por `additionalData`.
+
+### Decisión técnica
+
+El portfolio seguirá usando CSS Modules como política de encapsulamiento por componente/página. A diferencia de OdontoPia, donde el BEM global es aceptable por tratarse de una landing/app médica con secciones globales, este proyecto se beneficia de módulos scoped porque tiene páginas y componentes reutilizables con composición más editorial.
+
+### Verificación
+
+- Auditoría de variables directas en estilos consumidores: sin resultados.
+- Auditoría de reemplazos corruptos: sin resultados.
+- `pnpm exec astro build` compiló los entrypoints de Vite/SASS, pero falló durante prerender por un problema de TinaCMS no relacionado con estilos:
+  - `Cannot query field "pages" on type "Query"`.
+- `pnpm exec astro check` continúa fallando por errores preexistentes de Tina/TypeScript:
+  - `match` no reconocido en templates de `tina/config.ts`.
+  - Tipos `unknown`/`possibly undefined` en `tina/dashboard/PortfolioDashboard.tsx`.
+
+### Próximo trabajo recomendado
+
+- Resolver la incompatibilidad actual de TinaCMS schema/query antes de usar `build` como verificación completa.
+- Mantener `additionalData` como fuente global de abstracts y evitar `@use` repetido en cada CSS Module.
+- Continuar consumiendo la API de funciones en nuevos estilos.
+
+---
+
 ## [2026-05-20] — Cursor de terminal parpadeante interactivo en el buscador de Resume
 
 ### Objetivo

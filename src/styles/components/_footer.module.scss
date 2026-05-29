@@ -1,51 +1,51 @@
 @use "../abstracts" as *;
 
 .footer {
-  padding: $size-24 0;
+  padding: size(24) 0;
   background: var(--clr-brand-surface-low);
-  // margin-top: $size-32;
+  // margin-top: size(32);
 
   &__content {
-    max-width: $container-max;
+    max-width: container(max);
     margin: 0 auto;
-    padding: 0 $size-6;
+    padding: 0 size(6);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: $size-12;
+    gap: size(12);
 
     @include mq(md) {
       flex-direction: row;
       justify-content: space-between;
-      padding: 0 $size-12;
+      padding: 0 size(12);
     }
   }
 
   &__logo {
-    font-size: $fs-lg;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-tight;
+    font-size: fs(lg);
+    font-weight: fw(bold);
+    letter-spacing: ls(tight);
   }
 
   &__links {
     display: flex;
     flex-wrap: wrap;
-    gap: $size-6;
-    font-family: $mono-font;
+    gap: size(6);
+    font-family: semantic-font(mono);
     font-size: 10px;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-widest;
-    color: $clr-brand-on-surface-variant;
+    font-weight: fw(bold);
+    letter-spacing: ls(wide)st;
+    color: clr(brand-on-surface-variant);
   }
 
   &__link {
     display: inline-flex;
     align-items: center;
-    gap: $size-2;
+    gap: size(2);
     transition: color 0.2s ease;
 
     &:hover {
-      color: $clr-brand-primary;
+      color: clr(brand-primary);
     }
   }
 
@@ -57,11 +57,11 @@
   }
 
   &__copyright {
-    font-family: $mono-font;
+    font-family: semantic-font(mono);
     font-size: 10px;
-    color: $clr-brand-on-surface-variant;
+    color: clr(brand-on-surface-variant);
     opacity: 0.85;
     text-transform: uppercase;
-    letter-spacing: $ls-widest;
+    letter-spacing: ls(wide)st;
   }
 }

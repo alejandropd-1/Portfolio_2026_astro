@@ -18,3 +18,21 @@ $secondary-accent: $clr-brand-secondary;
 $tertiary-accent: $clr-brand-tertiary;
 
 $nav-height: 5rem;
+
+$semantic-colors: (
+  body-bg: $body-bg,
+  body-text: $body-text,
+  primary-accent: $primary-accent,
+  secondary-accent: $secondary-accent,
+  tertiary-accent: $tertiary-accent,
+) !default;
+
+$semantic-fonts: (
+  body: $body-font,
+  heading: $heading-font,
+  mono: $mono-font,
+) !default;
+
+$layout-tokens: (
+  nav-height: $nav-height,
+) !default;
