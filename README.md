@@ -78,6 +78,18 @@ Portfolio_2026_astro/
 3. **Glassmorphism:** El efecto base está en `_mixins.scss`. Usar `@include glass-surface` para cualquier nueva superficie.
 4. **Tipografía:** Solo **Inter**. Variar peso (Thin → Bold) y tamaño para crear contraste.
 
+### SASS token logic — referencia 2025
+
+La fuente de verdad para futuras conversiones es `C:\www\aledesign-portfolio-2025\src\styles`.
+
+- `_colors.scss` usa primitivas privadas `$-clr-*`.
+- Los themes viven en mapas `$light` y `$dark`, agrupados por familias (`neutral`, `primary`, `secondary`, `accent`) y shades numericos.
+- `_tokens.scss` centraliza `$active-theme`, tokens semanticos y decisiones editables del sistema.
+- `_globals.scss` genera CSS custom properties desde `$active-theme` y desde `$font-sizes`.
+- `_typography.scss` usa escala responsive por pantalla (`small`, `large`) con numeracion amplia (`100`, `200`, `300`, `900`, `1000`, `1200`) para permitir intermedios futuros.
+- `clr("primary", "500")` y `fs("400")` son el formato recomendado para estilos nuevos.
+- Aliases como `clr(brand-primary)` o `fs(base)` existen por compatibilidad con la primera migracion, no como convencion futura.
+
 ### Fondo animado — Energy Grid
 
 El fondo del sitio usa un sistema de spotlights animados via `@property` CSS (`--eg-x1/y1`, `--eg-x2/y2`, `--eg-x3/y3`). Las custom properties registradas se interpolan en el compositor GPU sin repaints.

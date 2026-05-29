@@ -2,6 +2,36 @@
 @use "../abstracts" as *;
 
 :root {
+  @each $color, $shade-map in $active-theme {
+    @each $shade, $value in $shade-map {
+      --#{$color}-#{$shade}: #{$value};
+    }
+  }
+
+  @if ($enable-media-query-dark-mode) {
+    @media (prefers-color-scheme: dark) {
+      @each $color, $shade-map in $dark {
+        @each $shade, $value in $shade-map {
+          --#{$color}-#{$shade}: #{$value};
+        }
+      }
+    }
+  }
+
+  @each $screen-size, $size-map in $font-sizes {
+    @if $screen-size == "small" {
+      @each $size-name, $size-value in $size-map {
+        --fs-#{$size-name}: #{$size-value};
+      }
+    } @else {
+      @include mq($screen-size) {
+        @each $size-name, $size-value in $size-map {
+          --fs-#{$size-name}: #{$size-value};
+        }
+      }
+    }
+  }
+
   // Dark Theme (Default)
   --clr-brand-surface-rgb: 13, 19, 28; // #0D131C (Surface base)
   --clr-brand-surface-low-rgb: 21, 27, 36; // #151B24 (Surface Container Low)

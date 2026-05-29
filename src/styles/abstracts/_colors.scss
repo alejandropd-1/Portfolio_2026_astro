@@ -1,5 +1,147 @@
 // src/styles/abstracts/_colors.scss
 
+// Global color primitives following the aledesign-portfolio-2025 convention.
+$-clr-white: hsl(225 100% 99%);
+$-clr-black: hsl(0 0% 0%);
+
+$-clr-navy-100: hsl(210 48% 95%);
+$-clr-navy-200: hsl(212 42% 87%);
+$-clr-navy-300: hsl(213 30% 73%);
+$-clr-navy-400: hsl(214 20% 58%);
+$-clr-navy-500: hsl(214 16% 43%);
+$-clr-navy-600: hsl(213 28% 29%);
+$-clr-navy-700: hsl(212 45% 19%);
+$-clr-navy-800: hsl(210 80% 8%);
+$-clr-navy-900: hsl(211 100% 4%);
+
+$-clr-green-100: hsl(101 100% 94%);
+$-clr-green-200: hsl(101 96% 84%);
+$-clr-green-300: hsl(101 91% 76%);
+$-clr-green-400: hsl(101 85% 70%);
+$-clr-green-500: hsl(101 100% 79%);
+$-clr-green-600: hsl(103 73% 45%);
+$-clr-green-700: hsl(107 73% 25%);
+$-clr-green-800: hsl(108 82% 14%);
+$-clr-green-900: hsl(108 100% 8%);
+
+$-clr-orange-100: hsl(32 100% 97%);
+$-clr-orange-200: hsl(32 100% 84%);
+$-clr-orange-300: hsl(32 100% 70%);
+$-clr-orange-400: hsl(32 98% 55%);
+$-clr-orange-500: hsl(32 100% 36%);
+$-clr-orange-600: hsl(32 100% 27%);
+$-clr-orange-700: hsl(33 100% 20%);
+$-clr-orange-800: hsl(33 100% 12%);
+$-clr-orange-900: hsl(33 100% 8%);
+
+$-clr-cyan-100: hsl(193 100% 94%);
+$-clr-cyan-200: hsl(194 100% 82%);
+$-clr-cyan-300: hsl(194 100% 68%);
+$-clr-cyan-400: hsl(194 100% 53%);
+$-clr-cyan-500: hsl(194 100% 28%);
+$-clr-cyan-600: hsl(194 100% 21%);
+$-clr-cyan-700: hsl(192 100% 16%);
+$-clr-cyan-800: hsl(193 100% 10%);
+$-clr-cyan-900: hsl(193 100% 6%);
+
+$light: (
+  "neutral": (
+    "000": $-clr-white,
+    "100": $-clr-navy-100,
+    "200": $-clr-navy-200,
+    "300": $-clr-navy-300,
+    "400": $-clr-navy-400,
+    "500": $-clr-navy-500,
+    "600": $-clr-navy-600,
+    "700": $-clr-navy-700,
+    "800": $-clr-navy-800,
+    "900": $-clr-navy-900,
+    "1000": $-clr-black,
+  ),
+  "primary": (
+    "100": $-clr-green-100,
+    "200": $-clr-green-200,
+    "300": $-clr-green-300,
+    "400": $-clr-green-400,
+    "500": $-clr-green-500,
+    "600": $-clr-green-600,
+    "700": $-clr-green-700,
+    "800": $-clr-green-800,
+    "900": $-clr-green-900,
+  ),
+  "secondary": (
+    "100": $-clr-orange-100,
+    "200": $-clr-orange-200,
+    "300": $-clr-orange-300,
+    "400": $-clr-orange-400,
+    "500": $-clr-orange-500,
+    "600": $-clr-orange-600,
+    "700": $-clr-orange-700,
+    "800": $-clr-orange-800,
+    "900": $-clr-orange-900,
+  ),
+  "accent": (
+    "100": $-clr-cyan-100,
+    "200": $-clr-cyan-200,
+    "300": $-clr-cyan-300,
+    "400": $-clr-cyan-400,
+    "500": $-clr-cyan-500,
+    "600": $-clr-cyan-600,
+    "700": $-clr-cyan-700,
+    "800": $-clr-cyan-800,
+    "900": $-clr-cyan-900,
+  ),
+);
+
+$dark: (
+  "neutral": (
+    "1000": $-clr-white,
+    "900": $-clr-navy-100,
+    "800": $-clr-navy-200,
+    "700": $-clr-navy-300,
+    "600": $-clr-navy-400,
+    "500": $-clr-navy-500,
+    "400": $-clr-navy-600,
+    "300": $-clr-navy-700,
+    "200": $-clr-navy-800,
+    "100": $-clr-navy-900,
+    "000": $-clr-black,
+  ),
+  "primary": (
+    "900": $-clr-green-900,
+    "800": $-clr-green-800,
+    "700": $-clr-green-700,
+    "600": $-clr-green-600,
+    "500": $-clr-green-500,
+    "400": $-clr-green-400,
+    "300": $-clr-green-300,
+    "200": $-clr-green-200,
+    "100": $-clr-green-100,
+  ),
+  "secondary": (
+    "900": $-clr-orange-900,
+    "800": $-clr-orange-800,
+    "700": $-clr-orange-700,
+    "600": $-clr-orange-600,
+    "500": $-clr-orange-500,
+    "400": $-clr-orange-400,
+    "300": $-clr-orange-300,
+    "200": $-clr-orange-200,
+    "100": $-clr-orange-100,
+  ),
+  "accent": (
+    "900": $-clr-cyan-900,
+    "800": $-clr-cyan-800,
+    "700": $-clr-cyan-700,
+    "600": $-clr-cyan-600,
+    "500": $-clr-cyan-500,
+    "400": $-clr-cyan-400,
+    "300": $-clr-cyan-300,
+    "200": $-clr-cyan-200,
+    "100": $-clr-cyan-100,
+  ),
+);
+
 $clr-brand-surface: var(--clr-brand-surface);
 $clr-brand-surface-low: var(--clr-brand-surface-low);
 $clr-brand-on-surface: var(--clr-brand-on-surface);

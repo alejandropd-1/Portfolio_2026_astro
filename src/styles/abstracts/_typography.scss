@@ -1,7 +1,13 @@
 // src/styles/abstracts/_typography.scss
 
-$font-sans: "Inter", system-ui, sans-serif;
-$font-mono: "Roboto Mono", monospace;
+$-ff-sans: "Inter", system-ui, sans-serif;
+$-ff-mono: "Roboto Mono", monospace;
+
+$font-family-base: $-ff-sans;
+$font-family-accent: $-ff-mono;
+
+$font-sans: $font-family-base;
+$font-mono: $font-family-accent;
 
 $fs-xs: 0.75rem;
 $fs-sm: 0.875rem;
@@ -31,24 +37,68 @@ $lh-normal: 1.5;
 $lh-relaxed: 1.625;
 $lh-loose: 2;
 
+$font-sizes: (
+  "small": (
+    "100": $fs-xs,
+    "200": $fs-sm,
+    "300": $fs-base,
+    "400": $fs-lg,
+    "500": $fs-xl,
+    "600": $fs-2xl,
+    "700": $fs-3xl,
+    "800": $fs-4xl,
+    "900": $fs-5xl,
+    "1000": $fs-6xl,
+    "1100": $fs-7xl,
+    "1200": $fs-8xl,
+  ),
+  "large": (
+    "100": $fs-xs,
+    "200": $fs-sm,
+    "300": $fs-base,
+    "400": $fs-lg,
+    "500": $fs-xl,
+    "600": $fs-2xl,
+    "700": $fs-3xl,
+    "800": $fs-4xl,
+    "900": $fs-5xl,
+    "1000": $fs-6xl,
+    "1100": $fs-7xl,
+    "1200": $fs-8xl,
+  ),
+) !default;
+
+$font-size-100: var(--fs-100);
+$font-size-200: var(--fs-200);
+$font-size-300: var(--fs-300);
+$font-size-400: var(--fs-400);
+$font-size-500: var(--fs-500);
+$font-size-600: var(--fs-600);
+$font-size-700: var(--fs-700);
+$font-size-800: var(--fs-800);
+$font-size-900: var(--fs-900);
+$font-size-1000: var(--fs-1000);
+$font-size-1100: var(--fs-1100);
+$font-size-1200: var(--fs-1200);
+
 $font-families: (
   sans: $font-sans,
   mono: $font-mono,
 ) !default;
 
-$font-sizes: (
-  xs: $fs-xs,
-  sm: $fs-sm,
-  base: $fs-base,
-  lg: $fs-lg,
-  xl: $fs-xl,
-  "2xl": $fs-2xl,
-  "3xl": $fs-3xl,
-  "4xl": $fs-4xl,
-  "5xl": $fs-5xl,
-  "6xl": $fs-6xl,
-  "7xl": $fs-7xl,
-  "8xl": $fs-8xl,
+$font-size-aliases: (
+  xs: $font-size-100,
+  sm: $font-size-200,
+  base: $font-size-300,
+  lg: $font-size-400,
+  xl: $font-size-500,
+  "2xl": $font-size-600,
+  "3xl": $font-size-700,
+  "4xl": $font-size-800,
+  "5xl": $font-size-900,
+  "6xl": $font-size-1000,
+  "7xl": $font-size-1100,
+  "8xl": $font-size-1200,
 ) !default;
 
 $font-weights: (

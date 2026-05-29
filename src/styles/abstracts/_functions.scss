@@ -1,9 +1,9 @@
 // src/styles/abstracts/_functions.scss
 
 @use "sass:map";
-@use "colors";
+@use "colors" as *;
 @use "sizes";
-@use "tokens";
+@use "tokens" as *;
 @use "typography";
 
 @function _from-map($map, $key, $name) {
@@ -14,12 +14,32 @@
   @error "`#{$key}` no existe en $#{$name}.";
 }
 
-@function clr($color) {
-  @return _from-map(colors.$colors, $color, "colors");
+@function clr($color, $shade: null, $scheme: $active-theme) {
+  @if $shade == null {
+    @return _from-map($colors, $color, "colors");
+  }
+
+  $map: null;
+
+  @if $scheme == "light" {
+    $map: $light;
+  } @else if $scheme == "dark" {
+    $map: $dark;
+  } @else if $scheme == $active-theme {
+    $map: $active-theme;
+  } @else {
+    @error "unknown scheme";
+  }
+
+  @if map.has-key($map, $color, $shade) {
+    @return map.get($map, $color, $shade);
+  }
+
+  @error "$colors does not have that color!";
 }
 
 @function semantic-color($color) {
-  @return _from-map(tokens.$semantic-colors, $color, "semantic-colors");
+  @return _from-map($semantic-colors, $color, "semantic-colors");
 }
 
 @function size($size) {
@@ -39,7 +59,11 @@
 }
 
 @function fs($font-size) {
-  @return _from-map(typography.$font-sizes, $font-size, "font-sizes");
+  @if map.has-key(typography.$font-size-aliases, $font-size) {
+    @return map.get(typography.$font-size-aliases, $font-size);
+  }
+
+  @return var(--fs-#{$font-size});
 }
 
 @function fw($font-weight) {
@@ -55,9 +79,9 @@
 }
 
 @function layout($token) {
-  @return _from-map(tokens.$layout-tokens, $token, "layout-tokens");
+  @return _from-map($layout-tokens, $token, "layout-tokens");
 }
 
 @function semantic-font($font) {
-  @return _from-map(tokens.$semantic-fonts, $font, "semantic-fonts");
+  @return _from-map($semantic-fonts, $font, "semantic-fonts");
 }

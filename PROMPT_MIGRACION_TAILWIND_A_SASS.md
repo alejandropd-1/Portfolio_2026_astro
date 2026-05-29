@@ -247,22 +247,71 @@ FASE 3.5 - Mapas y functions como API del sistema
 
 Despues de crear variables primitivas y tokens semanticos, agregar mapas en los archivos fuente correspondientes. La idea es que cada escala pueda modificarse desde un lugar y que los componentes consuman funciones en vez de variables sueltas.
 
+La referencia principal es `C:\www\aledesign-portfolio-2025\src\styles\`. La logica importante de ese sistema es:
+
+- `_colors.scss` define primitivas privadas con prefijo `$-clr-*`.
+- Los colores no viven como una lista plana, sino en mapas `$light` y `$dark`.
+- Cada theme agrupa familias semanticas (`neutral`, `primary`, `accent`, y las que requiera el proyecto) con shades numericos (`100`, `200`, `300`, etc.).
+- `_tokens.scss` define `$active-theme` y los tokens que se pueden tocar desde un solo lugar.
+- `_root.scss` recorre `$active-theme` con `@each` y genera CSS custom properties como `--primary-500`, `--neutral-100`, etc.
+- `_typography.scss` define `$font-sizes` como mapa responsive por breakpoint (`small`, `large`) y con numeracion amplia (`100`, `200`, `300`, `650`, `900`, `1000`).
+- Esa numeracion amplia permite insertar tamanos intermedios sin renombrar toda la escala. Ejemplo: si manana una fuente necesita un valor entre `100` y `200`, se agrega `150`.
+- `_functions.scss` expone `clr($color, $shade)`, `fs($size)` y `size($size)` como API minima.
+- Las variables directas siguen existiendo como base interna o alias de compatibilidad, pero los componentes deben consumir funciones o tokens semanticos.
+
 Agregar en `_colors.scss`:
 
 ```scss
-$colors: (
-  primary: $clr-primary,
-  primary-light: $clr-primary-light,
-  primary-dark: $clr-primary-dark,
-  teal: $clr-teal,
-  teal-light: $clr-teal-light,
-  teal-dark: $clr-teal-dark,
-  bg-primary: $clr-bg-primary,
-  bg-secondary: $clr-bg-secondary,
-  bg-dark: $clr-bg-dark,
-  text-main: $clr-text-main,
-  text-muted: $clr-text-muted,
-) !default;
+// Primitivos privados
+$-clr-white: hsl(0 0% 100%);
+$-clr-black: hsl(0 0% 0%);
+$-clr-gray-100: hsl(0 0% 95%);
+// ...
+$-clr-primary-500: hsl(...);
+$-clr-accent-500: hsl(...);
+
+$light: (
+  "neutral": (
+    "000": $-clr-white,
+    "100": $-clr-gray-100,
+    "900": $-clr-gray-900,
+    "1000": $-clr-black,
+  ),
+  "primary": (
+    "100": $-clr-primary-100,
+    "500": $-clr-primary-500,
+    "900": $-clr-primary-900,
+  ),
+  "accent": (
+    "100": $-clr-accent-100,
+    "500": $-clr-accent-500,
+    "900": $-clr-accent-900,
+  ),
+);
+
+$dark: (
+  "neutral": (
+    "1000": $-clr-white,
+    "900": $-clr-gray-100,
+    "100": $-clr-gray-900,
+    "000": $-clr-black,
+  ),
+  "primary": (
+    "900": $-clr-primary-900,
+    "500": $-clr-primary-500,
+    "100": $-clr-primary-100,
+  ),
+  "accent": (
+    "900": $-clr-accent-900,
+    "500": $-clr-accent-500,
+    "100": $-clr-accent-100,
+  ),
+);
+
+// Contextual color tokens generados en runtime por _root.scss
+$color-neutral-100: var(--neutral-100);
+$color-primary-500: var(--primary-500);
+$color-accent-500: var(--accent-500);
 ```
 
 Agregar en `_sizes.scss`:
@@ -294,6 +343,48 @@ $sizes: (
 Agregar en `_typography.scss`:
 
 ```scss
+$-ff-sans: "Inter", system-ui, sans-serif;
+$-ff-serif: "Playfair Display", Georgia, serif;
+$-ff-mono: ui-monospace, monospace;
+
+$font-family-base: $-ff-sans;
+$font-family-accent: $-ff-serif;
+$font-family-mono: $-ff-mono;
+
+$font-sizes: (
+  "small": (
+    "100": 0.75rem,
+    "200": 0.875rem,
+    "300": 1rem,
+    "400": 1.125rem,
+    "500": 1.25rem,
+    "600": 1.5rem,
+    "650": 1.8rem,
+    "700": 1.875rem,
+    "800": 2.5rem,
+    "900": 3rem,
+  ),
+  "large": (
+    "100": 0.75rem,
+    "200": 0.875rem,
+    "300": 1rem,
+    "400": 1.125rem,
+    "500": 1.25rem,
+    "600": 1.5rem,
+    "650": 1.8rem,
+    "700": 1.875rem,
+    "800": 2.5rem,
+    "900": 3rem,
+  ),
+) !default;
+
+$font-size-100: var(--fs-100);
+$font-size-200: var(--fs-200);
+$font-size-300: var(--fs-300);
+$font-size-650: var(--fs-650);
+$font-size-900: var(--fs-900);
+
+// Optional aliases for compatibility with previous generated code.
 $font-families: (
   serif: $font-serif,
   sans: $font-sans,
@@ -317,6 +408,24 @@ $font-sizes: (
 Agregar en `_tokens.scss`:
 
 ```scss
+$active-theme: $light;
+$enable-media-query-dark-mode: false;
+
+// Contextual tokens. This is the main file to edit when changing the system.
+$color-text-default: $color-neutral-700;
+$color-background-default: $color-neutral-100;
+$color-text-interactive-default: $color-primary-600;
+$color-text-interactive-hover: $color-primary-700;
+
+$body-font-family: $font-family-base;
+$body-font-size: $font-size-300;
+$body-text-color: $color-text-default;
+$body-background-color: $color-background-default;
+
+$heading-font-family: $font-family-accent;
+$heading-font-weight: 700;
+$heading-line-height: 1.1;
+
 $radii: (
   sm: $radius-sm,
   md: $radius-md,
@@ -366,11 +475,11 @@ Crear `src/styles/abstracts/_functions.scss` como API de lectura:
 
 ```scss
 @use "sass:map";
-@use "colors";
+@use "colors" as *;
 @use "effects";
 @use "sizes";
-@use "tokens";
-@use "typography";
+@use "tokens" as *;
+@use "typography" as *;
 
 @function _from-map($map, $key, $name) {
   @if map.has-key($map, $key) {
@@ -380,8 +489,24 @@ Crear `src/styles/abstracts/_functions.scss` como API de lectura:
   @error "`#{$key}` no existe en $#{$name}.";
 }
 
-@function clr($color) {
-  @return _from-map(colors.$colors, $color, "colors");
+@function clr($color, $shade, $scheme: $active-theme) {
+  $map: null;
+
+  @if $scheme == "light" {
+    $map: $light;
+  } @else if $scheme == "dark" {
+    $map: $dark;
+  } @else if $scheme == $active-theme {
+    $map: $active-theme;
+  } @else {
+    @error "unknown scheme";
+  }
+
+  @if map.has-key($map, $color, $shade) {
+    @return map.get($map, $color, $shade);
+  }
+
+  @error "$colors does not have that color!";
 }
 
 @function size($size) {
@@ -389,7 +514,7 @@ Crear `src/styles/abstracts/_functions.scss` como API de lectura:
 }
 
 @function fs($font-size) {
-  @return _from-map(typography.$font-sizes, $font-size, "font-sizes");
+  @return var(--fs-#{$font-size});
 }
 
 @function ff($font-family) {
@@ -425,10 +550,10 @@ Regla de consumo preferida en componentes:
 
 ```scss
 .card {
-  color: clr(primary);
+  color: clr("primary", "500");
   padding: size(4);
   font-family: ff(sans);
-  font-size: fs(lg);
+  font-size: fs("400");
   border-radius: radius(lg);
   box-shadow: shadow(md);
   transition: transition(base);
@@ -437,7 +562,45 @@ Regla de consumo preferida en componentes:
 }
 ```
 
-Las variables directas pueden existir como base interna del sistema, pero los componentes nuevos deben preferir funciones.
+Crear o actualizar `_root.scss` para generar variables runtime:
+
+```scss
+@use "../abstracts" as *;
+
+:root {
+  @each $color, $shade-map in $active-theme {
+    @each $shade, $value in $shade-map {
+      --#{$color}-#{$shade}: #{$value};
+    }
+  }
+
+  @if ($enable-media-query-dark-mode) {
+    @media (prefers-color-scheme: dark) {
+      @each $color, $shade-map in $dark {
+        @each $shade, $value in $shade-map {
+          --#{$color}-#{$shade}: #{$value};
+        }
+      }
+    }
+  }
+
+  @each $screen-size, $size-map in $font-sizes {
+    @if $screen-size == "small" {
+      @each $size-name, $size-value in $size-map {
+        --fs-#{$size-name}: #{$size-value};
+      }
+    } @else {
+      @include mq($screen-size) {
+        @each $size-name, $size-value in $size-map {
+          --fs-#{$size-name}: #{$size-value};
+        }
+      }
+    }
+  }
+}
+```
+
+Las variables directas pueden existir como base interna del sistema o como aliases temporales, pero los componentes nuevos deben preferir funciones y tokens semanticos. Si se agregan aliases legacy (`clr(primary)`, `fs(base)`, etc.), marcarlos como compatibilidad y no como convencion nueva.
 
 FASE 4 - Breakpoints y mixin responsive
 

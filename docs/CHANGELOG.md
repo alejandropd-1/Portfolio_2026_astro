@@ -40,6 +40,17 @@ Llevar el sistema SASS del portfolio al mismo nivel de arquitectura usado en Odo
   - `xl: 80em`
 - Actualizado `_index.scss` para exportar `functions`.
 
+#### Alineación con `aledesign-portfolio-2025`
+- La referencia local queda fijada en `C:\www\aledesign-portfolio-2025\src\styles`.
+- `_colors.scss` ahora incluye primitivas privadas `$-clr-*` y mapas `$light` / `$dark`.
+- Se mantuvieron los tokens existentes `--clr-brand-*` para no romper el theme actual, pero se agregó la capa base `neutral`, `primary`, `secondary` y `accent` con shades numéricos.
+- `_tokens.scss` centraliza `$active-theme` y `$enable-media-query-dark-mode`.
+- `_globals.scss` genera CSS custom properties desde `$active-theme`, igual que el `_root.scss` del portfolio 2025.
+- `_typography.scss` cambió a `$font-sizes` responsive (`small`, `large`) con numeración amplia (`100`, `200`, `300`, `900`, `1000`, `1200`).
+- `fs()` ahora acepta valores numéricos y mantiene aliases previos (`xs`, `base`, `"6xl"`, `"8xl"`).
+- `clr()` ahora acepta la firma `clr($color, $shade, $scheme: $active-theme)` y conserva compatibilidad con `clr(brand-primary)` y demás aliases usados por los módulos actuales.
+- `README.md` y `PROMPT_MIGRACION_TAILWIND_A_SASS.md` documentan la lógica 2025 para reutilizarla en futuras conversiones.
+
 #### `src/styles/layout/` y `src/styles/utilities/`
 - Agregada carpeta `layout/` con helpers globales:
   - `.cluster`

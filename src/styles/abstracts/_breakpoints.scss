@@ -5,10 +5,16 @@
 @use "sass:meta";
 
 $breakpoints: (
+  small: 40em,
   sm: 40em,
+  medium: 48em,
   md: 48em,
+  large: 64em,
   lg: 64em,
+  xlarge: 80em,
   xl: 80em,
+  xxlarge: 100em,
+  xxxlarge: 120em,
 ) !default;
 
 @mixin mq($breakpoint) {

@@ -3,6 +3,9 @@
 @use "typography" as *;
 @use "sizes" as *;
 
+$active-theme: $dark;
+$enable-media-query-dark-mode: false;
+
 $body-bg: $clr-brand-surface;
 $body-text: $clr-brand-on-surface;
 $body-font: $font-sans;
