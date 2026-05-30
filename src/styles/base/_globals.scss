@@ -82,7 +82,8 @@ body {
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: rgba(var(--clr-brand-on-surface-rgb), 0.25) clr(brand-surface-low);
+  scrollbar-color: rgba(var(--clr-brand-on-surface-rgb), 0.25)
+    clr(brand-surface-low);
 }
 
 ::-webkit-scrollbar {
@@ -205,8 +206,12 @@ article {
 }
 
 @keyframes fade-in-bg {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .bg-energy-grid {
