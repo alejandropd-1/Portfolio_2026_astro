@@ -75,6 +75,7 @@ Llevar el sistema SASS del portfolio al mismo nivel de arquitectura usado en Odo
 #### Documentación
 - Agregada `PROMPT_MIGRACION_TAILWIND_A_SASS.md` como plantilla reusable para futuras migraciones de Tailwind a SASS tokenizado.
 - La plantilla fue ajustada para contemplar proyectos con CSS Modules y abstracts inyectados por `additionalData`.
+- La plantilla mantiene `src/styles/main.scss` como entry point global, alineado con `aledesign-portfolio-2025`.
 
 ### Decisión técnica
 

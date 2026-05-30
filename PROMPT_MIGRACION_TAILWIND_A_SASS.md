@@ -56,7 +56,7 @@ src/styles/
 │   └── _*.scss
 ├── pages/
 │   └── _*.scss
-└── globals.scss
+└── main.scss
 ```
 
 Todos los archivos de componentes deben usar:
@@ -112,7 +112,7 @@ Crear la estructura:
 - `src/styles/utilities/`
 - `src/styles/components/`
 - `src/styles/pages/` si corresponde
-- `src/styles/globals.scss`
+- `src/styles/main.scss`
 
 Crear o adaptar:
 
