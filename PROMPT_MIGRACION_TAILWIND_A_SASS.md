@@ -40,7 +40,8 @@ src/styles/
 │   ├── _tokens.scss
 │   ├── _functions.scss
 │   ├── _effects.scss
-│   └── _breakpoints.scss
+│   ├── _breakpoints.scss
+│   └── _mixins.scss
 ├── base/
 │   ├── _reset.scss
 │   ├── _root.scss
@@ -82,6 +83,7 @@ El archivo `src/styles/abstracts/_index.scss` debe centralizar los forwards:
 @forward "functions";
 @forward "effects";
 @forward "breakpoints";
+@forward "mixins";
 ```
 
 FASE 0 - Diagnostico inicial
@@ -602,6 +604,15 @@ Crear o actualizar `_root.scss` para generar variables runtime:
 
 Las variables directas pueden existir como base interna del sistema o como aliases temporales, pero los componentes nuevos deben preferir funciones y tokens semanticos. Si se agregan aliases legacy (`clr(primary)`, `fs(base)`, etc.), marcarlos como compatibilidad y no como convencion nueva.
 
+Regla de depuracion:
+
+- Respetar los aliases canonicos del proyecto fuente (`aledesign-portfolio-2025`).
+- Mover decisiones editables a `_tokens.scss`.
+- Mantener `_sizes.scss`, `_typography.scss` y `_colors.scss` como primitivas/mapas.
+- Mantener `_breakpoints.scss` como mapa puro.
+- Mantener mixins en `_mixins.scss`.
+- No borrar aliases legacy hasta auditar que no tengan usos.
+
 FASE 4 - Breakpoints y mixin responsive
 
 Crear `src/styles/abstracts/_breakpoints.scss`.
@@ -609,27 +620,45 @@ Crear `src/styles/abstracts/_breakpoints.scss`.
 Usar breakpoints en `em`, equivalentes a Tailwind:
 
 ```scss
+$breakpoints: (
+  small: 40em,
+  sm: 40em,
+  medium: 48em,
+  md: 48em,
+  large: 64em,
+  lg: 64em,
+  xlarge: 80em,
+  xl: 80em,
+  xxlarge: 100em,
+  xxxlarge: 120em,
+) !default;
+```
+
+Crear `src/styles/abstracts/_mixins.scss` para el comportamiento responsive:
+
+```scss
 @use "sass:map";
 @use "sass:math";
 @use "sass:meta";
+@use "breakpoints" as *;
 
-$breakpoints: (
-  sm: 40em,
-  md: 48em,
-  lg: 64em,
-) !default;
+@mixin mq($size) {
+  @if map.has-key($breakpoints, $size) {
+    $breakpoint: map.get($breakpoints, $size);
 
-@mixin mq($breakpoint) {
-  @if map.has-key($breakpoints, $breakpoint) {
-    @media (min-width: map.get($breakpoints, $breakpoint)) {
+    @media screen and (min-width: $breakpoint) {
       @content;
     }
-  } @else if meta.type-of($breakpoint) == "number" and not math.is-unitless($breakpoint) {
-    @media (min-width: $breakpoint) {
-      @content;
+  } @else if meta.type-of($size) == number {
+    @if math.is-unitless($size) {
+      @error "when using a number with @mq() make sure to include a unit";
+    } @else {
+      @media screen and (min-width: $size) {
+        @content;
+      }
     }
   } @else {
-    @error "Breakpoint `#{$breakpoint}` no existe en $breakpoints.";
+    @error "the keyword #{$size} is not in the $breakpoints map";
   }
 }
 ```

@@ -142,28 +142,44 @@ $dark: (
   ),
 );
 
-$clr-brand-surface: var(--clr-brand-surface);
-$clr-brand-surface-low: var(--clr-brand-surface-low);
-$clr-brand-on-surface: var(--clr-brand-on-surface);
-$clr-brand-on-surface-variant: var(--clr-brand-on-surface-variant);
-$clr-brand-primary: var(--clr-brand-primary);
-$clr-brand-on-primary: var(--clr-brand-on-primary);
-$clr-brand-secondary: var(--clr-brand-secondary);
-$clr-brand-tertiary: var(--clr-brand-tertiary);
-$clr-brand-danger: var(--clr-brand-danger);
+$color-neutral-000: var(--neutral-000);
+$color-neutral-100: var(--neutral-100);
+$color-neutral-200: var(--neutral-200);
+$color-neutral-300: var(--neutral-300);
+$color-neutral-400: var(--neutral-400);
+$color-neutral-500: var(--neutral-500);
+$color-neutral-600: var(--neutral-600);
+$color-neutral-700: var(--neutral-700);
+$color-neutral-800: var(--neutral-800);
+$color-neutral-900: var(--neutral-900);
+$color-neutral-1000: var(--neutral-1000);
 
-$ghost-border-opacity: 0.1;
+$color-primary-100: var(--primary-100);
+$color-primary-200: var(--primary-200);
+$color-primary-300: var(--primary-300);
+$color-primary-400: var(--primary-400);
+$color-primary-500: var(--primary-500);
+$color-primary-600: var(--primary-600);
+$color-primary-700: var(--primary-700);
+$color-primary-800: var(--primary-800);
+$color-primary-900: var(--primary-900);
 
-$noise-opacity: 0.0125;
+$color-secondary-100: var(--secondary-100);
+$color-secondary-200: var(--secondary-200);
+$color-secondary-300: var(--secondary-300);
+$color-secondary-400: var(--secondary-400);
+$color-secondary-500: var(--secondary-500);
+$color-secondary-600: var(--secondary-600);
+$color-secondary-700: var(--secondary-700);
+$color-secondary-800: var(--secondary-800);
+$color-secondary-900: var(--secondary-900);
 
-$colors: (
-  brand-surface: $clr-brand-surface,
-  brand-surface-low: $clr-brand-surface-low,
-  brand-on-surface: $clr-brand-on-surface,
-  brand-on-surface-variant: $clr-brand-on-surface-variant,
-  brand-primary: $clr-brand-primary,
-  brand-on-primary: $clr-brand-on-primary,
-  brand-secondary: $clr-brand-secondary,
-  brand-tertiary: $clr-brand-tertiary,
-  brand-danger: $clr-brand-danger,
-) !default;
+$color-accent-100: var(--accent-100);
+$color-accent-200: var(--accent-200);
+$color-accent-300: var(--accent-300);
+$color-accent-400: var(--accent-400);
+$color-accent-500: var(--accent-500);
+$color-accent-600: var(--accent-600);
+$color-accent-700: var(--accent-700);
+$color-accent-800: var(--accent-800);
+$color-accent-900: var(--accent-900);

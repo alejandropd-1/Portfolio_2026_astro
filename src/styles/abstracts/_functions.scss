@@ -47,11 +47,11 @@
 }
 
 @function container($container) {
-  @return _from-map(sizes.$containers, $container, "containers");
+  @return _from-map($containers, $container, "containers");
 }
 
 @function radius($radius) {
-  @return _from-map(sizes.$radii, $radius, "radii");
+  @return _from-map($radii, $radius, "radii");
 }
 
 @function ff($font-family) {

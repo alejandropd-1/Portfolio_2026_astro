@@ -75,7 +75,7 @@ Portfolio_2026_astro/
 
 1. **SASS Modules:** Cada componente React o Astro tiene su propio `_nombre.module.scss`.
 2. **Global Abstracts:** Variables, tokens y mixins en `src/styles/abstracts/`. Se inyectan automáticamente via Vite — **no usar `@use` ni `@import` manual de abstracts** en los módulos.
-3. **Glassmorphism:** El efecto base está en `_mixins.scss`. Usar `@include glass-surface` para cualquier nueva superficie.
+3. **Glassmorphism:** El efecto base está en `_mixins.scss`. Usar `@include glass(...)` para cualquier nueva superficie.
 4. **Tipografía:** Solo **Inter**. Variar peso (Thin → Bold) y tamaño para crear contraste.
 
 ### SASS token logic — referencia 2025
@@ -85,10 +85,21 @@ La fuente de verdad para futuras conversiones es `C:\www\aledesign-portfolio-202
 - `_colors.scss` usa primitivas privadas `$-clr-*`.
 - Los themes viven en mapas `$light` y `$dark`, agrupados por familias (`neutral`, `primary`, `secondary`, `accent`) y shades numericos.
 - `_tokens.scss` centraliza `$active-theme`, tokens semanticos y decisiones editables del sistema.
+- `_breakpoints.scss` solo define `$breakpoints`; los mixins viven en `_mixins.scss`.
 - `_globals.scss` genera CSS custom properties desde `$active-theme` y desde `$font-sizes`.
 - `_typography.scss` usa escala responsive por pantalla (`small`, `large`) con numeracion amplia (`100`, `200`, `300`, `900`, `1000`, `1200`) para permitir intermedios futuros.
 - `clr("primary", "500")` y `fs("400")` son el formato recomendado para estilos nuevos.
 - Aliases como `clr(brand-primary)` o `fs(base)` existen por compatibilidad con la primera migracion, no como convencion futura.
+
+### Depuración de aliases
+
+La regla actual es no borrar aliases mientras existan consumidores, pero sí evitar que gobiernen estilos nuevos:
+
+- `$font-size-100..1200`, `$font-weight-*`, `$body-*` y `$heading-*` siguen la nomenclatura del portfolio 2025.
+- `$fs-*`, `$clr-brand-*`, `fs(base)` y `clr(brand-primary)` quedan como compatibilidad del sistema 2026.
+- Tokens de layout editables como `$container-max`, `$radius-soft` y `$nav-height` viven en `_tokens.scss`.
+- `_sizes.scss` debe quedar como escala primitiva de spacing/sizing.
+- Mixins responsive y visuales (`mq`, `heading`, `glass`, `page-title`, `energy-grid-*`) viven en `_mixins.scss`.
 
 ### Fondo animado — Energy Grid
 

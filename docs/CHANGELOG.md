@@ -6,6 +6,33 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-30] — Depuración SASS de aliases, tokens y mixins
+
+### Objetivo
+
+Alinear el sistema SASS con la lógica de `C:\www\aledesign-portfolio-2025` sin romper la API usada por los CSS Modules actuales.
+
+### Cambios realizados
+
+- `_breakpoints.scss` quedó como mapa puro `$breakpoints`.
+- `mq()` se movió a `_mixins.scss`, junto con `heading()` y los mixins visuales existentes.
+- Se agregaron aliases canónicos del sistema fuente:
+  - `$font-size-xs..8xl` como puente hacia `$font-size-100..1200`
+  - `$font-weight-default`, `$font-weight-medium`, `$font-weight-semi-bold`, `$font-weight-bold`
+  - `$body-text-color`, `$body-background-color`, `$heading-1-font-size`, `$heading-2-font-size`, `$heading-3-font-size`
+- Se movieron decisiones editables de layout desde `_sizes.scss` hacia `_tokens.scss`:
+  - `$container-max`
+  - `$radius-soft`
+  - mapas `$containers` y `$radii`
+- `container()` y `radius()` ahora leen sus mapas desde `_tokens.scss`.
+- README actualizado con la regla de depuración: respetar aliases del 2025, mantener aliases propios sólo como compatibilidad y ubicar mixins en `_mixins.scss`.
+
+### Decisión técnica
+
+No se eliminan aliases usados por los módulos actuales. La limpieza se hace por migración progresiva de consumidores y recién después se retiran puentes sin uso.
+
+---
+
 ## [2026-05-29] — Consolidación SASS con maps/functions y arquitectura compartida
 
 ### Objetivo
