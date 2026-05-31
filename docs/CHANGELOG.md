@@ -6,6 +6,36 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-31] — Depuración fina SASS sin aliases legacy
+
+### Objetivo
+
+Cerrar la alineación con `C:\www\aledesign-portfolio-2025`, eliminando aliases de compatibilidad que ya no tenían consumidores y preservando sólo mapas funcionales que alimentan la API Sass.
+
+### Cambios realizados
+
+- Eliminados aliases tipográficos legacy `$fs-*`, `$fw-*`, `$font-size-xs..8xl` y `$font-size-aliases`.
+- Normalizados consumidores restantes a `fs("100".."1200")`, `$font-size-*` numéricos y `$font-weight-*`.
+- `fs()` quedó como función directa sobre CSS custom properties `--fs-*`, sin fallback de aliases.
+- Eliminados aliases de color legacy `$clr-brand-*`, `$colors`, `$primary-accent`, `$secondary-accent` y `$tertiary-accent`.
+- Normalizados consumidores de color a `semantic-color(brand-*)` y `clr("family", "shade")` según corresponda.
+- Eliminados aliases internos sin consumidores `$body-bg`, `$body-text`, `$body-font`, `$mono-font` y `$heading-font`.
+- Preservados mapas funcionales `$font-families`, `$font-weights`, `$semantic-colors`, `$semantic-fonts`, `$layout-tokens`, `$containers` y `$radii` porque alimentan funciones Sass.
+- README y plantilla de migración actualizados para distinguir mapas funcionales de aliases legacy.
+- Preservado el build de producción para Netlify: `pnpm run build` sigue ejecutando `tinacms build && astro build`, con credenciales reales de Tina Cloud desde variables de entorno.
+- Agregado `pnpm run build:local` para compilar local/offline con `tinacms dev --port 4002 --datalayer-port 9001 -c "astro build"`, evitando consultar un schema ajeno si otro proyecto ocupa `4001/9000`.
+- Actualizado `pnpm run dev` para usar puertos locales propios: Tina `4002`, datalayer `9001` y Astro `4322`, evitando conflictos con OdontoPia u otros proyectos Tina en `4001/9000/4321`.
+- Actualizado `PortfolioDashboard.tsx` para resolver imágenes locales desde Tina `4002` hacia Astro `4322`, manteniendo compatibilidad con `4001` → `4321`.
+
+### Verificación
+
+- `rg` confirma que no quedan aliases legacy tipográficos/color en `src/styles`.
+- `git diff --check` sin errores.
+- `pnpm run build:local` construye correctamente 9 páginas con Tina local y Astro.
+- Tina imprime un warning residual de `Invalid hook call` durante el indexado posterior de `build:local`, pero el proceso termina con código 0. `pnpm run build` queda reservado para Netlify/Tina Cloud o entornos locales con credenciales reales.
+
+---
+
 ## [2026-05-30] — Depuración SASS de aliases, tokens y mixins
 
 ### Objetivo

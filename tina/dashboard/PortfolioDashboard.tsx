@@ -259,13 +259,16 @@ function resolveImagePath(path?: string): string | undefined {
   // Asegurar que comience con / para rutas relativas a la raíz
   if (!normalized.startsWith("/")) normalized = `/${normalized}`;
 
-  // Fix para desarrollo local: Si estamos en el puerto de Tina (4001)
-  // intentamos cargar la imagen desde el puerto de Astro (4321)
-  if (typeof window !== 'undefined' && window.location.port === '4001') {
-    return `http://localhost:4321${normalized}`;
+  // Fix para desarrollo local: Tina y Astro corren en puertos separados.
+  if (typeof window !== 'undefined') {
+    const astroPortByTinaPort: Record<string, string> = {
+      '4001': '4321',
+      '4002': '4322',
+    };
+    const astroPort = astroPortByTinaPort[window.location.port];
+    if (astroPort) return `http://localhost:${astroPort}${normalized}`;
   }
-
-  return normalized;
+return normalized;
 }
 
 

@@ -9,27 +9,15 @@ $font-family-accent: $-ff-mono;
 $font-sans: $font-family-base;
 $font-mono: $font-family-accent;
 
-$fs-xs: 0.75rem;
-$fs-sm: 0.875rem;
-$fs-base: 1rem;
-$fs-lg: 1.125rem;
-$fs-xl: 1.25rem;
-$fs-2xl: 1.5rem;
-$fs-3xl: 1.875rem;
-$fs-4xl: 2.25rem;
-$fs-5xl: 3rem;
-$fs-6xl: 3.75rem;
-$fs-7xl: 4.5rem;
-$fs-8xl: 6rem;
 
-$fw-normal: 400;
-$fw-medium: 500;
-$fw-bold: 600;
+$-fw-400: 400;
+$-fw-500: 500;
+$-fw-600: 600;
 
-$font-weight-default: $fw-normal;
-$font-weight-medium: $fw-medium;
-$font-weight-semi-bold: $fw-medium;
-$font-weight-bold: $fw-bold;
+$font-weight-default: $-fw-400;
+$font-weight-medium: $-fw-500;
+$font-weight-semi-bold: $-fw-500;
+$font-weight-bold: $-fw-600;
 
 $ls-tighter: -0.05em;
 $ls-tight: -0.025em;
@@ -44,32 +32,32 @@ $lh-loose: 2;
 
 $font-sizes: (
   "small": (
-    "100": $fs-xs,
-    "200": $fs-sm,
-    "300": $fs-base,
-    "400": $fs-lg,
-    "500": $fs-xl,
-    "600": $fs-2xl,
-    "700": $fs-3xl,
-    "800": $fs-4xl,
-    "900": $fs-5xl,
-    "1000": $fs-6xl,
-    "1100": $fs-7xl,
-    "1200": $fs-8xl,
+    "100": 0.75rem,
+    "200": 0.875rem,
+    "300": 1rem,
+    "400": 1.125rem,
+    "500": 1.25rem,
+    "600": 1.5rem,
+    "700": 1.875rem,
+    "800": 2.25rem,
+    "900": 3rem,
+    "1000": 3.75rem,
+    "1100": 4.5rem,
+    "1200": 6rem,
   ),
   "large": (
-    "100": $fs-xs,
-    "200": $fs-sm,
-    "300": $fs-base,
-    "400": $fs-lg,
-    "500": $fs-xl,
-    "600": $fs-2xl,
-    "700": $fs-3xl,
-    "800": $fs-4xl,
-    "900": $fs-5xl,
-    "1000": $fs-6xl,
-    "1100": $fs-7xl,
-    "1200": $fs-8xl,
+    "100": 0.75rem,
+    "200": 0.875rem,
+    "300": 1rem,
+    "400": 1.125rem,
+    "500": 1.25rem,
+    "600": 1.5rem,
+    "700": 1.875rem,
+    "800": 2.25rem,
+    "900": 3rem,
+    "1000": 3.75rem,
+    "1100": 4.5rem,
+    "1200": 6rem,
   ),
 ) !default;
 
@@ -92,9 +80,9 @@ $font-families: (
   mono: $font-mono,
 ) !default;
 $font-weights: (
-  normal: $fw-normal,
-  medium: $fw-medium,
-  bold: $fw-bold,
+  normal: $font-weight-default,
+  medium: $font-weight-medium,
+  bold: $font-weight-bold,
   default: $font-weight-default,
   semi-bold: $font-weight-semi-bold,
 ) !default;

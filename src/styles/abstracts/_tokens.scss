@@ -21,14 +21,10 @@ $body-font-weight: $font-weight-default;
 $body-text-color: $color-text-default;
 $body-background-color: $color-background-default;
 
-// Tokens semanticos heredados por componentes Portfolio 2026.
-$body-bg: $body-background-color;
-$body-text: $body-text-color;
-$body-font: $body-font-family;
 
 $heading-font-family: $font-family-base;
 $heading-color-default: $color-text-default;
-$heading-font-weight: $fw-bold;
+$heading-font-weight: $font-weight-bold;
 $heading-letter-spacing: $ls-tighter;
 $heading-line-height: 1.1;
 $heading-text-transform: none;
@@ -40,8 +36,6 @@ $heading-2-color: $heading-color-default;
 $heading-3-font-size: $font-size-700;
 $heading-3-color: $heading-color-default;
 
-$mono-font: $font-mono;
-$heading-font: $heading-font-family;
 
 
 $ghost-border-opacity: 0.1;
@@ -73,7 +67,7 @@ $semantic-colors: (
 $semantic-fonts: (
   body: $body-font-family,
   heading: $heading-font-family,
-  mono: $mono-font,
+  mono: $font-mono,
 ) !default;
 
 $layout-tokens: (

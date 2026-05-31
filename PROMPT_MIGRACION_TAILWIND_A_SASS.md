@@ -171,21 +171,43 @@ Crear escala tipografica en `src/styles/abstracts/_typography.scss`.
 Escala sugerida:
 
 ```scss
-$font-size-xs: 0.75rem;
-$font-size-sm: 0.875rem;
-$font-size-base: 1rem;
-$font-size-lg: 1.125rem;
-$font-size-xl: 1.25rem;
-$font-size-2xl: 1.5rem;
-$font-size-2-5xl: 1.8rem;
-$font-size-3xl: 1.875rem;
-$font-size-4xl: 2.5rem;
-$font-size-5xl: 3rem;
-$font-size-6xl: 3.8rem;
+$font-sizes: (
+  "small": (
+    "100": 0.75rem,
+    "200": 0.875rem,
+    "300": 1rem,
+    "400": 1.125rem,
+    "500": 1.25rem,
+    "600": 1.5rem,
+    "700": 1.875rem,
+    "800": 2.5rem,
+    "900": 3rem,
+  ),
+  "large": (
+    "100": 0.75rem,
+    "200": 0.875rem,
+    "300": 1rem,
+    "400": 1.125rem,
+    "500": 1.25rem,
+    "600": 1.5rem,
+    "700": 1.875rem,
+    "800": 2.5rem,
+    "900": 3rem,
+  ),
+) !default;
+```
+
+Luego exponer sólo variables numericas runtime:
+
+```scss
+$font-size-100: var(--fs-100);
+$font-size-200: var(--fs-200);
+$font-size-300: var(--fs-300);
+// ...
 ```
 
 Regla:
-No inventar escalas enormes. Agregar nuevos pasos solo si aparecen repetidos muchas veces y primero reportarlos.
+No crear aliases tipo `$font-size-xs`, `$font-size-base`, `$fs-xl` ni `fs(base)`. Usar la API numérica `fs("300")`, `fs("650")`, etc. Agregar nuevos pasos sólo si aparecen repetidos muchas veces y primero reportarlos.
 
 FASE 3 - Tokens semanticos
 
@@ -196,14 +218,14 @@ Debe incluir tokens semanticos para:
 - Body:
   - `$body-font-size`
   - `$body-font-family`
-  - `$body-color`
-  - `$body-bg`
+  - `$body-text-color`
+  - `$body-background-color`
 - Headings:
   - `$heading-font-family`
-  - `$h1-size`
-  - `$h2-size`
-  - `$h3-size`
-  - `$h4-size`
+  - `$heading-1-font-size`
+  - `$heading-2-font-size`
+  - `$heading-3-font-size`
+  - `$heading-4-font-size`
 - Spacing:
   - `$spacing-section`
   - `$spacing-component`
@@ -231,6 +253,7 @@ Debe incluir tokens semanticos para:
 
 Regla:
 Los tokens semanticos deben referenciar primitivos de `_sizes.scss`, `_typography.scss`, `_colors.scss` o `_fonts.scss` cuando sea posible.
+No crear aliases de compatibilidad como `$body-bg`, `$body-color`, `$h1-size`, `$h2-size`, `$font-size-xs` o `$clr-primary` salvo que haya consumidores existentes y se documenten como temporales.
 
 Ejemplo:
 
@@ -259,6 +282,8 @@ La referencia principal es `C:\www\aledesign-portfolio-2025\src\styles\`. La log
 - `_typography.scss` define `$font-sizes` como mapa responsive por breakpoint (`small`, `large`) y con numeracion amplia (`100`, `200`, `300`, `650`, `900`, `1000`).
 - Esa numeracion amplia permite insertar tamanos intermedios sin renombrar toda la escala. Ejemplo: si manana una fuente necesita un valor entre `100` y `200`, se agrega `150`.
 - `_functions.scss` expone `clr($color, $shade)`, `fs($size)` y `size($size)` como API minima.
+- Los mapas funcionales no son lo mismo que `utilities/`: mapas como `$radii`, `$shadows`, `$transitions`, `$containers`, `$font-families` y `$font-weights` alimentan funciones Sass; `utilities/` genera clases CSS reutilizables.
+- Se eliminan aliases legacy cuando no tienen consumidores, pero se conservan mapas que alimentan funciones.
 - Las variables directas siguen existiendo como base interna o alias de compatibilidad, pero los componentes deben consumir funciones o tokens semanticos.
 
 Agregar en `_colors.scss`:
@@ -386,26 +411,18 @@ $font-size-300: var(--fs-300);
 $font-size-650: var(--fs-650);
 $font-size-900: var(--fs-900);
 
-// Optional aliases for compatibility with previous generated code.
 $font-families: (
   serif: $font-serif,
   sans: $font-sans,
   mono: $font-mono,
 ) !default;
 
-$font-sizes: (
-  xs: $font-size-xs,
-  sm: $font-size-sm,
-  base: $font-size-base,
-  lg: $font-size-lg,
-  xl: $font-size-xl,
-  "2xl": $font-size-2xl,
-  "3xl": $font-size-3xl,
-  "4xl": $font-size-4xl,
-  "5xl": $font-size-5xl,
-  "6xl": $font-size-6xl,
-) !default;
-```
+$font-weights: (
+  default: $font-weight-default,
+  medium: $font-weight-medium,
+  semi-bold: $font-weight-semi-bold,
+  bold: $font-weight-bold,
+) !default;```
 
 Agregar en `_tokens.scss`:
 
@@ -508,7 +525,7 @@ Crear `src/styles/abstracts/_functions.scss` como API de lectura:
     @return map.get($map, $color, $shade);
   }
 
-  @error "$colors does not have that color!";
+  @error "$active-theme does not have color `#{$color}` with shade `#{$shade}`.";
 }
 
 @function size($size) {
@@ -602,16 +619,18 @@ Crear o actualizar `_root.scss` para generar variables runtime:
 }
 ```
 
-Las variables directas pueden existir como base interna del sistema o como aliases temporales, pero los componentes nuevos deben preferir funciones y tokens semanticos. Si se agregan aliases legacy (`clr(primary)`, `fs(base)`, etc.), marcarlos como compatibilidad y no como convencion nueva.
+Las variables directas pueden existir como base interna del sistema, pero los componentes nuevos deben preferir funciones y tokens semanticos. No crear aliases tipograficos legacy como `fs(base)`, `fs(xs)` o `$font-size-xs`; usar siempre `fs("300")`, `fs("100")` y `$font-size-300`. No crear aliases de color legacy como `clr(primary)`, `clr(text-main)` o `$clr-primary`; usar familias y shades con `clr("primary", "500")` o tokens semanticos con `semantic-color(brand-primary)`.
 
 Regla de depuracion:
 
-- Respetar los aliases canonicos del proyecto fuente (`aledesign-portfolio-2025`).
+- Respetar la nomenclatura canonica del proyecto fuente (`aledesign-portfolio-2025`).
 - Mover decisiones editables a `_tokens.scss`.
 - Mantener `_sizes.scss`, `_typography.scss` y `_colors.scss` como primitivas/mapas.
+- Conservar mapas funcionales que alimentan funciones (`$radii`, `$shadows`, `$transitions`, `$containers`, `$font-families`, `$font-weights`, `$semantic-colors`).
+- Recordar que `utilities/` genera clases CSS y no reemplaza los mapas funcionales.
 - Mantener `_breakpoints.scss` como mapa puro.
 - Mantener mixins en `_mixins.scss`.
-- No borrar aliases legacy hasta auditar que no tengan usos.
+- No borrar aliases legacy hasta auditar que no tengan usos. Una vez migrados, eliminarlos y dejar la API numerica limpia.
 
 FASE 4 - Breakpoints y mixin responsive
 
