@@ -86,41 +86,11 @@ $font-size-1000: var(--fs-1000);
 $font-size-1100: var(--fs-1100);
 $font-size-1200: var(--fs-1200);
 
-// Aliases de compatibilidad. La API canonica del sistema usa
-// $font-size-100..1200 y fs(...), siguiendo a aledesign-portfolio-2025.
-$font-size-xs: $font-size-100;
-$font-size-sm: $font-size-200;
-$font-size-base: $font-size-300;
-$font-size-lg: $font-size-400;
-$font-size-xl: $font-size-500;
-$font-size-2xl: $font-size-600;
-$font-size-3xl: $font-size-700;
-$font-size-4xl: $font-size-800;
-$font-size-5xl: $font-size-900;
-$font-size-6xl: $font-size-1000;
-$font-size-7xl: $font-size-1100;
-$font-size-8xl: $font-size-1200;
 
 $font-families: (
   sans: $font-sans,
   mono: $font-mono,
 ) !default;
-
-$font-size-aliases: (
-  xs: $font-size-100,
-  sm: $font-size-200,
-  base: $font-size-300,
-  lg: $font-size-400,
-  xl: $font-size-500,
-  "2xl": $font-size-600,
-  "3xl": $font-size-700,
-  "4xl": $font-size-800,
-  "5xl": $font-size-900,
-  "6xl": $font-size-1000,
-  "7xl": $font-size-1100,
-  "8xl": $font-size-1200,
-) !default;
-
 $font-weights: (
   normal: $fw-normal,
   medium: $fw-medium,

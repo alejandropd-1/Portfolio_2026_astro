@@ -22,7 +22,7 @@
   }
 
   &__logo {
-    font-size: fs(lg);
+    font-size: fs("400");
     font-weight: fw(bold);
     letter-spacing: ls(tight);
   }
@@ -35,7 +35,7 @@
     font-size: 10px;
     font-weight: fw(bold);
     letter-spacing: ls(wide)st;
-    color: clr(brand-on-surface-variant);
+    color: semantic-color(brand-on-surface-variant);
   }
 
   &__link {
@@ -45,7 +45,7 @@
     transition: color 0.2s ease;
 
     &:hover {
-      color: clr(brand-primary);
+      color: semantic-color(brand-primary);
     }
   }
 
@@ -59,7 +59,7 @@
   &__copyright {
     font-family: semantic-font(mono);
     font-size: 10px;
-    color: clr(brand-on-surface-variant);
+    color: semantic-color(brand-on-surface-variant);
     opacity: 0.85;
     text-transform: uppercase;
     letter-spacing: ls(wide)st;

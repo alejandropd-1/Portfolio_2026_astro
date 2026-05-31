@@ -14,28 +14,24 @@
   @error "`#{$key}` no existe en $#{$name}.";
 }
 
-@function clr($color, $shade: null, $scheme: $active-theme) {
-  @if $shade == null {
-    @return _from-map($colors, $color, "colors");
-  }
-
+@function clr($color, $shade, $scheme: $active-theme) {
   $map: null;
 
-  @if $scheme == "light" {
+  @if $scheme == 'light' {
     $map: $light;
-  } @else if $scheme == "dark" {
+  } @else if $scheme == 'dark' {
     $map: $dark;
   } @else if $scheme == $active-theme {
     $map: $active-theme;
   } @else {
-    @error "unknown scheme";
+    @error 'unknown scheme';
   }
 
   @if map.has-key($map, $color, $shade) {
     @return map.get($map, $color, $shade);
   }
 
-  @error "$colors does not have that color!";
+  @error 'color palette does not have that color!';
 }
 
 @function semantic-color($color) {
@@ -59,10 +55,6 @@
 }
 
 @function fs($font-size) {
-  @if map.has-key(typography.$font-size-aliases, $font-size) {
-    @return map.get(typography.$font-size-aliases, $font-size);
-  }
-
   @return var(--fs-#{$font-size});
 }
 

@@ -24,25 +24,25 @@
   border-radius: radius(soft);
 
   &--primary {
-    color: clr(brand-primary);
+    color: semantic-color(brand-primary);
     background-color: rgba(var(--clr-brand-primary-rgb), 0.1);
   }
 
   &--tertiary {
-    color: clr(brand-tertiary);
+    color: semantic-color(brand-tertiary);
     background-color: rgba(var(--clr-brand-tertiary-rgb), 0.1);
   }
 }
 
 .mdx-title {
-  font-size: fs(xl);
+  font-size: fs("500");
   font-weight: fw(bold);
   margin-bottom: size(4);
 }
 
 .mdx-text {
-  font-size: fs(sm);
-  color: clr(brand-on-surface-variant);
+  font-size: fs("200");
+  color: semantic-color(brand-on-surface-variant);
   line-height: 1.6;
 }
 

@@ -6,16 +6,6 @@
 $active-theme: $dark;
 $enable-media-query-dark-mode: false;
 
-// Compatibility aliases for the Portfolio 2026 naming used before the 2025 alignment.
-$clr-brand-surface: var(--clr-brand-surface);
-$clr-brand-surface-low: var(--clr-brand-surface-low);
-$clr-brand-on-surface: var(--clr-brand-on-surface);
-$clr-brand-on-surface-variant: var(--clr-brand-on-surface-variant);
-$clr-brand-primary: var(--clr-brand-primary);
-$clr-brand-on-primary: var(--clr-brand-on-primary);
-$clr-brand-secondary: var(--clr-brand-secondary);
-$clr-brand-tertiary: var(--clr-brand-tertiary);
-$clr-brand-danger: var(--clr-brand-danger);
 
 $color-text-default: $color-neutral-900;
 $color-background-default: $color-neutral-100;
@@ -31,7 +21,7 @@ $body-font-weight: $font-weight-default;
 $body-text-color: $color-text-default;
 $body-background-color: $color-background-default;
 
-// Aliases historicos del Portfolio 2026.
+// Tokens semanticos heredados por componentes Portfolio 2026.
 $body-bg: $body-background-color;
 $body-text: $body-text-color;
 $body-font: $body-font-family;
@@ -53,9 +43,6 @@ $heading-3-color: $heading-color-default;
 $mono-font: $font-mono;
 $heading-font: $heading-font-family;
 
-$primary-accent: $clr-brand-primary;
-$secondary-accent: $clr-brand-secondary;
-$tertiary-accent: $clr-brand-tertiary;
 
 $ghost-border-opacity: 0.1;
 $noise-opacity: 0.0125;
@@ -64,25 +51,23 @@ $container-max: 80rem;
 $radius-soft: 0.125rem;
 $nav-height: 5rem;
 
-$colors: (
-  brand-surface: $clr-brand-surface,
-  brand-surface-low: $clr-brand-surface-low,
-  brand-on-surface: $clr-brand-on-surface,
-  brand-on-surface-variant: $clr-brand-on-surface-variant,
-  brand-primary: $clr-brand-primary,
-  brand-on-primary: $clr-brand-on-primary,
-  brand-secondary: $clr-brand-secondary,
-  brand-tertiary: $clr-brand-tertiary,
-  brand-danger: $clr-brand-danger,
-) !default;
 
 $semantic-colors: (
   body-bg: $body-background-color,
   body-text: $body-text-color,
   text-muted: $color-text-muted,
-  primary-accent: $primary-accent,
-  secondary-accent: $secondary-accent,
-  tertiary-accent: $tertiary-accent,
+  brand-surface: var(--clr-brand-surface),
+  brand-surface-low: var(--clr-brand-surface-low),
+  brand-on-surface: var(--clr-brand-on-surface),
+  brand-on-surface-variant: var(--clr-brand-on-surface-variant),
+  brand-primary: var(--clr-brand-primary),
+  brand-on-primary: var(--clr-brand-on-primary),
+  brand-secondary: var(--clr-brand-secondary),
+  brand-tertiary: var(--clr-brand-tertiary),
+  brand-danger: var(--clr-brand-danger),
+  primary-accent: var(--clr-brand-primary),
+  secondary-accent: var(--clr-brand-secondary),
+  tertiary-accent: var(--clr-brand-tertiary),
 ) !default;
 
 $semantic-fonts: (

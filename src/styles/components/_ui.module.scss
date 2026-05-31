@@ -12,12 +12,12 @@
     background: semantic-color(body-bg);
     padding: 0 size(2);
     font-family: semantic-font(mono);
-    font-size: fs(xs);
-    color: clr(brand-on-surface-variant);
-    background-color: clr(brand-primary);
+    font-size: fs("100");
+    color: semantic-color(brand-on-surface-variant);
+    background-color: semantic-color(brand-primary);
 
     span {
-      color: clr(brand-secondary);
+      color: semantic-color(brand-secondary);
     }
   }
 }
@@ -28,7 +28,7 @@
   padding: size(1) size(3);
   background: rgba(var(--clr-brand-surface-low-rgb), 0.8);
   border: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.1);
-  color: clr(brand-on-surface-variant);
+  color: semantic-color(brand-on-surface-variant);
   font-family: semantic-font(mono);
   font-size: 10px;
   font-weight: fw(bold);
@@ -40,7 +40,7 @@
   &--active {
     background: rgba(var(--clr-brand-primary-rgb), 0.1);
     border-color: rgba(var(--clr-brand-primary-rgb), 0.3);
-    color: clr(brand-primary);
+    color: semantic-color(brand-primary);
   }
 
   &--interactive {
@@ -50,12 +50,12 @@
   }
 
   &:hover {
-    color: clr(brand-primary);
+    color: semantic-color(brand-primary);
     background: rgba(var(--clr-brand-primary-rgb), 0.06);
   }
 
   &:focus-visible {
-    outline: 2px solid clr(brand-primary);
+    outline: 2px solid semantic-color(brand-primary);
     outline-offset: -2px;
   }
 }
@@ -70,12 +70,12 @@
   word-break: break-word;
 
   &__key {
-    color: clr(brand-secondary);
+    color: semantic-color(brand-secondary);
     font-weight: fw(bold);
   }
 
   &__val {
-    color: clr(brand-on-surface);
+    color: semantic-color(brand-on-surface);
     font-weight: fw(bold);
   }
 }

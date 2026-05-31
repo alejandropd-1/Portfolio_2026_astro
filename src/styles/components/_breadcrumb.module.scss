@@ -4,9 +4,9 @@
   display: flex;
   align-items: center;
   gap: size(3);
-  color: clr(brand-tertiary);
+  color: semantic-color(brand-tertiary);
   font-family: semantic-font(mono);
-  font-size: fs(xs);
+  font-size: fs("100");
   font-weight: fw(bold);
 
   &__list {
@@ -18,7 +18,7 @@
     transition: color 0.2s ease;
     cursor: pointer;
     &:hover {
-      color: clr(brand-primary);
+      color: semantic-color(brand-primary);
     }
   }
 
@@ -28,6 +28,6 @@
   }
 
   &__current {
-    color: clr(brand-primary);
+    color: semantic-color(brand-primary);
   }
 }

@@ -83,7 +83,7 @@ body {
 html {
   scrollbar-width: thin;
   scrollbar-color: rgba(var(--clr-brand-on-surface-rgb), 0.25)
-    clr(brand-surface-low);
+    semantic-color(brand-surface-low);
 }
 
 ::-webkit-scrollbar {
@@ -92,7 +92,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: clr(brand-surface-low);
+  background: semantic-color(brand-surface-low);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -100,12 +100,12 @@ html {
   border-radius: radius(soft);
 
   &:hover {
-    background: clr(brand-primary);
+    background: semantic-color(brand-primary);
   }
 }
 
 ::-webkit-scrollbar-corner {
-  background: clr(brand-surface-low);
+  background: semantic-color(brand-surface-low);
 }
 
 body {
@@ -113,7 +113,7 @@ body {
   background-color: semantic-color(body-bg);
   color: semantic-color(body-text);
   font-family: semantic-font(body);
-  font-size: fs(base);
+  font-size: fs("300");
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
@@ -156,15 +156,15 @@ main {
 }
 .primary-text,
 .text-primary {
-  color: clr(brand-primary);
+  color: semantic-color(brand-primary);
 }
 .secondary-text,
 .text-secondary {
-  color: clr(brand-secondary);
+  color: semantic-color(brand-secondary);
 }
 .tertiary-text,
 .text-tertiary {
-  color: clr(brand-tertiary);
+  color: semantic-color(brand-tertiary);
 }
 .mono {
   font-family: semantic-font(mono);
@@ -173,24 +173,24 @@ main {
 // Basic MDX Content Styling (Prose)
 article {
   h2 {
-    font-size: fs("4xl");
+    font-size: fs("800");
     margin-top: size(10);
     margin-bottom: size(8);
-    color: clr(brand-on-surface);
+    color: semantic-color(brand-on-surface);
   }
 
   h3 {
-    font-size: fs("2xl");
+    font-size: fs("600");
     margin-top: size(6);
     margin-bottom: size(6);
-    color: clr(brand-on-surface);
+    color: semantic-color(brand-on-surface);
   }
 
   p {
     margin-bottom: size(8);
     line-height: lh(relaxed);
-    color: clr(brand-on-surface-variant);
-    font-size: fs(lg);
+    color: semantic-color(brand-on-surface-variant);
+    font-size: fs("400");
   }
 
   ul {
@@ -200,7 +200,7 @@ article {
 
     li {
       margin-bottom: size(4);
-      color: clr(brand-on-surface-variant);
+      color: semantic-color(brand-on-surface-variant);
     }
   }
 }

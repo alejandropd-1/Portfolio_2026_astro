@@ -19,7 +19,7 @@
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.4em;
-    color: clr(brand-primary); // Changed to primary as per image header
+    color: semantic-color(brand-primary); // Changed to primary as per image header
     font-weight: fw(bold);
     margin-bottom: size(8);
   }
@@ -93,7 +93,7 @@
     letter-spacing: 0.05em;
 
     svg {
-      color: clr(brand-tertiary);
+      color: semantic-color(brand-tertiary);
       opacity: 0.7;
     }
   }
@@ -102,7 +102,7 @@
     padding: size(10) size(10);
     background: radial-gradient(
       circle at top left,
-      rgba(clr(brand-primary), 0.03),
+      rgba(semantic-color(brand-primary), 0.03),
       transparent 40%
     );
 
@@ -124,10 +124,10 @@
 
   &__prompt {
     font-family: semantic-font(mono);
-    font-size: fs("2xl");
+    font-size: fs("600");
     font-weight: fw(bold);
-    color: clr(brand-primary);
-    text-shadow: 0 0 10px rgba(clr(brand-primary), 0.5);
+    color: semantic-color(brand-primary);
+    text-shadow: 0 0 10px rgba(semantic-color(brand-primary), 0.5);
   }
 
   &__inputWrapper {
@@ -144,9 +144,9 @@
     transform: translateY(-50%);
     width: 12px;
     height: 1.7em;
-    background-color: clr(brand-primary);
+    background-color: semantic-color(brand-primary);
     opacity: 0.75;
-    box-shadow: 0 0 8px rgba(clr(brand-primary), 0.6);
+    box-shadow: 0 0 8px rgba(semantic-color(brand-primary), 0.6);
     pointer-events: none;
     animation: resume-caret-blink 1s infinite;
     transition: opacity 0.2s;
@@ -162,11 +162,11 @@
     background: transparent;
     border: none;
     padding: 0;
-    font-size: fs(xl);
+    font-size: fs("500");
     font-family: semantic-font(mono);
-    color: clr(brand-on-surface);
+    color: semantic-color(brand-on-surface);
     outline: none;
-    caret-color: clr(brand-primary);
+    caret-color: semantic-color(brand-primary);
     caret-shape: block;
 
     &::placeholder {
@@ -202,8 +202,8 @@
     span {
       // Brighter active border for tags inside the terminal
       &[class*="tag--active"] {
-        border-color: rgba(clr(brand-primary), 0.8) !important;
-        box-shadow: 0 0 10px rgba(clr(brand-primary), 0.1);
+        border-color: rgba(semantic-color(brand-primary), 0.8) !important;
+        box-shadow: 0 0 10px rgba(semantic-color(brand-primary), 0.1);
       }
     }
   }
@@ -214,7 +214,7 @@
     font-size: 10px;
     font-weight: fw(bold);
     letter-spacing: ls(wide)st;
-    color: rgba(clr(brand-on-surface-variant), 0.4);
+    color: rgba(semantic-color(brand-on-surface-variant), 0.4);
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -223,7 +223,7 @@
     border-bottom: 1px solid transparent;
 
     &:hover {
-      color: clr(brand-secondary);
+      color: semantic-color(brand-secondary);
       border-bottom-color: currentColor;
     }
   }
@@ -247,20 +247,20 @@
     font-weight: fw(bold);
     letter-spacing: ls(wide)st;
     text-transform: uppercase;
-    color: clr(brand-on-surface);
+    color: semantic-color(brand-on-surface);
     cursor: pointer;
     transition: all 0.3s ease;
 
     &:hover {
       background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(clr(brand-primary), 0.5);
-      color: clr(brand-primary);
+      border-color: rgba(semantic-color(brand-primary), 0.5);
+      color: semantic-color(brand-primary);
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     svg {
-      color: clr(brand-primary);
+      color: semantic-color(brand-primary);
     }
   }
 
@@ -292,14 +292,14 @@
       gap: size(2);
 
       span:first-child {
-        color: clr(brand-secondary);
+        color: semantic-color(brand-secondary);
       }
       span:last-child {
-        color: clr(brand-on-surface);
+        color: semantic-color(brand-on-surface);
       }
 
       &--primary span:last-child {
-        color: clr(brand-primary);
+        color: semantic-color(brand-primary);
         &:hover {
           text-decoration: underline;
           cursor: pointer;
@@ -341,11 +341,11 @@
 
       span {
         font-family: semantic-font(mono);
-        font-size: fs(xs);
-        color: clr(brand-primary);
+        font-size: fs("100");
+        color: semantic-color(brand-primary);
       }
       h2 {
-        font-size: fs("4xl");
+        font-size: fs("800");
         font-weight: fw(bold);
         letter-spacing: ls(tight);
       }
@@ -372,7 +372,7 @@
     }
 
     &Title {
-      font-size: fs("3xl");
+      font-size: fs("700");
       font-weight: fw(bold);
       margin-bottom: size(3);
     }
@@ -386,7 +386,7 @@
       letter-spacing: ls(wide)st;
 
       span:first-child {
-        color: clr(brand-secondary);
+        color: semantic-color(brand-secondary);
       }
       span:last-child {
         font-style: italic;
@@ -394,8 +394,8 @@
     }
 
     &Desc {
-      color: clr(brand-on-surface-variant);
-      font-size: fs(base);
+      color: semantic-color(brand-on-surface-variant);
+      font-size: fs("300");
       line-height: lh(relaxed);
       margin-bottom: size(8);
       max-width: 64rem;
@@ -411,12 +411,12 @@
     &Point {
       display: flex;
       gap: size(4);
-      font-size: fs(sm);
-      color: clr(brand-on-surface-variant);
+      font-size: fs("200");
+      color: semantic-color(brand-on-surface-variant);
       line-height: lh(relaxed);
 
       span {
-        color: clr(brand-primary);
+        color: semantic-color(brand-primary);
         margin-top: 6px;
         flex-shrink: 0;
       }
@@ -441,7 +441,7 @@
       font-size: 10px;
       font-weight: fw(bold);
       letter-spacing: ls(wide);
-      color: clr(brand-on-surface-variant);
+      color: semantic-color(brand-on-surface-variant);
       margin-bottom: size(12);
       text-transform: uppercase;
     }
@@ -465,14 +465,14 @@
 
       &Name {
         font-size: 11px;
-        color: clr(brand-on-surface-variant);
+        color: semantic-color(brand-on-surface-variant);
         text-transform: uppercase;
         letter-spacing: ls(wide)st;
       }
       &Val {
-        color: clr(brand-primary);
+        color: semantic-color(brand-primary);
         font-family: semantic-font(mono);
-        font-size: fs(xs);
+        font-size: fs("100");
       }
     }
   }
@@ -490,13 +490,13 @@
       margin-bottom: size(6);
 
       h3 {
-        font-size: fs("3xl");
+        font-size: fs("700");
         font-weight: fw(bold);
       }
       span {
         font-family: semantic-font(mono);
-        font-size: fs(xs);
-        color: clr(brand-on-surface-variant);
+        font-size: fs("100");
+        color: semantic-color(brand-on-surface-variant);
         text-transform: uppercase;
         letter-spacing: ls(wide)st;
       }

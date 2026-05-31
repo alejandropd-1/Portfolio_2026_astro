@@ -129,7 +129,7 @@
   }
 
   span {
-    color: $clr-brand-primary;
+    color: var(--clr-brand-primary);
     display: inline;
     font-style: normal;
   }
@@ -137,7 +137,7 @@
 
 @mixin page-subtitle {
   font-size: $fs-xl;
-  color: $clr-brand-on-surface-variant;
+  color: var(--clr-brand-on-surface-variant);
   line-height: $lh-relaxed;
 
   @include mq(md) {

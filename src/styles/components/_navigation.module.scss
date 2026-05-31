@@ -48,14 +48,14 @@
   &__logo {
     display: flex;
     align-items: center;
-    font-size: fs(lg);
+    font-size: fs("400");
     letter-spacing: ls(tight);
     font-weight: fw(bold);
-    color: clr(brand-primary);
+    color: semantic-color(brand-primary);
     z-index: 210; // stays above overlay
 
     span:first-child {
-      color: clr(brand-on-surface);
+      color: semantic-color(brand-on-surface);
       font-weight: fw(bold);
     }
 
@@ -64,7 +64,7 @@
     }
 
     &--overlay {
-      font-size: fs(xl);
+      font-size: fs("500");
     }
   }
 
@@ -82,19 +82,19 @@
   &__link {
     position: relative;
     font-family: semantic-font(mono);
-    font-size: fs(xs);
+    font-size: fs("100");
     font-weight: fw(bold);
     letter-spacing: ls(wide);
-    color: clr(brand-on-surface-variant);
+    color: semantic-color(brand-on-surface-variant);
     transition: color 0.3s ease;
     padding: size(2) 0;
 
     &:hover {
-      color: clr(brand-on-surface);
+      color: semantic-color(brand-on-surface);
     }
 
     &--active {
-      color: clr(brand-primary);
+      color: semantic-color(brand-primary);
     }
   }
 
@@ -104,7 +104,7 @@
     left: 0;
     width: 100%;
     height: 2px;
-    background: clr(brand-primary);
+    background: semantic-color(brand-primary);
   }
 
   // ── Action buttons row ──
@@ -117,14 +117,14 @@
   &__btn {
     background: none;
     border: none;
-    color: clr(brand-on-surface-variant);
+    color: semantic-color(brand-on-surface-variant);
     cursor: pointer;
     padding: size(2);
     border-radius: radius(soft);
     transition: all 0.3s ease;
 
     &:hover {
-      color: clr(brand-on-surface);
+      color: semantic-color(brand-on-surface);
       background: rgba(var(--clr-brand-on-surface-rgb), 0.05);
     }
 
@@ -143,7 +143,7 @@
       align-items: center;
       gap: size(2);
       font-family: semantic-font(mono);
-      font-size: fs(xs);
+      font-size: fs("100");
       letter-spacing: ls(wide);
       padding: size(3) size(4);
       border-radius: radius(soft);
@@ -151,7 +151,7 @@
 
       &:hover {
         border-color: rgba(var(--clr-brand-primary-rgb, 163, 241, 133), 0.35);
-        color: clr(brand-primary);
+        color: semantic-color(brand-primary);
       }
     }
   }
@@ -167,7 +167,7 @@
     border: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.15);
     border-radius: radius(soft);
     cursor: pointer;
-    color: clr(brand-primary);
+    color: semantic-color(brand-primary);
     transition:
       background 0.25s ease,
       border-color 0.25s ease,
@@ -176,7 +176,7 @@
 
     &--active {
       background: rgba(var(--clr-brand-surface-rgb), 0.9);
-      border-color: clr(brand-primary);
+      border-color: semantic-color(brand-primary);
     }
 
     // Only show on mobile
@@ -189,7 +189,7 @@
 // ── Terminal icon text ──
 .terminal_icon {
   font-family: semantic-font(mono);
-  font-size: fs(xs);
+  font-size: fs("100");
   font-weight: fw(bold);
   letter-spacing: ls(wide);
   display: inline-block;
@@ -268,9 +268,9 @@
     gap: size(3);
     padding: size(4) 0; // reduced from size(6) for better fit
     text-decoration: none;
-    color: clr(brand-on-surface-variant);
+    color: semantic-color(brand-on-surface-variant);
     font-family: semantic-font(mono);
-    font-size: fs(xl); // reduced from fs("2xl") for tighter vertical rhythm
+    font-size: fs("500"); // reduced from fs("600") for tighter vertical rhythm
     font-weight: fw(bold);
     letter-spacing: ls(wide);
     transition:
@@ -278,22 +278,22 @@
       padding-left 0.25s ease;
 
     &:hover {
-      color: clr(brand-on-surface);
+      color: semantic-color(brand-on-surface);
       padding-left: size(2);
     }
 
     &--active {
-      color: clr(brand-primary);
+      color: semantic-color(brand-primary);
 
       .mobile_overlay__index {
-        color: clr(brand-primary);
+        color: semantic-color(brand-primary);
       }
     }
   }
 
   &__index {
-    font-size: fs(xs);
-    color: clr(brand-primary);
+    font-size: fs("100");
+    color: semantic-color(brand-primary);
     font-weight: fw(bold);
     letter-spacing: ls(wide)st;
     flex-shrink: 0;
@@ -329,7 +329,7 @@
     font-family: semantic-font(mono);
     font-size: 0.6rem;
     letter-spacing: ls(wide)st;
-    color: clr(brand-on-surface-variant);
+    color: semantic-color(brand-on-surface-variant);
     opacity: 0.5;
   }
 }
@@ -338,18 +338,18 @@
 .meta {
   &__label {
     font-family: semantic-font(mono);
-    font-size: fs(xs);
+    font-size: fs("100");
     letter-spacing: ls(wide);
-    color: clr(brand-on-surface-variant);
+    color: semantic-color(brand-on-surface-variant);
     opacity: 0.6;
   }
 
   &__title {
     font-family: semantic-font(mono);
-    font-size: fs(lg);
+    font-size: fs("400");
     font-weight: fw(bold);
     letter-spacing: ls(wide);
-    color: clr(brand-primary);
+    color: semantic-color(brand-primary);
     font-style: italic;
   }
 }
