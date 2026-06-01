@@ -22,6 +22,7 @@ Cerrar la alineación con `C:\www\aledesign-portfolio-2025`, eliminando aliases 
 - Eliminados aliases internos sin consumidores `$body-bg`, `$body-text`, `$body-font`, `$mono-font` y `$heading-font`.
 - Preservados mapas funcionales `$font-families`, `$font-weights`, `$semantic-colors`, `$semantic-fonts`, `$layout-tokens`, `$containers` y `$radii` porque alimentan funciones Sass.
 - README y plantilla de migración actualizados para distinguir mapas funcionales de aliases legacy.
+- La plantilla `PROMPT_MIGRACION_TAILWIND_A_SASS.md` quedó agnóstica y autosuficiente: ya no depende de tener disponible el proyecto base 2025 para poder aplicarse en repos nuevos.
 - Preservado el build de producción para Netlify: `pnpm run build` sigue ejecutando `tinacms build && astro build`, con credenciales reales de Tina Cloud desde variables de entorno.
 - Agregado `pnpm run build:local` para compilar local/offline con `tinacms dev --port 4002 --datalayer-port 9001 -c "astro build"`, evitando consultar un schema ajeno si otro proyecto ocupa `4001/9000`.
 - Actualizado `pnpm run dev` para usar puertos locales propios: Tina `4002`, datalayer `9001` y Astro `4322`, evitando conflictos con OdontoPia u otros proyectos Tina en `4001/9000/4321`.

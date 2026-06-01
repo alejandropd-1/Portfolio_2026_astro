@@ -78,9 +78,9 @@ Portfolio_2026_astro/
 3. **Glassmorphism:** El efecto base está en `_mixins.scss`. Usar `@include glass(...)` para cualquier nueva superficie.
 4. **Tipografía:** Solo **Inter**. Variar peso (Thin → Bold) y tamaño para crear contraste.
 
-### SASS token logic — referencia 2025
+### SASS token logic — plantilla agnóstica
 
-La fuente de verdad para futuras conversiones es `C:\www\aledesign-portfolio-2025\src\styles`.
+La fuente de verdad para futuras conversiones es `PROMPT_MIGRACION_TAILWIND_A_SASS.md`. Esa plantilla es autosuficiente: no requiere tener a mano ningun proyecto base local.
 
 - `_colors.scss` usa primitivas privadas `$-clr-*`.
 - Los themes viven en mapas `$light` y `$dark`, agrupados por familias (`neutral`, `primary`, `secondary`, `accent`) y shades numericos.
@@ -95,7 +95,7 @@ La fuente de verdad para futuras conversiones es `C:\www\aledesign-portfolio-202
 
 La regla actual es eliminar aliases cuando ya no tienen consumidores y conservar los mapas que alimentan funciones:
 
-- `$font-size-100..1200`, `$font-weight-*`, `$body-*` y `$heading-*` siguen la nomenclatura del portfolio 2025.
+- `$font-size-100..1200`, `$font-weight-*`, `$body-*` y `$heading-*` siguen la nomenclatura canonica documentada en la plantilla de migracion.
 - `$font-sizes` usa valores numericos por pantalla (`small`, `large`) y `fs("*")` sólo resuelve CSS custom properties `--fs-*`.
 - `$font-families`, `$font-weights`, `$semantic-colors`, `$semantic-fonts`, `$layout-tokens`, `$containers` y `$radii` son mapas funcionales válidos porque alimentan `ff()`, `fw()`, `semantic-color()`, `semantic-font()`, `layout()`, `container()` y `radius()`.
 - `$fs-*`, `$fw-*`, `$font-size-xs..8xl`, `$font-size-aliases`, `$clr-brand-*`, `$colors`, `fs(base)` y `clr(brand-primary)` fueron retirados; no recrearlos.

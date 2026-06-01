@@ -23,8 +23,9 @@ Stack esperado:
 - Proyecto frontend generado inicialmente con Tailwind.
 - Refactor objetivo: SASS / SCSS.
 - Componentes con clases BEM.
-- Si el proyecto usa CSS Modules (`*.module.scss`), preservar ese alcance y aplicar la misma arquitectura de tokens/functions dentro de los módulos.
-- Si el proyecto inyecta `abstracts` globalmente con `vite.css.preprocessorOptions.scss.additionalData`, mantener esa convención y no agregar `@use` redundantes en cada módulo salvo que el repo ya lo haga.
+- Si el proyecto usa CSS Modules (`*.module.scss`), preservar ese alcance y aplicar la misma arquitectura de tokens/functions dentro de los modulos.
+- Si el proyecto inyecta `abstracts` globalmente con `vite.css.preprocessorOptions.scss.additionalData`, mantener esa convencion y no agregar `@use` redundantes en cada modulo salvo que el repo ya lo haga.
+- Opcional pero recomendado: Tina CMS para editar contenido y campos visuales desde dashboard/editor visual.
 - Estilos globales organizados en `src/styles/`.
 
 Arquitectura SASS objetivo:
@@ -272,7 +273,7 @@ FASE 3.5 - Mapas y functions como API del sistema
 
 Despues de crear variables primitivas y tokens semanticos, agregar mapas en los archivos fuente correspondientes. La idea es que cada escala pueda modificarse desde un lugar y que los componentes consuman funciones en vez de variables sueltas.
 
-La referencia principal es `C:\www\aledesign-portfolio-2025\src\styles\`. La logica importante de ese sistema es:
+Esta plantilla es autosuficiente: no dependas de un repositorio externo ni de un proyecto base local para copiar archivos. Implementar la siguiente logica como arquitectura canonica:
 
 - `_colors.scss` define primitivas privadas con prefijo `$-clr-*`.
 - Los colores no viven como una lista plana, sino en mapas `$light` y `$dark`.
@@ -416,13 +417,7 @@ $font-families: (
   sans: $font-sans,
   mono: $font-mono,
 ) !default;
-
-$font-weights: (
-  default: $font-weight-default,
-  medium: $font-weight-medium,
-  semi-bold: $font-weight-semi-bold,
-  bold: $font-weight-bold,
-) !default;```
+```
 
 Agregar en `_tokens.scss`:
 
@@ -619,14 +614,14 @@ Crear o actualizar `_root.scss` para generar variables runtime:
 }
 ```
 
-Las variables directas pueden existir como base interna del sistema, pero los componentes nuevos deben preferir funciones y tokens semanticos. No crear aliases tipograficos legacy como `fs(base)`, `fs(xs)` o `$font-size-xs`; usar siempre `fs("300")`, `fs("100")` y `$font-size-300`. No crear aliases de color legacy como `clr(primary)`, `clr(text-main)` o `$clr-primary`; usar familias y shades con `clr("primary", "500")` o tokens semanticos con `semantic-color(brand-primary)`.
+Las variables directas pueden existir como base interna del sistema, pero los componentes nuevos deben preferir funciones y tokens semanticos. No crear aliases tipograficos legacy como `fs(base)`, `fs(xs)` o `$font-size-xs`; usar siempre `fs("300")`, `fs("100")` y `$font-size-300`. No crear aliases de color legacy como `clr(primary)`, `clr(text-main)` o `$clr-primary`; usar familias y shades con `clr("primary", "500")`.
 
 Regla de depuracion:
 
-- Respetar la nomenclatura canonica del proyecto fuente (`aledesign-portfolio-2025`).
+- Respetar la nomenclatura canonica definida en esta plantilla.
 - Mover decisiones editables a `_tokens.scss`.
 - Mantener `_sizes.scss`, `_typography.scss` y `_colors.scss` como primitivas/mapas.
-- Conservar mapas funcionales que alimentan funciones (`$radii`, `$shadows`, `$transitions`, `$containers`, `$font-families`, `$font-weights`, `$semantic-colors`).
+- Conservar mapas funcionales que alimentan funciones (`$radii`, `$shadows`, `$transitions`, `$containers`, `$font-families`, `$font-weights`).
 - Recordar que `utilities/` genera clases CSS y no reemplaza los mapas funcionales.
 - Mantener `_breakpoints.scss` como mapa puro.
 - Mantener mixins en `_mixins.scss`.
@@ -693,16 +688,16 @@ Regla mobile-first:
 ```scss
 .element {
   // mobile base
-  font-size: $font-size-base;
+  font-size: fs("300");
 
   @include mq(sm) {
     // tablet o mayor
-    font-size: $font-size-lg;
+    font-size: fs("400");
   }
 
   @include mq(lg) {
     // desktop o mayor
-    font-size: $font-size-xl;
+    font-size: fs("500");
   }
 }
 ```
@@ -752,10 +747,10 @@ Ejemplo:
 
   &__title {
     font-family: ff(serif);
-    font-size: fs("2-5xl");
+    font-size: fs("650");
 
     @include mq(sm) {
-      font-size: fs("5xl");
+      font-size: fs("900");
     }
   }
 }
@@ -812,15 +807,15 @@ Ejemplos correctos:
 ```scss
 padding: 1rem; // -> padding: size(4);
 gap: 0.75rem; // -> gap: size(3);
-font-size: 1.125rem; // -> font-size: fs(lg);
+font-size: 1.125rem; // -> font-size: fs("400");
 border-radius: 1rem; // -> border-radius: radius(lg);
 ```
 
 Ejemplos incorrectos:
 
 ```scss
-font-size: 1.15rem; // NO reemplazar por fs(lg) si vale 1.125rem
-font-size: 1.3rem; // NO reemplazar por fs(xl) si vale 1.25rem
+font-size: 1.15rem; // NO reemplazar por fs("400") si vale 1.125rem
+font-size: 1.3rem; // NO reemplazar por fs("500") si vale 1.25rem
 transition: 300ms ease; // NO reemplazar por transition(base) si vale 250ms
 border-radius: 0.75rem; // NO usar radius(md) si vale 0.5rem
 ```
@@ -848,12 +843,12 @@ Ejemplos:
 ```scss
 // Antes
 @media (min-width: 640px) {
-  font-size: fs(lg);
+  font-size: fs("400");
 }
 
 // Despues
 @include mq(sm) {
-  font-size: fs(lg);
+  font-size: fs("400");
 }
 ```
 
@@ -878,7 +873,366 @@ Reglas:
 - Verificar build.
 - Reportar cuantas media queries fueron reemplazadas.
 
-FASE 8 - Control de calidad
+FASE 8 - Tina CMS visual editing generico
+
+Si el proyecto usa Tina CMS, o se quiere dejar preparado para edicion visual, aplicar esta fase despues de estabilizar SASS/BEM.
+
+Objetivo:
+Mover contenido hardcodeado de React/Astro a documentos editables, sin convertir Tina en un editor de SASS. Tina debe controlar datos, contenido, imagenes, orden, visibilidad y variantes visuales; SASS debe seguir definiendo el sistema visual.
+
+Regla clave:
+
+```txt
+SASS define el sistema.
+Tina define el contenido y las decisiones visuales editables.
+```
+
+Auditoria inicial:
+
+1. Revisar `tina/config.ts`.
+2. Revisar `src/content.config.ts`.
+3. Identificar si ya existen colecciones Tina.
+4. Identificar si hay `useTina`, `tinaField` o `data-tina-field`.
+5. Identificar que contenido esta hardcodeado en componentes:
+   - hero
+   - navbar
+   - cards
+   - articulos/posts/proyectos/items repetibles
+   - testimonios
+   - contacto
+   - footer
+   - SEO
+   - CTAs
+6. Decidir que debe ser documento unico y que debe ser coleccion propia.
+
+Patron recomendado:
+
+- Usar una coleccion `pages` para paginas editables como `home.mdx`, `about.mdx`, `services.mdx`, etc.
+- Usar colecciones propias para entidades que van a crecer o que necesitan categoria, filtros, orden o pagina de detalle:
+  - `articles` / `posts`
+  - `projects`
+  - `services`
+  - `items`
+  - `team`
+  - `testimonials`
+- No guardar listas grandes y crecientes dentro de un unico `home.mdx` si se espera que crezcan, filtren o tengan detalle propio.
+
+Ejemplo de estructura:
+
+```txt
+src/content/
+├── pages/
+│   └── home.mdx
+├── articles/
+│   ├── category-one/
+│   │   └── article-one.mdx
+│   └── category-two/
+│       └── article-two.mdx
+├── items/
+│   ├── item-one.mdx
+│   └── item-two.mdx
+└── global/
+    └── settings.mdx
+```
+
+Coleccion `pages` generica:
+
+```ts
+{
+  name: "pages",
+  label: "Pages",
+  path: "src/content/pages",
+  format: "mdx",
+  ui: {
+    router: ({ document }) => {
+      const name = document._sys.filename;
+      if (name === "home") return "/";
+      return undefined;
+    },
+  },
+  fields: [
+    {
+      type: "string",
+      name: "_template",
+      label: "Template ID",
+      ui: { component: "hidden" },
+    },
+    {
+      type: "string",
+      name: "title",
+      label: "SEO Title",
+      isTitle: true,
+      required: true,
+    },
+    {
+      type: "string",
+      name: "description",
+      label: "SEO Description",
+      ui: { component: "textarea" },
+    },
+    {
+      type: "object",
+      name: "hero",
+      label: "Hero",
+      fields: [
+        { type: "string", name: "eyebrow", label: "Eyebrow" },
+        { type: "string", name: "title", label: "Title" },
+        { type: "string", name: "subtitle", label: "Subtitle", ui: { component: "textarea" } },
+        { type: "image", name: "image", label: "Image" },
+        { type: "string", name: "primaryCtaLabel", label: "Primary CTA Label" },
+        { type: "string", name: "primaryCtaUrl", label: "Primary CTA URL" },
+      ],
+    },
+  ],
+}
+```
+
+Coleccion propia para articulos/posts con categorias:
+
+```ts
+{
+  name: "articles",
+  label: "Articles",
+  path: "src/content/articles",
+  format: "mdx",
+  ui: {
+    router: ({ document }) => {
+      const path = document._sys.relativePath.replace(/\.(mdx|md)$/, "");
+      return `/articles/${path}`;
+    },
+  },
+  fields: [
+    { type: "string", name: "title", label: "Title", isTitle: true, required: true },
+    { type: "string", name: "excerpt", label: "Excerpt", ui: { component: "textarea" } },
+    { type: "datetime", name: "date", label: "Date" },
+    { type: "string", name: "category", label: "Category", required: true },
+    { type: "string", name: "tags", label: "Tags", list: true },
+    { type: "image", name: "image", label: "Cover Image" },
+    { type: "number", name: "order", label: "Order" },
+    { type: "boolean", name: "featured", label: "Visible" },
+    { type: "rich-text", name: "body", label: "Body", isBody: true },
+  ],
+}
+```
+
+Coleccion propia para items/proyectos/servicios repetibles:
+
+```ts
+{
+  name: "items",
+  label: "Items",
+  path: "src/content/items",
+  format: "mdx",
+  fields: [
+    { type: "string", name: "itemId", label: "Item ID", required: true },
+    { type: "string", name: "title", label: "Title", isTitle: true, required: true },
+    { type: "string", name: "category", label: "Category", options: ["A", "B", "C"] },
+    { type: "string", name: "summary", label: "Summary", ui: { component: "textarea" } },
+    { type: "image", name: "image", label: "Image" },
+    { type: "number", name: "order", label: "Order" },
+    { type: "boolean", name: "featured", label: "Visible" },
+  ],
+}
+```
+
+Notas:
+
+- No usar `id` como field editorial si Tina/GraphQL ya lo usa como campo reservado. Preferir `itemId`, `postId`, `articleId`, `projectId`, `serviceId`, etc.
+- Agregar `ui.itemProps` en listas de objetos para que el editor sea legible:
+
+```ts
+ui: {
+  itemProps: (item) => ({ label: item?.title || "Item" }),
+}
+```
+
+Actualizar `src/content.config.ts`:
+
+```ts
+const pagesCollection = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/pages" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    hero: z.any().optional(),
+  }),
+});
+
+const articlesCollection = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/articles" }),
+  schema: z.object({
+    title: z.string(),
+    excerpt: z.string().optional(),
+    date: z.string().or(z.date()).optional(),
+    category: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+    image: z.string().optional(),
+    order: z.number().optional(),
+    featured: z.boolean().default(true),
+  }),
+});
+
+export const collections = {
+  pages: pagesCollection,
+  articles: articlesCollection,
+};
+```
+
+Patron de datos para Astro:
+
+- Para build estatico robusto, construir datos iniciales con Astro Content Collections (`getCollection`) en vez de depender de que el servidor GraphQL local de Tina este levantado.
+- Pasar igualmente `query`, `variables` y `data` al componente React para habilitar `useTina`.
+- Evitar que `astro build` falle por `fetch failed` a `localhost:4001`.
+
+Ejemplo:
+
+```astro
+---
+import { getCollection } from "astro:content";
+import { HOME_PAGE_QUERY } from "../lib/tinaHomeQuery";
+import MainPage from "../components/MainPage";
+
+const pages = await getCollection("pages");
+const articleEntries = await getCollection("articles");
+
+const home = pages.find((entry) => entry.id === "home");
+const articles = articleEntries
+  .map((entry) => ({
+    ...entry.data,
+    _sys: { relativePath: `${entry.id}.mdx` },
+  }))
+  .sort((a, b) => (a.order || 99) - (b.order || 99));
+
+const variables = { relativePath: "home.mdx" };
+const tinaData = {
+  pages: home?.data,
+  articlesConnection: {
+    edges: articles.map((node) => ({ node })),
+  },
+};
+---
+
+<MainPage
+  client:load
+  query={HOME_PAGE_QUERY}
+  variables={variables}
+  data={tinaData}
+/>
+```
+
+Patron en React:
+
+```tsx
+import { useTina, tinaField } from "tinacms/dist/react";
+
+export default function MainPage({ query, variables, data }) {
+  const { data: tinaData } = useTina({ query, variables, data });
+  const page = tinaData.pages;
+  const articles = tinaData.articlesConnection.edges.map((edge) => edge.node);
+
+  return (
+    <Hero data={page.hero} articles={articles} />
+  );
+}
+```
+
+Marcar campos para edicion visual:
+
+```tsx
+import { tinaField } from "tinacms/dist/react";
+
+export function Hero({ data }) {
+  return (
+    <section className="hero">
+      <p data-tina-field={tinaField(data, "eyebrow")}>
+        {data.eyebrow}
+      </p>
+      <h1 data-tina-field={tinaField(data, "title")}>
+        {data.title}
+      </h1>
+      <img
+        src={data.image}
+        alt={data.imageAlt || data.title}
+        data-tina-field={tinaField(data, "image")}
+      />
+    </section>
+  );
+}
+```
+
+Para listas:
+
+```tsx
+{items.map((item) => (
+  <article key={item.itemId || item._sys.relativePath}>
+    <h3 data-tina-field={tinaField(item, "title")}>
+      {item.title}
+    </h3>
+    <p data-tina-field={tinaField(item, "summary")}>
+      {item.summary}
+    </p>
+  </article>
+))}
+```
+
+Reglas de modelado:
+
+- Textos visibles deben vivir en Tina si el cliente/editor podria querer cambiarlos.
+- Imagenes visibles deben ser `image` fields.
+- CTAs deben separar label y URL.
+- Repetibles deben ser `object list` o coleccion propia segun crecimiento esperado.
+- Variantes visuales deben ser strings con `options`, no texto libre, por ejemplo:
+
+```ts
+{ type: "string", name: "variant", label: "Variant", options: ["default", "featured", "compact"] }
+```
+
+- Las variantes visuales se mapean a clases BEM, `data-variant`, `data-theme` o CSS custom properties.
+- No permitir que Tina escriba clases arbitrarias si no hay una razon clara.
+- No mover comportamiento interactivo a Tina. Estados, filtros, formularios, sliders y animaciones siguen en React.
+- Tina define contenido; React define comportamiento; SASS define sistema visual.
+
+Build local con credenciales dummy:
+
+Si el proyecto usa credenciales dummy o todavia no esta conectado a Tina Cloud, `tinacms build` puede fallar por validacion Cloud. Para verificar schema y build local:
+
+```bash
+pnpm exec tinacms build --skip-cloud-checks --content=local --skip-search-index
+pnpm exec astro build
+```
+
+Si se quiere dejar el script local-friendly:
+
+```json
+{
+  "scripts": {
+    "dev": "tinacms dev -c \"astro dev\"",
+    "build": "tinacms build --skip-cloud-checks --content=local --skip-search-index && astro build"
+  }
+}
+```
+
+Dashboard custom:
+
+No hacerlo primero. Primero debe funcionar la edicion visual de la pagina. Luego se puede crear un dashboard custom como screen plugin:
+
+- total de items
+- items sin imagen
+- items ocultos
+- documentos incompletos
+- accesos rapidos a editar documentos
+
+Control de esta fase:
+
+- [ ] Existe coleccion `pages` para documentos de pagina.
+- [ ] Las entidades crecientes tienen coleccion propia.
+- [ ] Astro build no depende de `localhost:4001`.
+- [ ] React usa `useTina`.
+- [ ] Los campos visuales usan `data-tina-field`.
+- [ ] Tina build local pasa.
+- [ ] Astro build pasa.
+
+FASE 9 - Control de calidad
 
 Ejecutar:
 
@@ -923,6 +1277,9 @@ Checklist final:
 - [ ] La tokenizacion no cambio valores visuales.
 - [ ] Los breakpoints usan `mq(sm/md/lg)`.
 - [ ] La arquitectura responsive es mobile-first.
+- [ ] Si se usa Tina, el contenido editable vive en colecciones/documentos CMS y no hardcodeado en React.
+- [ ] Si se usa Tina, las entidades crecientes tienen coleccion propia.
+- [ ] Si se usa Tina, los campos visuales usan `data-tina-field`.
 - [ ] El build pasa.
 
 Importante:
