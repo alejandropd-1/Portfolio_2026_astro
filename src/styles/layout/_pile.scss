@@ -1,0 +1,6 @@
+@use "../abstracts" as *;
+
+.pile {
+  display: grid;
+  gap: var(--pile-gap, #{size(4)});
+}

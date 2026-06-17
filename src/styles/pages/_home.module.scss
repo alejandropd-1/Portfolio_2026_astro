@@ -2,26 +2,26 @@
 
 .home {
   &__hero {
-    padding: 0 0 $size-12;
-    margin-bottom: $size-12;
+    padding: 0 0 size(12);
+    margin-bottom: size(12);
   }
 
   &__breadcrumbRow {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: $size-20;
-    padding-bottom: $size-8;
+    padding-top: size(20);
+    padding-bottom: size(8);
   }
 
   &__title {
     @include page-title;
-    margin-bottom: $size-8;
+    margin-bottom: size(8);
   }
 
   &__grid {
     display: grid;
-    gap: $size-12;
+    gap: size(12);
 
     @include mq(lg) {
       grid-template-columns: repeat(12, 1fr);
@@ -35,7 +35,7 @@
 
     display: flex;
     flex-direction: column;
-    gap: $size-12;
+    gap: size(12);
 
     // Override SyntaxCard to fix background-on-background and status info placement
     :global([class*="syntaxCard"]) {
@@ -58,19 +58,19 @@
 
     display: flex;
     flex-direction: column;
-    gap: $size-12;
+    gap: size(12);
   }
 
   &__filterGroup {
     display: flex;
     flex-direction: column;
-    gap: $size-3;
-    // margin-bottom: $size-10;
-    // margin-top: $size-8;
+    gap: size(3);
+    // margin-bottom: size(10);
+    // margin-top: size(8);
     background: rgba(var(--clr-brand-surface-low-rgb), 0.8);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: $size-6;
-    border-radius: $radius-soft;
+    padding: size(6);
+    border-radius: radius(soft);
   }
 
   // anti-FOUC: invisible until hydrated, then fade in
@@ -86,11 +86,11 @@
   &__filterTags {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: $size-2;
+    gap: size(2);
   }
 
   &__statusInfo {
-    margin-top: $size-6;
+    margin-top: size(6);
     padding: 0;
     border: none;
     opacity: 0.8;
@@ -147,7 +147,7 @@
   &__featuredImageContainer {
     position: relative;
     overflow: hidden;
-    background: $clr-brand-surface-low;
+    background: semantic-color(brand-surface-low);
     // aspect-ratio: 16 / 9;
 
     @include mq(md) {
@@ -166,27 +166,27 @@
   }
 
   &__featuredInfo {
-    padding: $size-8;
+    padding: size(8);
     display: flex;
     flex-direction: column;
     justify-content: center;
 
     @include mq(md) {
-      padding: $size-12;
+      padding: size(12);
     }
   }
 
   &__featuredMeta {
     display: flex;
     align-items: center;
-    gap: $size-2;
-    color: $clr-brand-tertiary;
-    font-family: $mono-font;
-    font-size: $fs-xs;
-    font-weight: $fw-bold;
+    gap: size(2);
+    color: semantic-color(brand-tertiary);
+    font-family: semantic-font(mono);
+    font-size: fs("100");
+    font-weight: fw(bold);
     text-transform: uppercase;
-    letter-spacing: $ls-widest;
-    margin-bottom: $size-4;
+    letter-spacing: ls(wide)st;
+    margin-bottom: size(4);
 
     span {
       opacity: 0.6;
@@ -194,42 +194,42 @@
   }
 
   &__featuredTitle {
-    font-size: $fs-3xl;
+    font-size: fs("700");
     @include mq(md) {
-      font-size: $fs-5xl;
+      font-size: fs("900");
     }
-    font-weight: $fw-bold;
-    margin-bottom: $size-6;
-    letter-spacing: $ls-tight;
-    line-height: $ls-tight;
+    font-weight: fw(bold);
+    margin-bottom: size(6);
+    letter-spacing: ls(tight);
+    line-height: ls(tight);
   }
 
   &__featuredDesc {
-    color: $clr-brand-on-surface-variant;
-    font-size: $fs-sm;
+    color: semantic-color(brand-on-surface-variant);
+    font-size: fs("200");
     @include mq(md) {
-      font-size: $fs-base;
+      font-size: fs("300");
     }
     line-height: 1.6;
-    margin-bottom: $size-8;
+    margin-bottom: size(8);
   }
 
   &__featuredStack {
     display: flex;
     flex-wrap: wrap;
-    gap: $size-2;
-    margin-bottom: $size-10;
+    gap: size(2);
+    margin-bottom: size(10);
   }
 
   &__featuredCTA {
     display: flex;
     align-items: center;
-    gap: $size-3;
-    font-size: $fs-xs;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-widest;
-    color: $clr-brand-primary;
-    margin-top: $size-8;
+    gap: size(3);
+    font-size: fs("100");
+    font-weight: fw(bold);
+    letter-spacing: ls(wide)st;
+    color: semantic-color(brand-primary);
+    margin-top: size(8);
   }
 
   &__tagFit {
@@ -238,8 +238,8 @@
 
   &__layoutGroup {
     display: flex;
-    gap: $size-2;
-    margin-top: $size-8;
+    gap: size(2);
+    margin-top: size(8);
     flex-wrap: wrap;
   }
 
@@ -249,25 +249,25 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    gap: $size-6;
-    padding: $size-20 0;
+    gap: size(6);
+    padding: size(20) 0;
 
     p {
-      font-family: $mono-font;
-      font-size: $fs-sm;
-      color: $clr-brand-on-surface-variant;
+      font-family: semantic-font(mono);
+      font-size: fs("200");
+      color: semantic-color(brand-on-surface-variant);
       opacity: 0.5;
-      letter-spacing: $ls-wide;
+      letter-spacing: ls(wide);
     }
   }
 
   &__emptyReset {
-    font-family: $mono-font;
-    font-size: $fs-xs;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-widest;
+    font-family: semantic-font(mono);
+    font-size: fs("100");
+    font-weight: fw(bold);
+    letter-spacing: ls(wide)st;
     text-transform: uppercase;
-    color: $clr-brand-primary;
+    color: semantic-color(brand-primary);
     background: none;
     border: none;
     padding: 0;
@@ -284,7 +284,7 @@
   &__listView {
     display: flex;
     flex-direction: column;
-    gap: $size-16;
+    gap: size(16);
   }
 
   &__listGroup {
@@ -293,14 +293,14 @@
   }
 
   &__listGroupTitle {
-    font-family: $mono-font;
-    font-size: $fs-xs;
-    font-weight: $fw-bold;
+    font-family: semantic-font(mono);
+    font-size: fs("100");
+    font-weight: fw(bold);
     text-transform: uppercase;
-    letter-spacing: $ls-widest;
-    color: $clr-brand-secondary;
-    margin: 0 0 $size-4;
-    padding-bottom: $size-4;
+    letter-spacing: ls(wide)st;
+    color: semantic-color(brand-secondary);
+    margin: 0 0 size(4);
+    padding-bottom: size(4);
     position: relative;
 
     // Accent underline — not a border, a gradient pseudo-element
@@ -309,9 +309,9 @@
       position: absolute;
       bottom: 0;
       left: 0;
-      width: $size-8;
+      width: size(8);
       height: 2px;
-      background: $clr-brand-secondary;
+      background: semantic-color(brand-secondary);
       border-radius: 2px;
       opacity: 0.6;
     }
@@ -327,8 +327,8 @@
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: start;
-    gap: $size-5;
-    padding: $size-8 0;
+    gap: size(5);
+    padding: size(8) 0;
     text-decoration: none;
     position: relative;
 
@@ -350,12 +350,12 @@
     &:hover {
       .home__listItemArrow {
         transform: translateY(6px) translateX(2px);
-        color: $clr-brand-primary;
+        color: semantic-color(brand-primary);
         opacity: 1;
       }
 
       .home__listItemTitle {
-        color: $clr-brand-primary;
+        color: semantic-color(brand-primary);
       }
 
       .home__listItemYear {
@@ -365,7 +365,7 @@
   }
 
   &__listItemArrow {
-    color: $clr-brand-on-surface-variant;
+    color: semantic-color(brand-on-surface-variant);
     opacity: 0.4;
     flex-shrink: 0;
     margin-top: 6px; // align visually with title cap-height
@@ -378,59 +378,59 @@
   &__listItemContent {
     display: flex;
     flex-direction: column;
-    gap: $size-4;
+    gap: size(4);
   }
 
   &__listItemHeader {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: $size-6;
+    gap: size(6);
     flex-wrap: wrap;
   }
 
   &__listItemTitle {
-    font-size: $fs-2xl;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-tight;
-    line-height: $lh-tight;
-    color: $clr-brand-on-surface;
+    font-size: fs("600");
+    font-weight: fw(bold);
+    letter-spacing: ls(tight);
+    line-height: lh(tight);
+    color: semantic-color(brand-on-surface);
     transition: color 0.22s ease;
 
     @include mq(md) {
-      font-size: $fs-3xl;
+      font-size: fs("700");
     }
   }
 
   &__listItemYear {
-    font-family: $mono-font;
+    font-family: semantic-font(mono);
     font-size: 10px;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-wide;
-    color: $clr-brand-on-surface-variant;
+    font-weight: fw(bold);
+    letter-spacing: ls(wide);
+    color: semantic-color(brand-on-surface-variant);
     opacity: 0.4;
     white-space: nowrap;
     flex-shrink: 0;
     transition: opacity 0.22s ease;
 
     @include mq(md) {
-      font-size: $fs-xs;
+      font-size: fs("100");
     }
   }
 
   &__listItemMeta {
     display: flex;
     flex-wrap: wrap;
-    gap: $size-4 $size-8;
-    padding: $size-3 $size-5;
+    gap: size(4) size(8);
+    padding: size(3) size(5);
     background: rgba(var(--clr-brand-surface-low-rgb), 0.5);
-    border-radius: $radius-soft;
+    border-radius: radius(soft);
   }
 
   &__listItemDesc {
-    font-size: $fs-sm;
-    color: $clr-brand-on-surface-variant;
-    line-height: $lh-relaxed;
+    font-size: fs("200");
+    color: semantic-color(brand-on-surface-variant);
+    line-height: lh(relaxed);
     max-width: 68ch;
     margin: 0;
   }
@@ -438,12 +438,12 @@
   &__listItemTags {
     display: flex;
     flex-wrap: wrap;
-    gap: $size-2;
+    gap: size(2);
   }
 
   &__projectGrid {
     display: grid;
-    gap: $size-12;
+    gap: size(12);
 
     @include mq(md) {
       grid-template-columns: repeat(2, 1fr);
@@ -456,7 +456,7 @@
   }
 
   &__projectCard {
-    border-radius: $radius-soft;
+    border-radius: radius(soft);
     padding: 0;
     height: 100%;
     display: flex;
@@ -477,12 +477,12 @@
       transform: translateY(-2px);
 
       .home__projectCardTitle {
-        color: $clr-brand-primary;
+        color: semantic-color(brand-primary);
       }
     }
 
     &Body {
-      padding: $size-8;
+      padding: size(8);
       display: flex;
       flex-direction: column;
       flex: 1;
@@ -503,7 +503,7 @@
     }
 
     &Code {
-      padding: $size-8;
+      padding: size(8);
       background: rgba(white, 0.03);
       aspect-ratio: 16 / 9;
       display: flex;
@@ -513,8 +513,8 @@
 
       pre {
         font-size: 10px;
-        color: $clr-brand-tertiary;
-        font-family: $mono-font;
+        color: semantic-color(brand-tertiary);
+        font-family: semantic-font(mono);
         white-space: pre-wrap;
         word-break: break-word;
       }
@@ -523,34 +523,34 @@
     &Meta {
       display: flex;
       align-items: center;
-      gap: $size-2;
-      color: $clr-brand-tertiary;
-      font-family: $mono-font;
+      gap: size(2);
+      color: semantic-color(brand-tertiary);
+      font-family: semantic-font(mono);
       font-size: 9px;
-      font-weight: $fw-bold;
+      font-weight: fw(bold);
       text-transform: uppercase;
-      letter-spacing: $ls-widest;
-      margin-bottom: $size-4;
+      letter-spacing: ls(wide)st;
+      margin-bottom: size(4);
     }
 
     &Title {
-      font-size: $fs-2xl;
-      font-weight: $fw-bold;
-      margin-bottom: $size-6;
-      letter-spacing: $ls-tight;
+      font-size: fs("600");
+      font-weight: fw(bold);
+      margin-bottom: size(6);
+      letter-spacing: ls(tight);
       transition: color 0.3s ease;
     }
 
     &Details {
-      margin-bottom: $size-8;
+      margin-bottom: size(8);
       margin-top: auto;
       background: rgba(var(--clr-brand-surface-low-rgb), 0.6);
-      padding: $size-5 $size-6;
+      padding: size(5) size(6);
       border: 1px solid rgba(255, 255, 255, 0.03);
       border-radius: 4px;
       display: flex;
       flex-direction: column;
-      gap: $size-1;
+      gap: size(1);
     }
 
     &Footer {
@@ -558,18 +558,18 @@
       align-items: center;
       justify-content: space-between;
       margin-top: auto;
-      padding-top: $size-6;
+      padding-top: size(6);
       border-top: 1px solid rgba(white, 0.05);
     }
 
     &Link {
       display: flex;
       align-items: center;
-      gap: $size-2;
-      font-size: $fs-xs;
-      font-weight: $fw-bold;
-      letter-spacing: $ls-widest;
-      color: $clr-brand-on-surface-variant;
+      gap: size(2);
+      font-size: fs("100");
+      font-weight: fw(bold);
+      letter-spacing: ls(wide)st;
+      color: semantic-color(brand-on-surface-variant);
       text-transform: uppercase;
       transition: color 0.3s ease;
 

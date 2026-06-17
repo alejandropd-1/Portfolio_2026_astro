@@ -1,0 +1,5 @@
+@use "../abstracts" as *;
+
+.flow > * + * {
+  margin-block-start: var(--flow-space, #{size(4)});
+}

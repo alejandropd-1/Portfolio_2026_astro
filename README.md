@@ -75,8 +75,34 @@ Portfolio_2026_astro/
 
 1. **SASS Modules:** Cada componente React o Astro tiene su propio `_nombre.module.scss`.
 2. **Global Abstracts:** Variables, tokens y mixins en `src/styles/abstracts/`. Se inyectan automáticamente via Vite — **no usar `@use` ni `@import` manual de abstracts** en los módulos.
-3. **Glassmorphism:** El efecto base está en `_mixins.scss`. Usar `@include glass-surface` para cualquier nueva superficie.
+3. **Glassmorphism:** El efecto base está en `_mixins.scss`. Usar `@include glass(...)` para cualquier nueva superficie.
 4. **Tipografía:** Solo **Inter**. Variar peso (Thin → Bold) y tamaño para crear contraste.
+
+### SASS token logic — plantilla agnóstica
+
+La fuente de verdad para futuras conversiones es `PROMPT_MIGRACION_TAILWIND_A_SASS.md`. Esa plantilla es autosuficiente: no requiere tener a mano ningun proyecto base local.
+
+- `_colors.scss` usa primitivas privadas `$-clr-*`.
+- Los themes viven en mapas `$light` y `$dark`, agrupados por familias (`neutral`, `primary`, `secondary`, `accent`) y shades numericos.
+- `_tokens.scss` centraliza `$active-theme`, tokens semanticos y decisiones editables del sistema.
+- `_breakpoints.scss` solo define `$breakpoints`; los mixins viven en `_mixins.scss`.
+- `_globals.scss` genera CSS custom properties desde `$active-theme` y desde `$font-sizes`.
+- `_typography.scss` usa escala responsive por pantalla (`small`, `large`) con numeracion amplia (`100`, `200`, `300`, `900`, `1000`, `1200`) para permitir intermedios futuros.
+- `clr("primary", "500")`, `semantic-color(brand-primary)` y `fs("400")` son el formato recomendado para estilos nuevos.
+- Aliases legacy como `clr(brand-primary)`, `fs(base)`, `$font-size-xs`, `$fs-xl`, `$fw-bold`, `$clr-brand-*` y `$colors` fueron retirados; no recrearlos.
+
+### Depuración de aliases
+
+La regla actual es eliminar aliases cuando ya no tienen consumidores y conservar los mapas que alimentan funciones:
+
+- `$font-size-100..1200`, `$font-weight-*`, `$body-*` y `$heading-*` siguen la nomenclatura canonica documentada en la plantilla de migracion.
+- `$font-sizes` usa valores numericos por pantalla (`small`, `large`) y `fs("*")` sólo resuelve CSS custom properties `--fs-*`.
+- `$font-families`, `$font-weights`, `$semantic-colors`, `$semantic-fonts`, `$layout-tokens`, `$containers` y `$radii` son mapas funcionales válidos porque alimentan `ff()`, `fw()`, `semantic-color()`, `semantic-font()`, `layout()`, `container()` y `radius()`.
+- `$fs-*`, `$fw-*`, `$font-size-xs..8xl`, `$font-size-aliases`, `$clr-brand-*`, `$colors`, `fs(base)` y `clr(brand-primary)` fueron retirados; no recrearlos.
+- Tokens de layout editables como `$container-max`, `$radius-soft` y `$nav-height` viven en `_tokens.scss`.
+- `_sizes.scss` debe quedar como escala primitiva de spacing/sizing.
+- `utilities/` genera clases CSS reutilizables; no reemplaza los mapas funcionales de Sass.
+- Mixins responsive y visuales (`mq`, `heading`, `glass`, `page-title`, `energy-grid-*`) viven en `_mixins.scss`.
 
 ### Fondo animado — Energy Grid
 
@@ -101,9 +127,9 @@ Editar directamente los archivos `.mdx` en `src/content/`. Al guardar, Astro HMR
 # Node >=22 LTS recomendado (22.x o 24.x)
 # nvm use 22  # o: nvm use 24
 
-npm run dev
-# Astro corre en:    http://localhost:4321
-# Admin panel en:    http://localhost:4321/admin/index.html
+pnpm run dev
+# Astro corre en:    http://localhost:4322
+# Admin panel en:    http://localhost:4322/admin/index.html
 ```
 
 El panel permite editar sin tocar el código. Los cambios se guardan directamente en los archivos `.mdx`.
@@ -270,7 +296,7 @@ for (const [path, content] of Object.entries(rawFiles)) {
 ## 🛠️ Scripts
 
 ```bash
-npm run dev       # TinaCMS + Astro dev server (Node >=22 LTS)
+pnpm run dev       # TinaCMS + Astro dev server (Node >=22 LTS)
 npm run build     # Build de producción en dist/
 npm run preview   # Preview del build
 npx astro check   # TypeScript diagnostics
@@ -326,7 +352,7 @@ El feed está en `src/pages/rss.xml.ts` y se genera en cada build de Astro. Cons
 
 1. Crear `src/content/projects/nombre-proyecto.mdx`.
 2. Completar el frontmatter con todos los campos requeridos (especialmente `showInResume` y `showInPortfolio`).
-3. Alternativamente, usar el panel de TinaCMS en `localhost:4321/admin` → Projects → Create New.
+3. Alternativamente, usar el panel de TinaCMS en `localhost:4322/admin` → Projects → Create New.
 
 ### Flujo para modificar el Resume
 

@@ -6,6 +6,157 @@ Este documento registra los cambios significativos realizados al proyecto en ord
 
 ---
 
+## [2026-05-31] — Depuración fina SASS sin aliases legacy
+
+### Objetivo
+
+Cerrar la alineación con `C:\www\aledesign-portfolio-2025`, eliminando aliases de compatibilidad que ya no tenían consumidores y preservando sólo mapas funcionales que alimentan la API Sass.
+
+### Cambios realizados
+
+- Eliminados aliases tipográficos legacy `$fs-*`, `$fw-*`, `$font-size-xs..8xl` y `$font-size-aliases`.
+- Normalizados consumidores restantes a `fs("100".."1200")`, `$font-size-*` numéricos y `$font-weight-*`.
+- `fs()` quedó como función directa sobre CSS custom properties `--fs-*`, sin fallback de aliases.
+- Eliminados aliases de color legacy `$clr-brand-*`, `$colors`, `$primary-accent`, `$secondary-accent` y `$tertiary-accent`.
+- Normalizados consumidores de color a `semantic-color(brand-*)` y `clr("family", "shade")` según corresponda.
+- Eliminados aliases internos sin consumidores `$body-bg`, `$body-text`, `$body-font`, `$mono-font` y `$heading-font`.
+- Preservados mapas funcionales `$font-families`, `$font-weights`, `$semantic-colors`, `$semantic-fonts`, `$layout-tokens`, `$containers` y `$radii` porque alimentan funciones Sass.
+- README y plantilla de migración actualizados para distinguir mapas funcionales de aliases legacy.
+- La plantilla `PROMPT_MIGRACION_TAILWIND_A_SASS.md` quedó agnóstica y autosuficiente: ya no depende de tener disponible el proyecto base 2025 para poder aplicarse en repos nuevos.
+- Preservado el build de producción para Netlify: `pnpm run build` sigue ejecutando `tinacms build && astro build`, con credenciales reales de Tina Cloud desde variables de entorno.
+- Agregado `pnpm run build:local` para compilar local/offline con `tinacms dev --port 4002 --datalayer-port 9001 -c "astro build"`, evitando consultar un schema ajeno si otro proyecto ocupa `4001/9000`.
+- Actualizado `pnpm run dev` para usar puertos locales propios: Tina `4002`, datalayer `9001` y Astro `4322`, evitando conflictos con OdontoPia u otros proyectos Tina en `4001/9000/4321`.
+- Actualizado `PortfolioDashboard.tsx` para resolver imágenes locales desde Tina `4002` hacia Astro `4322`, manteniendo compatibilidad con `4001` → `4321`.
+
+### Verificación
+
+- `rg` confirma que no quedan aliases legacy tipográficos/color en `src/styles`.
+- `git diff --check` sin errores.
+- `pnpm run build:local` construye correctamente 9 páginas con Tina local y Astro.
+- Tina imprime un warning residual de `Invalid hook call` durante el indexado posterior de `build:local`, pero el proceso termina con código 0. `pnpm run build` queda reservado para Netlify/Tina Cloud o entornos locales con credenciales reales.
+
+---
+
+## [2026-05-30] — Depuración SASS de aliases, tokens y mixins
+
+### Objetivo
+
+Alinear el sistema SASS con la lógica de `C:\www\aledesign-portfolio-2025` sin romper la API usada por los CSS Modules actuales.
+
+### Cambios realizados
+
+- `_breakpoints.scss` quedó como mapa puro `$breakpoints`.
+- `mq()` se movió a `_mixins.scss`, junto con `heading()` y los mixins visuales existentes.
+- Se agregaron aliases canónicos del sistema fuente:
+  - `$font-size-xs..8xl` como puente hacia `$font-size-100..1200`
+  - `$font-weight-default`, `$font-weight-medium`, `$font-weight-semi-bold`, `$font-weight-bold`
+  - `$body-text-color`, `$body-background-color`, `$heading-1-font-size`, `$heading-2-font-size`, `$heading-3-font-size`
+- Se movieron decisiones editables de layout desde `_sizes.scss` hacia `_tokens.scss`:
+  - `$container-max`
+  - `$radius-soft`
+  - mapas `$containers` y `$radii`
+- `container()` y `radius()` ahora leen sus mapas desde `_tokens.scss`.
+- README actualizado con la regla de depuración: respetar aliases del 2025, mantener aliases propios sólo como compatibilidad y ubicar mixins en `_mixins.scss`.
+
+### Decisión técnica
+
+No se eliminan aliases usados por los módulos actuales. La limpieza se hace por migración progresiva de consumidores y recién después se retiran puentes sin uso.
+
+---
+
+## [2026-05-29] — Consolidación SASS con maps/functions y arquitectura compartida
+
+### Objetivo
+
+Llevar el sistema SASS del portfolio al mismo nivel de arquitectura usado en OdontoPia, respetando las diferencias del proyecto: CSS Modules, abstracts inyectados por `astro.config.mjs` mediante `additionalData`, estética dark editorial/terminal y reglas de diseño propias como la "No-line rule".
+
+### Cambios realizados
+
+#### `src/styles/abstracts/`
+- Agregado `src/styles/abstracts/_functions.scss` como API de lectura para mapas:
+  - `clr(*)`
+  - `semantic-color(*)`
+  - `size(*)`
+  - `container(*)`
+  - `radius(*)`
+  - `ff(*)`
+  - `fs(*)`
+  - `fw(*)`
+  - `ls(*)`
+  - `lh(*)`
+  - `layout(*)`
+  - `semantic-font(*)`
+- Agregados mapas SASS en:
+  - `_colors.scss` → `$colors`
+  - `_sizes.scss` → `$sizes`, `$containers`, `$radii`
+  - `_typography.scss` → `$font-families`, `$font-sizes`, `$font-weights`, `$letter-spacings`, `$line-heights`
+  - `_tokens.scss` → `$semantic-colors`, `$semantic-fonts`, `$layout-tokens`
+- Actualizado `_breakpoints.scss` para usar mapa `$breakpoints` y un mixin `mq()` validado, con valores en `em`:
+  - `sm: 40em`
+  - `md: 48em`
+  - `lg: 64em`
+  - `xl: 80em`
+- Actualizado `_index.scss` para exportar `functions`.
+
+#### Alineación con `aledesign-portfolio-2025`
+- La referencia local queda fijada en `C:\www\aledesign-portfolio-2025\src\styles`.
+- `_colors.scss` ahora incluye primitivas privadas `$-clr-*` y mapas `$light` / `$dark`.
+- Se mantuvieron los tokens existentes `--clr-brand-*` para no romper el theme actual, pero se agregó la capa base `neutral`, `primary`, `secondary` y `accent` con shades numéricos.
+- `_tokens.scss` centraliza `$active-theme` y `$enable-media-query-dark-mode`.
+- `_globals.scss` genera CSS custom properties desde `$active-theme`, igual que el `_root.scss` del portfolio 2025.
+- `_typography.scss` cambió a `$font-sizes` responsive (`small`, `large`) con numeración amplia (`100`, `200`, `300`, `900`, `1000`, `1200`).
+- `fs()` ahora acepta valores numéricos y mantiene aliases previos (`xs`, `base`, `"6xl"`, `"8xl"`).
+- `clr()` ahora acepta la firma `clr($color, $shade, $scheme: $active-theme)` y conserva compatibilidad con `clr(brand-primary)` y demás aliases usados por los módulos actuales.
+- `README.md` y `PROMPT_MIGRACION_TAILWIND_A_SASS.md` documentan la lógica 2025 para reutilizarla en futuras conversiones.
+
+#### `src/styles/layout/` y `src/styles/utilities/`
+- Agregada carpeta `layout/` con helpers globales:
+  - `.cluster`
+  - `.even-columns`
+  - `.grid-auto-fit`
+  - `.pile`
+- Agregada carpeta `utilities/` con utilidades globales:
+  - `.container`
+  - `.flex-group`
+  - `.flow`
+  - `.round-soft`
+  - `.round-full`
+  - `.text-center`, `.text-start`, `.text-end`
+  - `.uppercase`
+- Actualizado `src/styles/main.scss` para importar `layout` y `utilities`.
+
+#### Refactor de consumidores SCSS
+- Refactorizados estilos en `base/`, `components/` y `pages/` para consumir funciones en lugar de variables directas cuando existe token exacto.
+- Se preservó la convención existente de CSS Modules (`*.module.scss`).
+- No se agregaron imports manuales redundantes de abstracts en los módulos porque el proyecto ya usa `vite.css.preprocessorOptions.scss.additionalData`.
+
+#### Documentación
+- Agregada `PROMPT_MIGRACION_TAILWIND_A_SASS.md` como plantilla reusable para futuras migraciones de Tailwind a SASS tokenizado.
+- La plantilla fue ajustada para contemplar proyectos con CSS Modules y abstracts inyectados por `additionalData`.
+- La plantilla mantiene `src/styles/main.scss` como entry point global, alineado con `aledesign-portfolio-2025`.
+
+### Decisión técnica
+
+El portfolio seguirá usando CSS Modules como política de encapsulamiento por componente/página. A diferencia de OdontoPia, donde el BEM global es aceptable por tratarse de una landing/app médica con secciones globales, este proyecto se beneficia de módulos scoped porque tiene páginas y componentes reutilizables con composición más editorial.
+
+### Verificación
+
+- Auditoría de variables directas en estilos consumidores: sin resultados.
+- Auditoría de reemplazos corruptos: sin resultados.
+- `pnpm exec astro build` compiló los entrypoints de Vite/SASS, pero falló durante prerender por un problema de TinaCMS no relacionado con estilos:
+  - `Cannot query field "pages" on type "Query"`.
+- `pnpm exec astro check` continúa fallando por errores preexistentes de Tina/TypeScript:
+  - `match` no reconocido en templates de `tina/config.ts`.
+  - Tipos `unknown`/`possibly undefined` en `tina/dashboard/PortfolioDashboard.tsx`.
+
+### Próximo trabajo recomendado
+
+- Resolver la incompatibilidad actual de TinaCMS schema/query antes de usar `build` como verificación completa.
+- Mantener `additionalData` como fuente global de abstracts y evitar `@use` repetido en cada CSS Module.
+- Continuar consumiendo la API de funciones en nuevos estilos.
+
+---
+
 ## [2026-05-20] — Cursor de terminal parpadeante interactivo en el buscador de Resume
 
 ### Objetivo

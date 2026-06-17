@@ -1,0 +1,13 @@
+@use "../abstracts" as *;
+
+.grid-auto-fit {
+  --grid-min-column-size: 16rem;
+  --grid-gap: #{size(6)};
+
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, var(--grid-min-column-size)), 1fr)
+  );
+  gap: var(--grid-gap);
+}

@@ -25,9 +25,21 @@ En el panel de tu sitio en Netlify, ve a **Site configuration** > **Environment 
 | `TINA_SEARCH_TOKEN` | Tu Search Token (opcional) |
 
 ### Comando de Build
-En **Build & deploy** > **Build settings**, asegúrate de que el comando sea:
-`tinacms build && astro build`
+En **Build & deploy** > **Build settings**, el build de producción debe seguir usando Tina Cloud:
 
+```bash
+tinacms build && astro build
+```
+
+Ese es el comando que ejecuta `pnpm run build` y requiere `TINA_CLIENT_ID` + `TINA_TOKEN` reales en Netlify.
+
+Para builds locales/offline, usá el script separado:
+
+```bash
+pnpm run build:local
+```
+
+`build:local` ejecuta `tinacms dev --port 4002 --datalayer-port 9001 -c "astro build"`, para que Astro consulte el schema local correcto. Los puertos `4002` y `9001` evitan chocar con otro Tina dev usando `4001`/`9000`.
 ---
 
 ## 3. Registro de Ramas (Importante) ⚠️
@@ -69,11 +81,19 @@ Para evitar enlaces rotos tanto en desarrollo como en producción:
 ## 6. Solución de Problemas Comunes
 
 ### El Dashboard no muestra las imágenes localmente
-Asegúrate de tener corriendo ambos servidores:
-1.  Astro: `npm run dev` (Puerto 4321)
-2.  Tina: `npx tinacms dev` (Puerto 4001)
+Usá el script del proyecto:
 
-El Dashboard personalizado (`PortfolioDashboard.tsx`) está configurado para cambiar automáticamente del puerto 4001 al 4321 para encontrar las imágenes.
+```bash
+pnpm run dev
+```
+
+En este proyecto el desarrollo local usa puertos propios para convivir con otros Tina dev servers:
+
+1. Astro: `http://localhost:4322`
+2. Tina API: `http://localhost:4002/graphql`
+3. Tina datalayer: `9001`
+
+El Dashboard personalizado (`PortfolioDashboard.tsx`) está configurado para mapear imágenes locales desde Tina `4002` hacia Astro `4322`. También conserva compatibilidad con el par histórico `4001` → `4321`.
 
 ### Build Error: "fs-extra not found"
 Asegúrate de que `fs-extra` esté en `devDependencies` en tu `package.json`. Es requerido por las métricas de Tina durante el build.

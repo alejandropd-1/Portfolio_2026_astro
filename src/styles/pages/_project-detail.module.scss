@@ -5,8 +5,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: $size-20;
-    padding-bottom: $size-8;
+    padding-top: size(20);
+    padding-bottom: size(8);
   }
 
   position: relative;
@@ -53,16 +53,16 @@
   &__backLink {
     display: inline-flex;
     align-items: center;
-    gap: $size-2;
-    color: $clr-brand-on-surface-variant;
-    font-size: $fs-xs;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-widest;
-    margin-bottom: $size-12;
+    gap: size(2);
+    color: semantic-color(brand-on-surface-variant);
+    font-size: fs("100");
+    font-weight: fw(bold);
+    letter-spacing: ls(wide)st;
+    margin-bottom: size(12);
     transition: color 0.2s ease;
 
     &:hover {
-      color: $clr-brand-primary;
+      color: semantic-color(brand-primary);
     }
 
     span {
@@ -70,15 +70,15 @@
     }
 
     &Label {
-      color: $clr-brand-on-surface;
+      color: semantic-color(brand-on-surface);
       opacity: 0.6;
     }
   }
 
   &__header {
     display: grid;
-    gap: $size-12;
-    margin-bottom: $size-20;
+    gap: size(12);
+    margin-bottom: size(20);
     align-items: end;
 
     @include mq(lg) {
@@ -95,14 +95,14 @@
   &__typeTag {
     display: flex;
     align-items: center;
-    gap: $size-3;
-    color: $clr-brand-primary;
-    margin-bottom: $size-6;
-    font-family: $mono-font;
-    font-size: $fs-xs;
-    font-weight: $fw-bold;
+    gap: size(3);
+    color: semantic-color(brand-primary);
+    margin-bottom: size(6);
+    font-family: semantic-font(mono);
+    font-size: fs("100");
+    font-weight: fw(bold);
     text-transform: uppercase;
-    letter-spacing: $ls-wide;
+    letter-spacing: ls(wide);
 
     span {
       opacity: 0.8;
@@ -115,8 +115,8 @@
     span {
       background: linear-gradient(
         to right,
-        $clr-brand-primary,
-        $clr-brand-tertiary
+        semantic-color(brand-primary),
+        semantic-color(brand-tertiary)
       );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -129,64 +129,64 @@
   &__sidebarHeader {
     @include mq(lg) {
       grid-column: span 4;
-      margin-bottom: $size-4;
+      margin-bottom: size(4);
     }
   }
 
   &__meta {
     @include glass("--clr-brand-primary-rgb", 45deg);
-    padding: $size-8;
+    padding: size(8);
     display: flex;
     flex-direction: column;
-    gap: $size-6;
-    border-radius: $radius-soft;
+    gap: size(6);
+    border-radius: radius(soft);
   }
 
   &__metaRow {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: $size-4;
+    padding-bottom: size(4);
     border-bottom: 1px solid rgba(white, 0.05);
-    font-size: $fs-xs;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-widest;
+    font-size: fs("100");
+    font-weight: fw(bold);
+    letter-spacing: ls(wide)st;
     text-transform: uppercase;
   }
 
   &__status {
-    color: $clr-brand-primary;
+    color: semantic-color(brand-primary);
     background: rgba(var(--clr-brand-primary-rgb), 0.1);
-    padding: $size-1 $size-3;
-    border-radius: $radius-soft;
+    padding: size(1) size(3);
+    border-radius: radius(soft);
   }
 
   &__infoList {
     display: flex;
     flex-direction: column;
-    gap: $size-4;
+    gap: size(4);
   }
 
   &__infoItem {
     display: flex;
     justify-content: space-between;
-    font-family: $mono-font;
-    font-size: $fs-xs;
+    font-family: semantic-font(mono);
+    font-size: fs("100");
     text-transform: uppercase;
-    letter-spacing: $ls-widest;
+    letter-spacing: ls(wide)st;
 
     &Key {
-      color: $clr-brand-secondary;
+      color: semantic-color(brand-secondary);
     }
 
     &Val {
-      color: $clr-brand-on-surface;
+      color: semantic-color(brand-on-surface);
       text-align: right;
     }
   }
 
   &__hero {
-    margin-bottom: $size-2;
+    margin-bottom: size(2);
     position: relative;
 
     &:hover .heroImage {
@@ -194,14 +194,14 @@
     }
 
     @include mq(md) {
-      margin-bottom: $size-20;
+      margin-bottom: size(20);
     }
   }
 
   &__heroFrame {
     aspect-ratio: 21 / 9;
     overflow: hidden;
-    background: $clr-brand-surface-low;
+    background: semantic-color(brand-surface-low);
     border: 1px solid rgba(white, 0.05);
     position: relative;
   }
@@ -214,40 +214,40 @@
 
   &__liveBadge {
     position: absolute;
-    bottom: $size-8;
-    right: $size-8;
+    bottom: size(8);
+    right: size(8);
     background: rgba(var(--clr-brand-surface-rgb), 0.8);
     backdrop-filter: blur(10px);
-    padding: $size-3 $size-6;
+    padding: size(3) size(6);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 9999px;
     display: flex;
     align-items: center;
-    gap: $size-3;
-    font-size: $fs-xs;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-widest;
+    gap: size(3);
+    font-size: fs("100");
+    font-weight: fw(bold);
+    letter-spacing: ls(wide)st;
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.3s ease;
 
     &:hover {
-      background: $clr-brand-primary;
-      color: $clr-brand-on-primary;
+      background: semantic-color(brand-primary);
+      color: semantic-color(brand-on-primary);
     }
 
     &Dot {
       width: 0.5rem;
       height: 0.5rem;
       border-radius: 50%;
-      background: $clr-brand-primary;
+      background: semantic-color(brand-primary);
       animation: pulse 2s infinite;
     }
   }
 
   &__mainGrid {
     display: grid;
-    gap: $size-20;
+    gap: size(20);
 
     @include mq(lg) {
       grid-template-columns: repeat(12, 1fr);
@@ -261,70 +261,70 @@
 
     // Prosa styles for MDX
     h2 {
-      font-size: $fs-3xl;
-      margin-top: $size-12;
-      margin-bottom: $size-6;
+      font-size: fs("700");
+      margin-top: size(12);
+      margin-bottom: size(6);
     }
     h3 {
-      font-size: $fs-2xl;
-      margin-top: $size-10;
-      margin-bottom: $size-4;
+      font-size: fs("600");
+      margin-top: size(10);
+      margin-bottom: size(4);
     }
     p {
-      font-size: $fs-base;
+      font-size: fs("300");
       line-height: 1.8;
-      color: $clr-brand-on-surface-variant;
-      margin-bottom: $size-6;
+      color: semantic-color(brand-on-surface-variant);
+      margin-bottom: size(6);
     }
     ul {
       list-style: disc;
-      margin-left: $size-6;
-      margin-bottom: $size-6;
+      margin-left: size(6);
+      margin-bottom: size(6);
     }
     li {
-      margin-bottom: $size-2;
-      color: $clr-brand-on-surface-variant;
+      margin-bottom: size(2);
+      color: semantic-color(brand-on-surface-variant);
     }
 
     pre {
       @include glass("--clr-brand-tertiary-rgb", 135deg);
-      padding: $size-6;
-      border-radius: $radius-soft;
+      padding: size(6);
+      border-radius: radius(soft);
       overflow-x: auto;
-      margin-bottom: $size-6;
-      font-size: $fs-sm;
-      font-family: $mono-font;
-      color: $clr-brand-tertiary;
+      margin-bottom: size(6);
+      font-size: fs("200");
+      font-family: semantic-font(mono);
+      color: semantic-color(brand-tertiary);
     }
 
     code {
-      font-family: $mono-font;
+      font-family: semantic-font(mono);
       background: rgba(white, 0.05);
       padding: 0.1em 0.3em;
       border-radius: 4px;
-      color: $clr-brand-primary;
+      color: semantic-color(brand-primary);
     }
 
     blockquote {
-      border-left: 3px solid $clr-brand-secondary;
-      padding-left: $size-6;
-      margin: $size-8 0;
+      border-left: 3px solid semantic-color(brand-secondary);
+      padding-left: size(6);
+      margin: size(8) 0;
       font-style: normal;
-      color: $clr-brand-on-surface;
+      color: semantic-color(brand-on-surface);
 
       p {
-        color: $clr-brand-on-surface;
+        color: semantic-color(brand-on-surface);
         opacity: 0.9;
-        font-size: $fs-base;
+        font-size: fs("300");
         margin-bottom: 0;
       }
     }
 
     h2:first-of-type + p,
     h2:first-of-type + p + p {
-      border-left: 3px solid $clr-brand-secondary;
-      padding-left: $size-6;
-      color: $clr-brand-on-surface;
+      border-left: 3px solid semantic-color(brand-secondary);
+      padding-left: size(6);
+      color: semantic-color(brand-on-surface);
       opacity: 0.9;
     }
   }
@@ -333,28 +333,28 @@
     @include mq(lg) {
       grid-column: span 4;
       position: sticky;
-      top: $size-32;
+      top: size(32);
       height: fit-content;
     }
   }
 
   &__stickyCard {
     @include glass("--clr-brand-secondary-rgb", 215deg);
-    border-radius: $radius-soft;
+    border-radius: radius(soft);
     overflow: hidden;
-    margin-bottom: $size-12;
+    margin-bottom: size(12);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   }
 
   &__stickyHeader {
     background: rgba(white, 0.03);
-    padding: $size-4 $size-6;
+    padding: size(4) size(6);
     border-bottom: 1px solid rgba(white, 0.05);
     display: flex;
     align-items: center;
-    font-family: $mono-font;
+    font-family: semantic-font(mono);
     font-size: 10px;
-    color: $clr-brand-on-surface-variant;
+    color: semantic-color(brand-on-surface-variant);
 
     &::before {
       content: "";
@@ -371,49 +371,49 @@
   }
 
   &__stickyBody {
-    padding: $size-8;
+    padding: size(8);
   }
 
   &__stickyTitle {
     display: flex;
     align-items: center;
-    gap: $size-3;
-    margin-bottom: $size-8;
-    color: $clr-brand-tertiary;
+    gap: size(3);
+    margin-bottom: size(8);
+    color: semantic-color(brand-tertiary);
 
     h3 {
-      font-size: $fs-lg;
-      letter-spacing: $ls-tight;
+      font-size: fs("400");
+      letter-spacing: ls(tight);
     }
   }
 
   &__specGroup {
-    margin-bottom: $size-10;
+    margin-bottom: size(10);
 
     &Label {
-      font-size: $fs-xs;
-      font-weight: $fw-bold;
-      letter-spacing: $ls-widest;
-      color: $clr-brand-on-surface-variant;
+      font-size: fs("100");
+      font-weight: fw(bold);
+      letter-spacing: ls(wide)st;
+      color: semantic-color(brand-on-surface-variant);
       text-transform: uppercase;
-      margin-bottom: $size-4;
+      margin-bottom: size(4);
     }
   }
 
   &__tagStack {
     display: flex;
     flex-wrap: wrap;
-    gap: $size-2;
+    gap: size(2);
   }
 
   &__codeCard {
     @include syntax-card;
-    padding: $size-6;
+    padding: size(6);
   }
 
   &__codePre {
-    color: $clr-brand-secondary;
-    font-family: $mono-font;
+    color: semantic-color(brand-secondary);
+    font-family: semantic-font(mono);
     font-size: 11px;
     white-space: pre-wrap;
     word-break: break-word;
@@ -421,17 +421,17 @@
 
   &__nextBtn {
     width: 100%;
-    background: $clr-brand-primary;
-    color: $clr-brand-on-primary;
-    font-weight: $fw-bold;
-    padding: $size-6;
+    background: semantic-color(brand-primary);
+    color: semantic-color(brand-on-primary);
+    font-weight: fw(bold);
+    padding: size(6);
     border: none;
-    border-radius: $radius-soft;
+    border-radius: radius(soft);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: $size-3;
-    letter-spacing: $ls-widest;
+    gap: size(3);
+    letter-spacing: ls(wide)st;
     cursor: pointer;
     transition: all 0.3s ease;
 
@@ -448,19 +448,19 @@
     }
   }
   &__resultValue {
-    font-size: $fs-4xl;
-    font-weight: $fw-bold;
+    font-size: fs("800");
+    font-weight: fw(bold);
     line-height: 1;
-    margin-bottom: $size-2;
+    margin-bottom: size(2);
 
     &--primary {
-      color: $clr-brand-primary;
+      color: semantic-color(brand-primary);
     }
     &--secondary {
-      color: $clr-brand-secondary;
+      color: semantic-color(brand-secondary);
     }
     &--tertiary {
-      color: $clr-brand-tertiary;
+      color: semantic-color(brand-tertiary);
     }
   }
 }

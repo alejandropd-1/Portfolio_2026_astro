@@ -3,18 +3,81 @@
 @use "typography" as *;
 @use "sizes" as *;
 
-$body-bg: $clr-brand-surface;
-$body-text: $clr-brand-on-surface;
-$body-font: $font-sans;
+$active-theme: $dark;
+$enable-media-query-dark-mode: false;
 
-$heading-font: $font-sans;
-$heading-font-weight: $fw-bold;
+
+$color-text-default: $color-neutral-900;
+$color-background-default: $color-neutral-100;
+$color-text-muted: $color-neutral-600;
+$color-text-interactive-default: $color-primary-500;
+$color-text-interactive-hover: $color-accent-500;
+$color-accent-default: $color-primary-500;
+
+$body-font-family: $font-family-base;
+$body-font-size: $font-size-300;
+$body-line-height: 1.5;
+$body-font-weight: $font-weight-default;
+$body-text-color: $color-text-default;
+$body-background-color: $color-background-default;
+
+
+$heading-font-family: $font-family-base;
+$heading-color-default: $color-text-default;
+$heading-font-weight: $font-weight-bold;
 $heading-letter-spacing: $ls-tighter;
+$heading-line-height: 1.1;
+$heading-text-transform: none;
 
-$mono-font: $font-mono;
+$heading-1-font-size: $font-size-1200;
+$heading-1-color: $heading-color-default;
+$heading-2-font-size: $font-size-900;
+$heading-2-color: $heading-color-default;
+$heading-3-font-size: $font-size-700;
+$heading-3-color: $heading-color-default;
 
-$primary-accent: $clr-brand-primary;
-$secondary-accent: $clr-brand-secondary;
-$tertiary-accent: $clr-brand-tertiary;
 
+
+$ghost-border-opacity: 0.1;
+$noise-opacity: 0.0125;
+
+$container-max: 80rem;
+$radius-soft: 0.125rem;
 $nav-height: 5rem;
+
+
+$semantic-colors: (
+  body-bg: $body-background-color,
+  body-text: $body-text-color,
+  text-muted: $color-text-muted,
+  brand-surface: var(--clr-brand-surface),
+  brand-surface-low: var(--clr-brand-surface-low),
+  brand-on-surface: var(--clr-brand-on-surface),
+  brand-on-surface-variant: var(--clr-brand-on-surface-variant),
+  brand-primary: var(--clr-brand-primary),
+  brand-on-primary: var(--clr-brand-on-primary),
+  brand-secondary: var(--clr-brand-secondary),
+  brand-tertiary: var(--clr-brand-tertiary),
+  brand-danger: var(--clr-brand-danger),
+  primary-accent: var(--clr-brand-primary),
+  secondary-accent: var(--clr-brand-secondary),
+  tertiary-accent: var(--clr-brand-tertiary),
+) !default;
+
+$semantic-fonts: (
+  body: $body-font-family,
+  heading: $heading-font-family,
+  mono: $font-mono,
+) !default;
+
+$layout-tokens: (
+  nav-height: $nav-height,
+) !default;
+
+$containers: (
+  max: $container-max,
+) !default;
+
+$radii: (
+  soft: $radius-soft,
+) !default;
