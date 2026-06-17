@@ -5,13 +5,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: $size-20;
-    padding-bottom: $size-8;
+    padding-top: size(20);
+    padding-bottom: size(8);
   }
 
   &__search {
     // max-width: 64rem;
-    margin: 0 auto $size-32;
+    margin: 0 auto size(32);
   }
 
   &__searchLabel {
@@ -19,14 +19,14 @@
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.4em;
-    color: $clr-brand-primary; // Changed to primary as per image header
-    font-weight: $fw-bold;
-    margin-bottom: $size-8;
+    color: semantic-color(brand-primary); // Changed to primary as per image header
+    font-weight: fw(bold);
+    margin-bottom: size(8);
   }
 
   &__terminal {
     @include glass("--clr-brand-surface-low-rgb", 180deg);
-    border-radius: $radius-soft;
+    border-radius: radius(soft);
     overflow: hidden;
     border: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.08);
     box-shadow:
@@ -44,7 +44,7 @@
 
   &__terminalHeader {
     background: rgba(var(--clr-brand-on-surface-rgb), 0.03);
-    padding: $size-3 $size-6;
+    padding: size(3) size(6);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -86,23 +86,23 @@
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: $size-2;
-    font-family: $mono-font;
+    gap: size(2);
+    font-family: semantic-font(mono);
     font-size: 10px;
     color: rgba(var(--clr-brand-on-surface-rgb), 0.4);
     letter-spacing: 0.05em;
 
     svg {
-      color: $clr-brand-tertiary;
+      color: semantic-color(brand-tertiary);
       opacity: 0.7;
     }
   }
 
   &__terminalBody {
-    padding: $size-10 $size-10;
+    padding: size(10) size(10);
     background: radial-gradient(
       circle at top left,
-      rgba($clr-brand-primary, 0.03),
+      rgba(semantic-color(brand-primary), 0.03),
       transparent 40%
     );
 
@@ -118,16 +118,16 @@
   &__searchBox {
     display: flex;
     align-items: center;
-    gap: $size-4;
-    margin-bottom: $size-12;
+    gap: size(4);
+    margin-bottom: size(12);
   }
 
   &__prompt {
-    font-family: $mono-font;
-    font-size: $fs-2xl;
-    font-weight: $fw-bold;
-    color: $clr-brand-primary;
-    text-shadow: 0 0 10px rgba($clr-brand-primary, 0.5);
+    font-family: semantic-font(mono);
+    font-size: fs("600");
+    font-weight: fw(bold);
+    color: semantic-color(brand-primary);
+    text-shadow: 0 0 10px rgba(semantic-color(brand-primary), 0.5);
   }
 
   &__inputWrapper {
@@ -144,9 +144,9 @@
     transform: translateY(-50%);
     width: 12px;
     height: 1.7em;
-    background-color: $clr-brand-primary;
+    background-color: semantic-color(brand-primary);
     opacity: 0.75;
-    box-shadow: 0 0 8px rgba($clr-brand-primary, 0.6);
+    box-shadow: 0 0 8px rgba(semantic-color(brand-primary), 0.6);
     pointer-events: none;
     animation: resume-caret-blink 1s infinite;
     transition: opacity 0.2s;
@@ -162,11 +162,11 @@
     background: transparent;
     border: none;
     padding: 0;
-    font-size: $fs-xl;
-    font-family: $mono-font;
-    color: $clr-brand-on-surface;
+    font-size: fs("500");
+    font-family: semantic-font(mono);
+    color: semantic-color(brand-on-surface);
     outline: none;
-    caret-color: $clr-brand-primary;
+    caret-color: semantic-color(brand-primary);
     caret-shape: block;
 
     &::placeholder {
@@ -181,15 +181,15 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-around;
-    gap: $size-6;
-    padding-top: $size-6;
+    gap: size(6);
+    padding-top: size(6);
     border-top: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.05);
   }
 
   &__tags {
     display: flex;
     flex-wrap: wrap;
-    gap: $size-3;
+    gap: size(3);
     align-items: center;
   }
 
@@ -202,8 +202,8 @@
     span {
       // Brighter active border for tags inside the terminal
       &[class*="tag--active"] {
-        border-color: rgba($clr-brand-primary, 0.8) !important;
-        box-shadow: 0 0 10px rgba($clr-brand-primary, 0.1);
+        border-color: rgba(semantic-color(brand-primary), 0.8) !important;
+        box-shadow: 0 0 10px rgba(semantic-color(brand-primary), 0.1);
       }
     }
   }
@@ -212,94 +212,94 @@
     background: none;
     border: none;
     font-size: 10px;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-widest;
-    color: rgba($clr-brand-on-surface-variant, 0.4);
+    font-weight: fw(bold);
+    letter-spacing: ls(wide)st;
+    color: rgba(semantic-color(brand-on-surface-variant), 0.4);
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.2s ease;
-    margin-left: $size-2;
-    font-family: $mono-font;
+    margin-left: size(2);
+    font-family: semantic-font(mono);
     border-bottom: 1px solid transparent;
 
     &:hover {
-      color: $clr-brand-secondary;
+      color: semantic-color(brand-secondary);
       border-bottom-color: currentColor;
     }
   }
 
   &__downloads {
     display: flex;
-    gap: $size-4;
+    gap: size(4);
     align-items: center;
   }
 
   &__downloadBtn {
     display: flex;
     align-items: center;
-    gap: $size-3;
-    padding: $size-3 $size-6;
+    gap: size(3);
+    padding: size(3) size(6);
     background: rgba(var(--clr-brand-on-surface-rgb), 0.03);
     border: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.1);
-    border-radius: $radius-soft;
-    font-family: $mono-font;
+    border-radius: radius(soft);
+    font-family: semantic-font(mono);
     font-size: 10px;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-widest;
+    font-weight: fw(bold);
+    letter-spacing: ls(wide)st;
     text-transform: uppercase;
-    color: $clr-brand-on-surface;
+    color: semantic-color(brand-on-surface);
     cursor: pointer;
     transition: all 0.3s ease;
 
     &:hover {
       background: rgba(255, 255, 255, 0.08);
-      border-color: rgba($clr-brand-primary, 0.5);
-      color: $clr-brand-primary;
+      border-color: rgba(semantic-color(brand-primary), 0.5);
+      color: semantic-color(brand-primary);
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     svg {
-      color: $clr-brand-primary;
+      color: semantic-color(brand-primary);
     }
   }
 
   &__hero {
-    margin-bottom: $size-32;
+    margin-bottom: size(32);
 
     h1 {
       @include page-title;
-      margin-bottom: $size-8;
+      margin-bottom: size(8);
     }
   }
 
   &__subtitle {
     @include page-subtitle;
-    margin-bottom: $size-12;
+    margin-bottom: size(12);
   }
 
   &__meta {
     display: flex;
     flex-wrap: wrap;
-    gap: $size-12 $size-4;
-    font-family: $mono-font;
+    gap: size(12) size(4);
+    font-family: semantic-font(mono);
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: $ls-wide;
+    letter-spacing: ls(wide);
 
     &Group {
       display: flex;
-      gap: $size-2;
+      gap: size(2);
 
       span:first-child {
-        color: $clr-brand-secondary;
+        color: semantic-color(brand-secondary);
       }
       span:last-child {
-        color: $clr-brand-on-surface;
+        color: semantic-color(brand-on-surface);
       }
 
       &--primary span:last-child {
-        color: $clr-brand-primary;
+        color: semantic-color(brand-primary);
         &:hover {
           text-decoration: underline;
           cursor: pointer;
@@ -311,58 +311,58 @@
   &__sectionGroup {
     display: flex;
     flex-direction: column;
-    gap: $size-40;
+    gap: size(40);
   }
 
   &__experienceList {
     display: flex;
     flex-direction: column;
-    gap: $size-12;
+    gap: size(12);
   }
 
   &__tagStack {
     display: flex;
     flex-wrap: wrap;
-    gap: $size-2;
+    gap: size(2);
   }
 
   &__footer {
-    padding-bottom: $size-32;
+    padding-bottom: size(32);
   }
 
   &__section {
-    margin-bottom: $size-40;
+    margin-bottom: size(40);
 
     &Header {
       display: flex;
       align-items: center;
-      gap: $size-4;
-      margin-bottom: $size-20;
+      gap: size(4);
+      margin-bottom: size(20);
 
       span {
-        font-family: $mono-font;
-        font-size: $fs-xs;
-        color: $clr-brand-primary;
+        font-family: semantic-font(mono);
+        font-size: fs("100");
+        color: semantic-color(brand-primary);
       }
       h2 {
-        font-size: $fs-4xl;
-        font-weight: $fw-bold;
-        letter-spacing: $ls-tight;
+        font-size: fs("800");
+        font-weight: fw(bold);
+        letter-spacing: ls(tight);
       }
     }
   }
 
   &__expCard {
     @include glass;
-    padding: $size-10;
-    border-radius: $radius-soft;
-    margin-bottom: $size-10;
+    padding: size(10);
+    border-radius: radius(soft);
+    margin-bottom: size(10);
 
     &Header {
       display: flex;
       flex-direction: column;
-      gap: $size-6;
-      margin-bottom: $size-8;
+      gap: size(6);
+      margin-bottom: size(8);
 
       @include mq(md) {
         flex-direction: row;
@@ -372,21 +372,21 @@
     }
 
     &Title {
-      font-size: $fs-3xl;
-      font-weight: $fw-bold;
-      margin-bottom: $size-3;
+      font-size: fs("700");
+      font-weight: fw(bold);
+      margin-bottom: size(3);
     }
 
     &Company {
       display: flex;
-      gap: $size-2;
-      font-family: $mono-font;
+      gap: size(2);
+      font-family: semantic-font(mono);
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: $ls-widest;
+      letter-spacing: ls(wide)st;
 
       span:first-child {
-        color: $clr-brand-secondary;
+        color: semantic-color(brand-secondary);
       }
       span:last-child {
         font-style: italic;
@@ -394,29 +394,29 @@
     }
 
     &Desc {
-      color: $clr-brand-on-surface-variant;
-      font-size: $fs-base;
-      line-height: $lh-relaxed;
-      margin-bottom: $size-8;
+      color: semantic-color(brand-on-surface-variant);
+      font-size: fs("300");
+      line-height: lh(relaxed);
+      margin-bottom: size(8);
       max-width: 64rem;
     }
 
     &Points {
       display: flex;
       flex-direction: column;
-      gap: $size-6;
-      margin-bottom: $size-10;
+      gap: size(6);
+      margin-bottom: size(10);
     }
 
     &Point {
       display: flex;
-      gap: $size-4;
-      font-size: $fs-sm;
-      color: $clr-brand-on-surface-variant;
-      line-height: $lh-relaxed;
+      gap: size(4);
+      font-size: fs("200");
+      color: semantic-color(brand-on-surface-variant);
+      line-height: lh(relaxed);
 
       span {
-        color: $clr-brand-primary;
+        color: semantic-color(brand-primary);
         margin-top: 6px;
         flex-shrink: 0;
       }
@@ -425,7 +425,7 @@
 
   &__skillGrid {
     display: grid;
-    gap: $size-8;
+    gap: size(8);
     @include mq(md) {
       grid-template-columns: repeat(3, 1fr);
     }
@@ -433,30 +433,30 @@
 
   &__skillCard {
     @include glass;
-    border-radius: $radius-soft;
-    padding: $size-10;
+    border-radius: radius(soft);
+    padding: size(10);
     height: 100%;
 
     &Category {
       font-size: 10px;
-      font-weight: $fw-bold;
-      letter-spacing: $ls-wide;
-      color: $clr-brand-on-surface-variant;
-      margin-bottom: $size-12;
+      font-weight: fw(bold);
+      letter-spacing: ls(wide);
+      color: semantic-color(brand-on-surface-variant);
+      margin-bottom: size(12);
       text-transform: uppercase;
     }
 
     &Items {
       display: flex;
       flex-direction: column;
-      gap: $size-8;
+      gap: size(8);
     }
 
     &Item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-bottom: $size-4;
+      padding-bottom: size(4);
       border-bottom: 1px solid rgba(white, 0.05);
 
       &:last-child {
@@ -465,40 +465,40 @@
 
       &Name {
         font-size: 11px;
-        color: $clr-brand-on-surface-variant;
+        color: semantic-color(brand-on-surface-variant);
         text-transform: uppercase;
-        letter-spacing: $ls-widest;
+        letter-spacing: ls(wide)st;
       }
       &Val {
-        color: $clr-brand-primary;
-        font-family: $mono-font;
-        font-size: $fs-xs;
+        color: semantic-color(brand-primary);
+        font-family: semantic-font(mono);
+        font-size: fs("100");
       }
     }
   }
 
   &__eduCard {
     @include glass;
-    border-radius: $radius-soft;
-    padding: $size-12;
-    margin-bottom: $size-10;
+    border-radius: radius(soft);
+    padding: size(12);
+    margin-bottom: size(10);
 
     &Header {
       display: flex;
       justify-content: space-between;
       align-items: start;
-      margin-bottom: $size-6;
+      margin-bottom: size(6);
 
       h3 {
-        font-size: $fs-3xl;
-        font-weight: $fw-bold;
+        font-size: fs("700");
+        font-weight: fw(bold);
       }
       span {
-        font-family: $mono-font;
-        font-size: $fs-xs;
-        color: $clr-brand-on-surface-variant;
+        font-family: semantic-font(mono);
+        font-size: fs("100");
+        color: semantic-color(brand-on-surface-variant);
         text-transform: uppercase;
-        letter-spacing: $ls-widest;
+        letter-spacing: ls(wide)st;
       }
     }
   }

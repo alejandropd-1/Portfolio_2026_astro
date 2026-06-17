@@ -1,0 +1,9 @@
+@use "../abstracts" as *;
+
+.round-soft {
+  border-radius: radius(soft);
+}
+
+.round-full {
+  border-radius: 9999px;
+}

@@ -5,37 +5,37 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: $size-20;
-    padding-bottom: $size-8;
+    padding-top: size(20);
+    padding-bottom: size(8);
   }
 
   &__header {
-    margin-bottom: $size-24;
+    margin-bottom: size(24);
   }
 
   &__title {
     @include page-title;
-    margin-bottom: $size-6;
+    margin-bottom: size(6);
   }
 
   &__subtitle {
     @include page-subtitle;
     @include glass("--clr-brand-primary-rgb", 135deg);
     width: 100%;
-    padding: $size-6 $size-8;
+    padding: size(6) size(8);
   }
 
   &__table {
     overflow: hidden;
-    border-radius: $radius-soft;
+    border-radius: radius(soft);
     border: 1px solid rgba(white, 0.05);
-    background: $clr-brand-surface;
+    background: semantic-color(brand-surface);
     @include glass("--clr-brand-surface-rgb", 182deg);
   }
 
   &__terminalHeader {
-    background: $clr-brand-surface-low;
-    padding: $size-4 $size-6;
+    background: semantic-color(brand-surface-low);
+    padding: size(4) size(6);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -44,7 +44,7 @@
 
   &__dots {
     display: flex;
-    gap: $size-2;
+    gap: size(2);
   }
 
   &__dot {
@@ -64,28 +64,28 @@
   }
 
   &__fileName {
-    font-family: $mono-font;
+    font-family: semantic-font(mono);
     font-size: 11px;
-    color: $clr-brand-on-surface-variant;
+    color: semantic-color(brand-on-surface-variant);
     opacity: 0.8;
   }
 
   &__controls {
     display: flex;
-    gap: $size-4;
+    gap: size(4);
   }
 
   &__select {
     background: var(--clr-brand-surface);
     color: var(--clr-brand-on-surface);
     font-size: 10px;
-    padding: $size-2 $size-4;
+    padding: size(2) size(4);
     border: 1px solid rgba(white, 0.1);
-    border-radius: $radius-soft;
+    border-radius: radius(soft);
     outline: none;
     text-transform: uppercase;
-    letter-spacing: $ls-widest;
-    font-weight: $fw-bold;
+    letter-spacing: ls(wide)st;
+    font-weight: fw(bold);
 
     &:focus {
       border-color: rgba(var(--clr-brand-primary-rgb), 0.3);
@@ -100,7 +100,7 @@
   &__gridHeader {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    padding: $size-6 $size-8;
+    padding: size(6) size(8);
     background:
       linear-gradient(
         180deg,
@@ -109,8 +109,8 @@
       ),
       rgba(var(--clr-brand-surface-low-rgb), 0.5);
     font-size: 10px;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-wide;
+    font-weight: fw(bold);
+    letter-spacing: ls(wide);
     color: rgba(var(--clr-brand-on-surface-variant-rgb), 0.6);
     text-transform: uppercase;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -132,7 +132,7 @@
   &__row {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    padding: $size-10 $size-8;
+    padding: size(10) size(8);
     align-items: center;
     transition: background 0.2s ease;
     cursor: default;
@@ -141,29 +141,29 @@
       background: rgba(white, 0.02);
 
       .archive__projectTitle {
-        color: $clr-brand-primary;
+        color: semantic-color(brand-primary);
       }
     }
   }
 
   &__year {
     grid-column: span 2;
-    font-family: $mono-font;
-    color: $clr-brand-secondary;
-    font-size: $fs-sm;
+    font-family: semantic-font(mono);
+    color: semantic-color(brand-secondary);
+    font-size: fs("200");
   }
 
   &__projectName {
     grid-column: span 4;
     display: flex;
     align-items: center;
-    gap: $size-3;
+    gap: size(3);
   }
 
   &__projectTitle {
-    font-size: $fs-base;
-    font-weight: $fw-bold;
-    color: $clr-brand-on-surface;
+    font-size: fs("300");
+    font-weight: fw(bold);
+    color: semantic-color(brand-on-surface);
     transition: color 0.2s ease;
   }
 
@@ -171,10 +171,10 @@
     background: rgba(#ef4444, 0.1);
     color: #ef4444;
     font-size: 8px;
-    padding: 2px $size-2;
-    border-radius: $radius-soft;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-widest;
+    padding: 2px size(2);
+    border-radius: radius(soft);
+    font-weight: fw(bold);
+    letter-spacing: ls(wide)st;
     text-transform: uppercase;
   }
 
@@ -182,7 +182,7 @@
     grid-column: span 4;
     display: flex;
     flex-wrap: wrap;
-    gap: $size-2;
+    gap: size(2);
   }
 
   &__actionCol {
@@ -195,37 +195,37 @@
     border: none;
     display: inline-flex;
     align-items: center;
-    gap: $size-2;
+    gap: size(2);
     font-size: 10px;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-widest;
-    color: $clr-brand-on-surface-variant;
+    font-weight: fw(bold);
+    letter-spacing: ls(wide)st;
+    color: semantic-color(brand-on-surface-variant);
     transition: color 0.2s ease;
     text-transform: uppercase;
     cursor: pointer;
 
     &:hover {
-      color: $clr-brand-on-surface;
+      color: semantic-color(brand-on-surface);
     }
   }
 
   &__tableFooter {
-    background: $clr-brand-surface-low;
-    padding: $size-6 $size-8;
+    background: semantic-color(brand-surface-low);
+    padding: size(6) size(8);
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-size: 10px;
-    font-weight: $fw-bold;
-    letter-spacing: $ls-widest;
-    color: $clr-brand-on-surface-variant;
+    font-weight: fw(bold);
+    letter-spacing: ls(wide)st;
+    color: semantic-color(brand-on-surface-variant);
     text-transform: uppercase;
   }
 
   &__pagination {
     display: flex;
     align-items: center;
-    gap: $size-10;
+    gap: size(10);
   }
 
   &__pageBtn {
@@ -233,13 +233,13 @@
     border: none;
     display: flex;
     align-items: center;
-    gap: $size-2;
+    gap: size(2);
     transition: color 0.2s ease;
     color: inherit;
     cursor: pointer;
 
     &:hover {
-      color: $clr-brand-on-surface;
+      color: semantic-color(brand-on-surface);
     }
 
     &--disabled {

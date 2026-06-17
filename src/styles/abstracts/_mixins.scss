@@ -1,8 +1,42 @@
 // src/styles/abstracts/_mixins.scss
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
 @use "colors" as *;
 @use "sizes" as *;
 @use "typography" as *;
 @use "breakpoints" as *;
+@use "tokens" as *;
+
+@mixin mq($size) {
+  @if map.has-key($breakpoints, $size) {
+    $breakpoint: map.get($breakpoints, $size);
+
+    @media screen and (min-width: $breakpoint) {
+      @content;
+    }
+  } @else if meta.type-of($size) == number {
+    @if math.is-unitless($size) {
+      @error "when using a number with @mq() make sure to include a unit";
+    } @else {
+      @media screen and (min-width: $size) {
+        @content;
+      }
+    }
+  } @else {
+    @error "the keyword #{$size} is not in the $breakpoints map";
+  }
+}
+
+@mixin heading($fs, $color: $heading-color-default) {
+  font-size: $fs;
+  color: $color;
+  font-family: $heading-font-family;
+  text-transform: $heading-text-transform;
+  letter-spacing: $heading-letter-spacing;
+  font-weight: $heading-font-weight;
+  line-height: $heading-line-height;
+}
 
 @mixin glass($color-rgb: "--clr-brand-on-surface-rgb", $angle: 135deg) {
   // Frosted glass: dark translucent base + color bloom from corner
@@ -85,29 +119,29 @@
 }
 
 @mixin page-title {
-  font-size: $fs-5xl;
-  font-weight: $fw-bold;
+  font-size: $font-size-900;
+  font-weight: $font-weight-bold;
   line-height: 1.1;
   letter-spacing: $ls-tighter;
 
   @include mq(md) {
-    font-size: $fs-8xl;
+    font-size: $font-size-1200;
   }
 
   span {
-    color: $clr-brand-primary;
+    color: var(--clr-brand-primary);
     display: inline;
     font-style: normal;
   }
 }
 
 @mixin page-subtitle {
-  font-size: $fs-xl;
-  color: $clr-brand-on-surface-variant;
+  font-size: $font-size-500;
+  color: var(--clr-brand-on-surface-variant);
   line-height: $lh-relaxed;
 
   @include mq(md) {
-    font-size: $fs-2xl;
+    font-size: $font-size-600;
   }
 }
 

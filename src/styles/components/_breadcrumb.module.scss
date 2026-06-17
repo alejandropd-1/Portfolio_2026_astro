@@ -3,11 +3,11 @@
 .breadcrumb {
   display: flex;
   align-items: center;
-  gap: $size-3;
-  color: $clr-brand-tertiary;
-  font-family: $mono-font;
-  font-size: $fs-xs;
-  font-weight: $fw-bold;
+  gap: size(3);
+  color: semantic-color(brand-tertiary);
+  font-family: semantic-font(mono);
+  font-size: fs("100");
+  font-weight: fw(bold);
 
   &__list {
     display: flex;
@@ -18,16 +18,16 @@
     transition: color 0.2s ease;
     cursor: pointer;
     &:hover {
-      color: $clr-brand-primary;
+      color: semantic-color(brand-primary);
     }
   }
 
   &__separator {
     opacity: 0.5;
-    margin: 0 $size-2;
+    margin: 0 size(2);
   }
 
   &__current {
-    color: $clr-brand-primary;
+    color: semantic-color(brand-primary);
   }
 }
