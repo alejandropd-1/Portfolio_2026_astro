@@ -37,3 +37,4 @@ Portfolio_2026_astro.code-workspace
 .codegraph/.gitignore
 .codegraph/config.json
 .continue/agents/new-config.yaml
+.understand-anything/
