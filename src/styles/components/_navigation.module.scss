@@ -17,7 +17,7 @@
   border-radius: 12px;
   z-index: 200;
 
-  // Opaque enough to avoid backdrop filtering across the full page.
+  // Readable fallback; real backdrop glass is limited to this shallow bar.
   background: linear-gradient(
     135deg,
     rgba(var(--clr-brand-surface-rgb), 0.92) 0%,
@@ -40,6 +40,14 @@
       rgba(var(--clr-brand-surface-rgb), 0.94) 0%,
       rgba(var(--clr-brand-surface-low-rgb), 0.9) 100%
     );
+  }
+
+  @supports ((backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px))) {
+    background: linear-gradient(135deg,
+      rgba(var(--clr-brand-surface-rgb), 0.72),
+      rgba(var(--clr-brand-surface-low-rgb), 0.58));
+    backdrop-filter: blur(8px) saturate(1.2);
+    -webkit-backdrop-filter: blur(8px) saturate(1.2);
   }
 
   // ── Logo ──

@@ -39,14 +39,17 @@
 }
 
 @mixin glass($color-rgb: "--clr-brand-on-surface-rgb", $angle: 135deg) {
-  // Static translucency and color bloom avoid filtering the backdrop on scroll.
+  // Frosted material: paint soft color fields and a reusable grain tile once.
+  // Depth comes from the gradients, without stacking backdrop filters per card.
   background:
     linear-gradient($angle,
-      rgba(var(#{$color-rgb}), 0.28) 0%,
-      rgba(var(#{$color-rgb}), 0.10) 40%,
+      rgba(var(#{$color-rgb}), 0.30) 0%,
+      rgba(var(#{$color-rgb}), 0.08) 40%,
       rgba(0, 0, 0, 0) 70%
     ),
-    rgba(var(--clr-brand-surface-rgb), 0.82);
+    radial-gradient(ellipse at 90% 85%, rgba(var(--clr-brand-secondary-rgb), 0.14), transparent 65%),
+    radial-gradient(ellipse at 20% 90%, rgba(var(--clr-brand-tertiary-rgb), 0.16), transparent 60%),
+    rgba(var(--clr-brand-surface-rgb), 0.78);
   border: 1px solid rgba(var(#{$color-rgb}), 0.25);
   box-shadow:
     0 4px 30px rgba(0, 0, 0, 0.5),
@@ -55,6 +58,18 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: url('/textures/grain.svg') repeat;
+    background-size: 128px 128px;
+    opacity: 0.17;
+    pointer-events: none;
+  }
 }
 @mixin syntax-card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%);
@@ -100,8 +115,9 @@
   }
 }
 
-// Static colored grids: fixed masks preserve the identity without repainting
-// every frame. No JS, animation registration, or extra shadow filter layers.
+// A stationary grid mask clips a moving radial light. This is visually the
+// same intersection as moving a circular mask over a fixed colored grid,
+// but only the painted light's transform changes on each frame.
 @mixin energy-grid-spot(
   $color-rgb,
   $spot-center,
@@ -113,20 +129,32 @@
   inset: 0;
   pointer-events: none;
   mix-blend-mode: screen;
-  background-size: $grid-size $grid-size;
-  background-image:
-    linear-gradient(to right, rgba(var(--#{$color-rgb}), $line-alpha) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(var(--#{$color-rgb}), $line-alpha) 1px, transparent 1px);
-  mask-image: radial-gradient(circle $spot-radius at $spot-center,
-    rgba(0, 0, 0, 0.95) 0%,
-    rgba(0, 0, 0, 0.55) 25%,
-    rgba(0, 0, 0, 0.15) 55%,
-    transparent 80%);
-  -webkit-mask-image: radial-gradient(circle $spot-radius at $spot-center,
-    rgba(0, 0, 0, 0.95) 0%,
-    rgba(0, 0, 0, 0.55) 25%,
-    rgba(0, 0, 0, 0.15) 55%,
-    transparent 80%);
+  -webkit-mask-image:
+    linear-gradient(to right, #000 1px, transparent 1px),
+    linear-gradient(to bottom, #000 1px, transparent 1px);
+  mask-image:
+    linear-gradient(to right, #000 1px, transparent 1px),
+    linear-gradient(to bottom, #000 1px, transparent 1px);
+  -webkit-mask-size: $grid-size $grid-size;
+  mask-size: $grid-size $grid-size;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+
+  &::before {
+    content: "";
+    position: absolute;
+    // Center the bounded light on the viewport coordinates in its transform.
+    width: min(#{$spot-radius * 2}, 110vw);
+    aspect-ratio: 1;
+    top: calc(-1 * min(#{$spot-radius}, 55vw));
+    left: calc(-1 * min(#{$spot-radius}, 55vw));
+    transform: translate($spot-center);
+    background: radial-gradient(circle closest-side,
+      rgba(var(--#{$color-rgb}), $line-alpha * 0.95) 0%,
+      rgba(var(--#{$color-rgb}), $line-alpha * 0.55) 25%,
+      rgba(var(--#{$color-rgb}), $line-alpha * 0.15) 55%,
+      transparent 80%);
+  }
 }
 
 @mixin energy-grid-bg($grid-size: 48px) {
@@ -137,16 +165,49 @@
   background: var(--clr-brand-surface);
 
   .eg-spot--primary {
-    @include energy-grid-spot("clr-brand-primary-rgb", 18% 28%, 360px, $grid-size, 0.65);
+    @include energy-grid-spot("clr-brand-primary-rgb", (18vw, 28vh), 360px, $grid-size, 0.65);
   }
   .eg-spot--tertiary {
-    @include energy-grid-spot("clr-brand-tertiary-rgb", 78% 62%, 420px, $grid-size, 0.55);
+    @include energy-grid-spot("clr-brand-tertiary-rgb", (78vw, 62vh), 420px, $grid-size, 0.55);
   }
   .eg-spot--secondary {
-    @include energy-grid-spot("clr-brand-secondary-rgb", 55% 88%, 280px, $grid-size, 0.50);
+    @include energy-grid-spot("clr-brand-secondary-rgb", (55vw, 88vh), 280px, $grid-size, 0.50);
   }
 
   .light & .eg-spot {
     mix-blend-mode: multiply;
   }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .eg-spot--primary::before {
+      animation: eg-focus-primary 26s ease-in-out infinite;
+    }
+    .eg-spot--tertiary::before {
+      animation: eg-focus-tertiary 34s ease-in-out infinite;
+    }
+    .eg-spot--secondary::before {
+      animation: eg-focus-secondary 42s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes eg-focus-primary {
+  0%, 100% { transform: translate(14vw, 22vh); }
+  25% { transform: translate(68vw, 12vh); }
+  50% { transform: translate(82vw, 58vh); }
+  75% { transform: translate(22vw, 70vh); }
+}
+
+@keyframes eg-focus-tertiary {
+  0%, 100% { transform: translate(78vw, 62vh); }
+  25% { transform: translate(30vw, 80vh); }
+  50% { transform: translate(12vw, 38vh); }
+  75% { transform: translate(60vw, 18vh); }
+}
+
+@keyframes eg-focus-secondary {
+  0%, 100% { transform: translate(55vw, 88vh); }
+  25% { transform: translate(90vw, 40vh); }
+  50% { transform: translate(40vw, 12vh); }
+  75% { transform: translate(8vw, 60vh); }
 }
