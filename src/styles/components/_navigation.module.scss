@@ -17,14 +17,12 @@
   border-radius: 12px;
   z-index: 200;
 
-  // Custom transparent glassmorphism optimized to see elements behind
+  // Opaque enough to avoid backdrop filtering across the full page.
   background: linear-gradient(
     135deg,
-    rgba(var(--clr-brand-surface-rgb), 0.25) 0%,
-    rgba(var(--clr-brand-surface-rgb), 0.1) 100%
+    rgba(var(--clr-brand-surface-rgb), 0.92) 0%,
+    rgba(var(--clr-brand-surface-low-rgb), 0.88) 100%
   );
-  backdrop-filter: blur(12px) saturate(1.4);
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
   border: 1px solid rgba(var(--clr-brand-on-surface-rgb), 0.12);
   box-shadow: 
     0 8px 32px 0 rgba(0, 0, 0, 0.4),
@@ -39,8 +37,8 @@
 
     background: linear-gradient(
       135deg,
-      rgba(var(--clr-brand-surface-rgb), 0.3) 0%,
-      rgba(var(--clr-brand-surface-rgb), 0.15) 100%
+      rgba(var(--clr-brand-surface-rgb), 0.94) 0%,
+      rgba(var(--clr-brand-surface-low-rgb), 0.9) 100%
     );
   }
 

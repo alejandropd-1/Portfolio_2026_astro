@@ -205,17 +205,6 @@ article {
   }
 }
 
-@keyframes fade-in-bg {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 .bg-energy-grid {
   @include energy-grid-bg();
-  opacity: 0;
-  animation: fade-in-bg 1.5s ease-out forwards;
 }

@@ -1,0 +1,172 @@
+- generic [active] [ref=f7e1]:
+  - navigation [ref=f7e4]:
+    - generic [ref=f7e5]:
+      - generic [ref=f7e6]: Ale
+      - text: Design
+  - main [ref=f7e7]:
+    - generic [ref=f7e9]:
+      - generic [ref=f7e10]:
+        - generic [ref=f7e11]:
+          - generic [ref=f7e15]:
+            - link "~" [ref=f7e16] [cursor=pointer]:
+              - /url: /
+            - generic [ref=f7e17]: /
+            - link "root" [ref=f7e18] [cursor=pointer]:
+              - /url: /
+            - generic [ref=f7e19]:
+              - generic [ref=f7e20]: /
+              - generic [ref=f7e21]: projects
+          - generic [ref=f7e22]:
+            - generic [ref=f7e23]:
+              - button "Copy page as Markdown" [ref=f7e24] [cursor=pointer]: Copy page
+              - button "More export options" [ref=f7e28] [cursor=pointer]
+            - menu "Markdown export options":
+              - menuitem "Copy Markdown"
+              - menuitem "View Markdown"
+              - menuitem "Download .md"
+        - heading "Compiled Visions." [level=1] [ref=f7e31]
+        - generic [ref=f7e32]:
+          - generic [ref=f7e33]: const mission =
+          - generic [ref=f7e34]: "\"UX/UI designer with over 15 years of experience.\";"
+      - generic [ref=f7e35]:
+        - complementary [ref=f7e36]:
+          - generic [ref=f7e37]:
+            - generic [ref=f7e38]: "# Filters"
+            - generic [ref=f7e40]:
+              - button "All Output" [ref=f7e41] [cursor=pointer]
+              - button "UI/UX Eng" [ref=f7e42] [cursor=pointer]
+              - button "Web Dev" [ref=f7e43] [cursor=pointer]
+              - button "Mobile App" [ref=f7e44] [cursor=pointer]
+              - button "Systems" [ref=f7e45] [cursor=pointer]
+          - generic [ref=f7e46]:
+            - generic [ref=f7e47]: "# Layout"
+            - generic [ref=f7e49]:
+              - button "Cards" [ref=f7e50] [cursor=pointer]
+              - button "List" [ref=f7e51] [cursor=pointer]
+          - generic [ref=f7e52]:
+            - generic [ref=f7e53]:
+              - generic [ref=f7e54]: status =
+              - generic [ref=f7e55]: "\"\"available_for_hireee\",\";"
+            - generic [ref=f7e56]:
+              - generic [ref=f7e57]: location =
+              - generic [ref=f7e58]: "\"\"remote\",\";"
+            - generic [ref=f7e59]:
+              - generic [ref=f7e60]: timezone =
+              - generic [ref=f7e61]: "\"\"EST\",\";"
+        - generic [ref=f7e62]:
+          - article [ref=f7e64] [cursor=pointer]:
+            - link "Multimedia Designer ⟡ 2018 - Present // Freelance Multimedia Designer Mockups and Wireframing in low and high FIGMA, Adobe XD, Illustrator, and Photoshop. Web design and development using HTML, CSS, SASS, and JavaScript, Node. UI UX Javascript React Design HTML CSS SASS Astro Web Wireframe Mockeups Adobe READ OUTPUT" [ref=f7e65]:
+              - /url: /projects/freelance
+              - generic [ref=f7e66]:
+                - img "Multimedia Designer" [ref=f7e69]
+                - generic [ref=f7e70]:
+                  - generic [ref=f7e71]:
+                    - generic [ref=f7e72]: ⟡
+                    - text: 2018 - Present // Freelance
+                  - heading "Multimedia Designer" [level=2] [ref=f7e73]
+                  - paragraph [ref=f7e74]: Mockups and Wireframing in low and high FIGMA, Adobe XD, Illustrator, and Photoshop. Web design and development using HTML, CSS, SASS, and JavaScript, Node.
+                  - generic [ref=f7e75]:
+                    - generic [ref=f7e76]: UI
+                    - generic [ref=f7e77]: UX
+                    - generic [ref=f7e78]: Javascript
+                    - generic [ref=f7e79]: React
+                    - generic [ref=f7e80]: Design
+                    - generic [ref=f7e81]: HTML
+                    - generic [ref=f7e82]: CSS
+                    - generic [ref=f7e83]: SASS
+                    - generic [ref=f7e84]: Astro
+                    - generic [ref=f7e85]: Web
+                    - generic [ref=f7e86]: Wireframe
+                    - generic [ref=f7e87]: Mockeups
+                    - generic [ref=f7e88]: Adobe
+                  - generic [ref=f7e89]: READ OUTPUT
+          - generic [ref=f7e92]:
+            - link [ref=f7e94] [cursor=pointer]:
+              - /url: /projects/around
+              - article [ref=f7e95]:
+                - img "UX/UI Web Designer" [ref=f7e98]
+                - generic [ref=f7e99]:
+                  - generic [ref=f7e100]:
+                    - generic [ref=f7e101]: ⟡
+                    - text: 2018 - 2020
+                  - heading "UX/UI Web Designer" [level=3] [ref=f7e102]
+                  - generic [ref=f7e103]:
+                    - generic [ref=f7e104]:
+                      - generic [ref=f7e105]: Role =
+                      - generic [ref=f7e106]: "\"UX/UI Web // Designer\";"
+                    - generic [ref=f7e107]:
+                      - generic [ref=f7e108]: Type =
+                      - generic [ref=f7e109]: "\"Fixed-term contract\";"
+                  - generic [ref=f7e110]: VIEW LOG
+            - link [ref=f7e117] [cursor=pointer]:
+              - /url: /projects/inti-web
+              - article [ref=f7e118]:
+                - img "UX/UI Web Designer" [ref=f7e121]
+                - generic [ref=f7e122]:
+                  - generic [ref=f7e123]:
+                    - generic [ref=f7e124]: ⟡
+                    - text: 2010 - 2018
+                  - heading "UX/UI Web Designer" [level=3] [ref=f7e125]
+                  - generic [ref=f7e126]:
+                    - generic [ref=f7e127]:
+                      - generic [ref=f7e128]: Role =
+                      - generic [ref=f7e129]: "\"UX/UI Web Designer\";"
+                    - generic [ref=f7e130]:
+                      - generic [ref=f7e131]: Type =
+                      - generic [ref=f7e132]: "\"Fixed-term contract\";"
+                  - generic [ref=f7e133]: VIEW LOG
+            - link [ref=f7e140] [cursor=pointer]:
+              - /url: /projects/inti-marketing
+              - article [ref=f7e141]:
+                - img "Digital Marketing Specialist" [ref=f7e144]
+                - generic [ref=f7e145]:
+                  - generic [ref=f7e146]:
+                    - generic [ref=f7e147]: ⟡
+                    - text: 2020 - 2023
+                  - heading "Digital Marketing Specialist" [level=3] [ref=f7e148]
+                  - generic [ref=f7e149]:
+                    - generic [ref=f7e150]:
+                      - generic [ref=f7e151]: Role =
+                      - generic [ref=f7e152]: "\"Digital Marketing Specialist\";"
+                    - generic [ref=f7e153]:
+                      - generic [ref=f7e154]: Type =
+                      - generic [ref=f7e155]: "\"Fixed-term contract\";"
+                  - generic [ref=f7e156]: VIEW LOG
+            - link [ref=f7e163] [cursor=pointer]:
+              - /url: /projects/inti-pm
+              - article [ref=f7e164]:
+                - img "Project Manager & IT Specialist" [ref=f7e167]
+                - generic [ref=f7e168]:
+                  - generic [ref=f7e169]:
+                    - generic [ref=f7e170]: ⟡
+                    - text: 2020 - Present
+                  - heading "Project Manager & IT Specialist" [level=3] [ref=f7e171]
+                  - generic [ref=f7e172]:
+                    - generic [ref=f7e173]:
+                      - generic [ref=f7e174]: Role =
+                      - generic [ref=f7e175]: "\"Project Manager & IT Specialist\";"
+                    - generic [ref=f7e176]:
+                      - generic [ref=f7e177]: Type =
+                      - generic [ref=f7e178]: "\"Fixed-term contract\";"
+                  - generic [ref=f7e179]: VIEW LOG
+  - contentinfo [ref=f7e186]:
+    - generic [ref=f7e187]:
+      - generic [ref=f7e188]: AleDesign
+      - generic [ref=f7e189]:
+        - link "GitHub GitHub" [ref=f7e190] [cursor=pointer]:
+          - /url: https://github.com/apdelgado
+          - img "GitHub" [ref=f7e192]
+          - generic [ref=f7e194]: GitHub
+        - link "LinkedIn LinkedIn" [ref=f7e195] [cursor=pointer]:
+          - /url: https://linkedin.com/in/apdelgado
+          - img "LinkedIn" [ref=f7e197]
+          - generic [ref=f7e199]: LinkedIn
+        - link "Bluesky Bluesky" [ref=f7e200] [cursor=pointer]:
+          - /url: https://bsky.app/profile/apdelgado.bsky.social
+          - img "Bluesky" [ref=f7e202]
+          - generic [ref=f7e204]: Bluesky
+        - link "YouTube Youtube" [ref=f7e205] [cursor=pointer]:
+          - /url: https://www.youtube.com/@aledesign_1
+          - img "YouTube" [ref=f7e207]
+          - generic [ref=f7e209]: Youtube
+      - generic [ref=f7e210]: © 2026 ALE_DESIGN // COMPILED WITH SOUL

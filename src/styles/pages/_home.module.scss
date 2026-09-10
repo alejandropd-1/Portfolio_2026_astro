@@ -110,31 +110,6 @@
         transform: scale(1.03);
       }
     }
-    // &::before {
-    //   content: "";
-    //   position: absolute;
-    //   inset: 0;
-    //   background-image: url('/grain.png');
-    //   background-repeat: repeat;
-    //   background-size: 700px;
-    //   opacity: 0.5;
-    //   mix-blend-mode: hard-light;
-    //   pointer-events: none;
-    //   z-index: 0;
-    //   border-radius: inherit;
-    // }
-    // &::after {
-    //   content: "";
-    //   position: absolute;
-    //   inset: 0;
-    //   background-image: url('/banner-background.png');
-    //   backdrop-filter: saturate(150%) blur(25px);
-    //   background-color: #0a151f40;
-    //   background-position: top;
-    //   background-repeat: repeat;
-    //   background-size: cover;
-    //   opacity: 1;
-    // }
   }
 
   &__featuredGrid {
