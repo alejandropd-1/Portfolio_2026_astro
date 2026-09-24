@@ -1,0 +1,46 @@
+### Result
+{"start":[{"transform":"matrix(1, 0, 0, 1, 15.107, 15.107)","mask":"radial-gradient(420px at 78% 62%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.55) 25%, rgba(0, 0, 0, 0.15) 55%, rgba(0, 0, 0, 0) 80%)","animation":"eg-grid-drift, eg-breathe"},{"transform":"matrix(1, 0, 0, 1, 15.107, 15.107)","mask":"radial-gradient(280px at 55% 88%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.55) 25%, rgba(0, 0, 0, 0.15) 55%, rgba(0, 0, 0, 0) 80%)","animation":"eg-grid-drift, eg-breathe"},{"transform":"matrix(1, 0, 0, 1, 15.107, 15.107)","mask":"radial-gradient(360px at 18% 28%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.55) 25%, rgba(0, 0, 0, 0.15) 55%, rgba(0, 0, 0, 0) 80%)","animation":"eg-grid-drift, eg-breathe"}],"end":[{"transform":"matrix(1, 0, 0, 1, 22.9875, 22.9875)","mask":"radial-gradient(420px at 78% 62%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.55) 25%, rgba(0, 0, 0, 0.15) 55%, rgba(0, 0, 0, 0) 80%)","animation":"eg-grid-drift, eg-breathe"},{"transform":"matrix(1, 0, 0, 1, 22.9875, 22.9875)","mask":"radial-gradient(280px at 55% 88%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.55) 25%, rgba(0, 0, 0, 0.15) 55%, rgba(0, 0, 0, 0) 80%)","animation":"eg-grid-drift, eg-breathe"},{"transform":"matrix(1, 0, 0, 1, 22.9875, 22.9875)","mask":"radial-gradient(360px at 18% 28%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.55) 25%, rgba(0, 0, 0, 0.15) 55%, rgba(0, 0, 0, 0) 80%)","animation":"eg-grid-drift, eg-breathe"}],"paint":0,"raster":0,"reduced":[{"transform":"none","mask":"radial-gradient(420px at 78% 62%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.55) 25%, rgba(0, 0, 0, 0.15) 55%, rgba(0, 0, 0, 0) 80%)","animation":"none"},{"transform":"none","mask":"radial-gradient(280px at 55% 88%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.55) 25%, rgba(0, 0, 0, 0.15) 55%, rgba(0, 0, 0, 0) 80%)","animation":"none"},{"transform":"none","mask":"radial-gradient(360px at 18% 28%, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.55) 25%, rgba(0, 0, 0, 0.15) 55%, rgba(0, 0, 0, 0) 80%)","animation":"none"}],"mobile":{"width":390,"documentWidth":390}}
+### Ran Playwright code
+```js
+await (async (page) => {
+  await page.setViewportSize({width: 1280, height: 720});
+  await page.emulateMedia({reducedMotion: 'no-preference'});
+  await page.goto('http://localhost:4322/');
+  await page.waitForTimeout(2000);
+  const sample = () => page.evaluate(() => [...document.querySelectorAll('.eg-spot')].map(el => ({
+    transform: getComputedStyle(el).transform,
+    mask: getComputedStyle(el).maskImage,
+    animation: getComputedStyle(el).animationName
+  })));
+  const cdp = await page.context().newCDPSession(page);
+  const events = [];
+  cdp.on('Tracing.dataCollected', chunk => events.push(...chunk.value));
+  await cdp.send('Tracing.start', {categories: 'devtools.timeline,disabled-by-default-devtools.timeline', transferMode: 'ReportEvents'});
+  const start = await sample();
+  await page.waitForTimeout(4000);
+  const end = await sample();
+  const complete = new Promise(resolve => cdp.once('Tracing.tracingComplete', resolve));
+  await cdp.send('Tracing.end');
+  await complete;
+  await cdp.detach();
+  if (start.some((s, i) => s.transform === end[i].transform)) throw new Error('Grid did not move');
+  if (end.some(s => s.transform !== end[0].transform)) throw new Error('Grid layers lost alignment');
+  if (start.some((s, i) => s.mask !== end[i].mask)) throw new Error('Mask gradient changed');
+  const results = {start, end, paint: events.filter(e => e.name === 'Paint' && e.ph === 'X').length,
+    raster: events.filter(e => e.name === 'RasterTask' && e.ph === 'X').length};
+  await page.emulateMedia({reducedMotion: 'reduce'});
+  results.reduced = await sample();
+  if (results.reduced.some(s => s.transform !== 'none' || s.animation !== 'none')) throw new Error('Reduced motion failed');
+  await page.setViewportSize({width: 390, height: 844});
+  results.mobile = await page.evaluate(() => ({width: innerWidth, documentWidth: document.documentElement.scrollWidth}));
+  await page.emulateMedia({reducedMotion: 'no-preference'});
+  await page.setViewportSize({width: 1280, height: 720});
+  return results;
+}
+)(page);
+```
+### Page
+- Page URL: http://localhost:4322/
+- Page Title: AleDesign | Alejandro Delgado - Multimedia Designer
+### Events
+- New console entries: .playwright-cli\console-2026-09-10T22-30-52-162Z.log#L12

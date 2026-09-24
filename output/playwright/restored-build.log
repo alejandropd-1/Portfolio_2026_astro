@@ -1,0 +1,30 @@
+19:53:33 [content] Syncing content
+19:53:33 [content] Synced content
+19:53:34 [types] Generated 691ms
+19:53:34 [build] output: "static"
+19:53:34 [build] mode: "static"
+19:53:34 [build] directory: C:\www\Portfolio_2026_astro\dist\
+19:53:34 [build] Collecting build info...
+19:53:34 [build] ✓ Completed in 748ms.
+19:53:34 [build] Building static entrypoints...
+19:53:36 [WARN] [vite] "Search" and "X" are imported from external module "lucide-react" but never used in "src/components/ClientResume.tsx".
+19:53:37 [vite] ✓ built in 3.04s
+19:53:40 [vite] ✓ built in 3.83s
+19:53:40 [build] Rearranging server assets...
+
+ generating static routes 
+19:53:42   ├─ /about/index.html (+68ms) 
+19:53:42   ├─ /archive/index.html (+29ms) 
+19:53:42   ├─ /projects/freelance/index.html (+46ms) 
+19:53:42   ├─ /projects/around/index.html (+31ms) 
+19:53:42   ├─ /projects/inti-web/index.html (+31ms) 
+19:53:42   ├─ /projects/inti-marketing/index.html (+26ms) 
+19:53:42   ├─ /projects/inti-pm/index.html (+32ms) 
+19:53:42   ├─ /resume/index.html (+28ms) 
+19:53:42   ├─ /rss.xml (+59ms) 
+19:53:42   ├─ /index.html (+25ms) 
+19:53:42 ✓ Completed in 1.03s.
+
+19:53:42 [build] ✓ Completed in 8.48s.
+19:53:42 [build] 9 page(s) built in 9.28s
+19:53:42 [build] Complete!

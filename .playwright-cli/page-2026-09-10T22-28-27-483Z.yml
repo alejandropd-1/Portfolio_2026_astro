@@ -1,0 +1,231 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Aura Logo AURA" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "Aura Logo" [ref=e7]
+        - generic [ref=e8]: AURA
+      - generic [ref=e9]:
+        - button "Toggle theme" [ref=e10] [cursor=pointer]
+        - link "—" [ref=e11] [cursor=pointer]:
+          - /url: https://github.com/CristianOlivera1/Aura
+  - main [ref=e13]:
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - generic [ref=e20]: Layered gradients
+        - generic [ref=e21]: · CSS blend modes
+      - heading [level=1] [ref=e22]:
+        - text: Backgrounds that feel
+        - generic [ref=e23]:
+          - generic [ref=e24]: like
+          - text: light.
+      - paragraph [ref=e25]: Aura is a small, growing set of ambient gradients built from layered blend modes - soft, atmospheric, and easy to drop behind any interface.
+      - generic [ref=e26]:
+        - generic [ref=e27]: Try it out!
+        - link "Browse gradients" [ref=e29] [cursor=pointer]:
+          - /url: "#gradients"
+        - link "Star on GitHub —" [ref=e30] [cursor=pointer]:
+          - /url: https://github.com/CristianOlivera1/Aura
+          - text: Star on GitHub
+          - generic [ref=e31]: —
+    - generic [ref=e32]:
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]: 206 Backgrounds
+          - generic [ref=e41]:
+            - button "Scroll to Sunrise Drift gradient card" [ref=e42] [cursor=pointer]:
+              - generic [ref=e43]: Previewing -
+              - generic [ref=e44]: Sunrise Drift
+            - button "Random gradient" [ref=e46] [cursor=pointer]
+            - button "Reset background" [ref=e47] [cursor=pointer]
+            - button "Show favorites only" [ref=e48] [cursor=pointer]
+        - generic [ref=e49]:
+          - tablist "Gradient categories" [ref=e50]:
+            - tab "All" [selected] [ref=e51] [cursor=pointer]
+            - tab "Aura" [ref=e52] [cursor=pointer]
+            - tab "Mesh" [ref=e53] [cursor=pointer]
+            - tab "Nebula" [ref=e54] [cursor=pointer]
+            - tab "Prism" [ref=e55] [cursor=pointer]
+            - tab "Lattice" [ref=e56] [cursor=pointer]
+            - tab "Grain" [ref=e57] [cursor=pointer]
+            - tab "Glass" [ref=e58] [cursor=pointer]
+            - tab "Flux" [ref=e59] [cursor=pointer]
+          - searchbox "Search gradients by name or description" [ref=e61]
+      - tabpanel "All" [ref=e63]:
+        - 'group "Sunrise Drift: Blue into orange, high key" [ref=e64]':
+          - generic [ref=e65]:
+            - generic:
+              - generic:
+                - button "Preview"
+                - button "Customize"
+              - button "Copy AI prompt for this gradient":
+                - generic: Copy Prompt
+            - generic [ref=e69]: Active
+            - button "Save as favorite" [ref=e71] [cursor=pointer]
+            - generic [ref=e72]: Aura
+            - generic [ref=e74]:
+              - paragraph [ref=e75]: Sunrise Drift
+              - paragraph [ref=e76]: Blue into orange, high key
+        - 'group "Golden Hour: Amber melting into burnt sienna" [ref=e77]':
+          - generic [ref=e78]:
+            - generic:
+              - generic:
+                - button "Preview"
+                - button "Customize"
+              - button "Copy AI prompt for this gradient":
+                - generic: Copy Prompt
+            - button "Save as favorite" [ref=e82] [cursor=pointer]
+            - generic [ref=e83]: Aura
+            - generic [ref=e85]:
+              - paragraph [ref=e86]: Golden Hour
+              - paragraph [ref=e87]: Amber melting into burnt sienna
+        - 'group "Midnight Sapphire: Deep cobalt bleeding into violet ink" [ref=e88]':
+          - generic [ref=e89]:
+            - generic:
+              - generic:
+                - button "Preview"
+                - button "Customize"
+              - button "Copy AI prompt for this gradient":
+                - generic: Copy Prompt
+            - button "Save as favorite" [ref=e93] [cursor=pointer]
+            - generic [ref=e94]: Aura
+            - generic [ref=e96]:
+              - paragraph [ref=e97]: Midnight Sapphire
+              - paragraph [ref=e98]: Deep cobalt bleeding into violet ink
+        - 'group "Dusty Rose: Muted rose gradient with soft vintage film character" [ref=e99]':
+          - generic [ref=e100]:
+            - generic:
+              - generic:
+                - button "Preview"
+                - button "Customize"
+              - button "Copy AI prompt for this gradient":
+                - generic: Copy Prompt
+            - button "Save as favorite" [ref=e104] [cursor=pointer]
+            - generic [ref=e105]: Grain
+            - generic [ref=e107]:
+              - paragraph [ref=e108]: Dusty Rose
+              - paragraph [ref=e109]: Muted rose gradient with soft vintage film character
+        - 'group "Aurora Nova: A vibrant transition from deep cosmic violet to an electric neon sunrise" [ref=e110]':
+          - generic [ref=e111]:
+            - generic:
+              - generic:
+                - button "Preview"
+                - button "Customize"
+              - button "Copy AI prompt for this gradient":
+                - generic: Copy Prompt
+            - button "Save as favorite" [ref=e116] [cursor=pointer]
+            - generic [ref=e117]: Aura
+            - generic [ref=e119]:
+              - paragraph [ref=e120]: Aurora Nova
+              - paragraph [ref=e121]: A vibrant transition from deep cosmic violet to an electric neon sunrise
+        - 'group "Aurora Borealis: Layered emerald and cyan aurora curtains drifting across a midnight sky" [ref=e122]':
+          - generic [ref=e123]:
+            - generic:
+              - generic:
+                - button "Preview"
+                - button "Customize"
+              - button "Copy AI prompt for this gradient":
+                - generic: Copy Prompt
+            - button "Save as favorite" [ref=e131] [cursor=pointer]
+            - generic [ref=e132]: Nebula
+            - generic [ref=e134]:
+              - paragraph [ref=e135]: Aurora Borealis
+              - paragraph [ref=e136]: Layered emerald and cyan aurora curtains drifting across a midnight sky
+        - 'group "Aurora Beams: Diagonal repeating light beams heavily blurred with a teal base glow" [ref=e137]':
+          - generic [ref=e138]:
+            - generic:
+              - generic:
+                - button "Preview"
+                - button "Customize"
+              - button "Copy AI prompt for this gradient":
+                - generic: Copy Prompt
+            - button "Save as favorite" [ref=e143] [cursor=pointer]
+            - generic [ref=e144]: Lattice
+            - generic [ref=e146]:
+              - paragraph [ref=e147]: Aurora Beams
+              - paragraph [ref=e148]: Diagonal repeating light beams heavily blurred with a teal base glow
+        - 'group "Midnight Horizon: A vibrant transition from deep space blue to an electric sunrise horizon" [ref=e149]':
+          - generic [ref=e150]:
+            - generic:
+              - generic:
+                - button "Preview"
+                - button "Customize"
+              - button "Copy AI prompt for this gradient":
+                - generic: Copy Prompt
+            - button "Save as favorite" [ref=e155] [cursor=pointer]
+            - generic [ref=e156]: Aura
+            - generic [ref=e158]:
+              - paragraph [ref=e159]: Midnight Horizon
+              - paragraph [ref=e160]: A vibrant transition from deep space blue to an electric sunrise horizon
+        - 'group "Champagne Fizz: Pale gold bubbling into peach nectar" [ref=e161]':
+          - generic [ref=e162]:
+            - generic:
+              - generic:
+                - button "Preview"
+                - button "Customize"
+              - button "Copy AI prompt for this gradient":
+                - generic: Copy Prompt
+            - button "Save as favorite" [ref=e166] [cursor=pointer]
+            - generic [ref=e167]: Aura
+            - generic [ref=e169]:
+              - paragraph [ref=e170]: Champagne Fizz
+              - paragraph [ref=e171]: Pale gold bubbling into peach nectar
+        - 'group "Silver Mist: Mercury grey dissolving into pale lilac" [ref=e172]':
+          - generic [ref=e173]:
+            - generic:
+              - generic:
+                - button "Preview"
+                - button "Customize"
+              - button "Copy AI prompt for this gradient":
+                - generic: Copy Prompt
+            - button "Save as favorite" [ref=e177] [cursor=pointer]
+            - generic [ref=e178]: Aura
+            - generic [ref=e180]:
+              - paragraph [ref=e181]: Silver Mist
+              - paragraph [ref=e182]: Mercury grey dissolving into pale lilac
+        - 'group "Arctic Frost: Ice crystal refracting into periwinkle" [ref=e183]':
+          - generic [ref=e184]:
+            - generic:
+              - generic:
+                - button "Preview"
+                - button "Customize"
+              - button "Copy AI prompt for this gradient":
+                - generic: Copy Prompt
+            - button "Save as favorite" [ref=e188] [cursor=pointer]
+            - generic [ref=e189]: Aura
+            - generic [ref=e191]:
+              - paragraph [ref=e192]: Arctic Frost
+              - paragraph [ref=e193]: Ice crystal refracting into periwinkle
+        - 'group "Ember Glow: Coral into deep rose" [ref=e194]':
+          - generic [ref=e195]:
+            - generic:
+              - generic:
+                - button "Preview"
+                - button "Customize"
+              - button "Copy AI prompt for this gradient":
+                - generic: Copy Prompt
+            - button "Save as favorite" [ref=e199] [cursor=pointer]
+            - generic [ref=e200]: Aura
+            - generic [ref=e202]:
+              - paragraph [ref=e203]: Ember Glow
+              - paragraph [ref=e204]: Coral into deep rose
+  - contentinfo [ref=e206]:
+    - generic [ref=e208]:
+      - generic [ref=e209]:
+        - generic [ref=e210]:
+          - img "Aura Logo" [ref=e212]
+          - generic [ref=e213]: AURA
+        - paragraph [ref=e214]: A small library of ambient gradient backgrounds. Free and open source - animated and customizable gradients are on the way.
+      - generic [ref=e215]:
+        - generic [ref=e216]:
+          - link "GitHub" [ref=e217] [cursor=pointer]:
+            - /url: https://github.com/CristianOlivera1/Aura
+          - generic [ref=e218]: ·
+          - link "llms.txt (AI)" [ref=e219] [cursor=pointer]:
+            - /url: /llms.txt
+            - text: llms.txt
+            - generic [ref=e220]: (AI)
+        - paragraph [ref=e221]: Built for the community.
+  - button "Scroll to top"

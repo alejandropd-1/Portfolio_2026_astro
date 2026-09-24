@@ -1,0 +1,57 @@
+### Result
+{"start":[{"transform":"matrix(1, 0, 0, 1, 773.995, 493.735)","gridTransform":"none","mask":"linear-gradient(to right, rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px)","gradient":"radial-gradient(circle closest-side, rgba(76, 201, 240, 0.52) 0%, rgba(76, 201, 240, 0.3) 25%, rgba(76, 201, 240, 0.082) 55%, rgba(0, 0, 0, 0) 80%)","opacity":"1","animation":"eg-focus-tertiary"},{"transform":"matrix(1, 0, 0, 1, 812.331, 550.03)","gridTransform":"none","mask":"linear-gradient(to right, rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px)","gradient":"radial-gradient(circle closest-side, rgba(255, 159, 28, 0.475) 0%, rgba(255, 159, 28, 0.275) 25%, rgba(255, 159, 28, 0.075) 55%, rgba(0, 0, 0, 0) 80%)","opacity":"1","animation":"eg-focus-secondary"},{"transform":"matrix(1, 0, 0, 1, 583.998, 116.234)","gridTransform":"none","mask":"linear-gradient(to right, rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px)","gradient":"radial-gradient(circle closest-side, rgba(176, 255, 146, 0.616) 0%, rgba(176, 255, 146, 0.357) 25%, rgba(176, 255, 146, 0.098) 55%, rgba(0, 0, 0, 0) 80%)","opacity":"1","animation":"eg-focus-primary"}],"end":[{"transform":"matrix(1, 0, 0, 1, 397.885, 573.071)","gridTransform":"none","mask":"linear-gradient(to right, rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px)","gradient":"radial-gradient(circle closest-side, rgba(76, 201, 240, 0.52) 0%, rgba(76, 201, 240, 0.3) 25%, rgba(76, 201, 240, 0.082) 55%, rgba(0, 0, 0, 0) 80%)","opacity":"1","animation":"eg-focus-tertiary"},{"transform":"matrix(1, 0, 0, 1, 1080.62, 343.065)","gridTransform":"none","mask":"linear-gradient(to right, rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px)","gradient":"radial-gradient(circle closest-side, rgba(255, 159, 28, 0.475) 0%, rgba(255, 159, 28, 0.275) 25%, rgba(255, 159, 28, 0.075) 55%, rgba(0, 0, 0, 0) 80%)","opacity":"1","animation":"eg-focus-secondary"},{"transform":"matrix(1, 0, 0, 1, 880.612, 105.275)","gridTransform":"none","mask":"linear-gradient(to right, rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px)","gradient":"radial-gradient(circle closest-side, rgba(176, 255, 146, 0.616) 0%, rgba(176, 255, 146, 0.357) 25%, rgba(176, 255, 146, 0.098) 55%, rgba(0, 0, 0, 0) 80%)","opacity":"1","animation":"eg-focus-primary"}],"paint":0,"raster":0,"reduced":[{"transform":"matrix(1, 0, 0, 1, 998.4, 446.4)","gridTransform":"none","mask":"linear-gradient(to right, rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px)","gradient":"radial-gradient(circle closest-side, rgba(76, 201, 240, 0.52) 0%, rgba(76, 201, 240, 0.3) 25%, rgba(76, 201, 240, 0.082) 55%, rgba(0, 0, 0, 0) 80%)","opacity":"1","animation":"none"},{"transform":"matrix(1, 0, 0, 1, 704, 633.6)","gridTransform":"none","mask":"linear-gradient(to right, rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px)","gradient":"radial-gradient(circle closest-side, rgba(255, 159, 28, 0.475) 0%, rgba(255, 159, 28, 0.275) 25%, rgba(255, 159, 28, 0.075) 55%, rgba(0, 0, 0, 0) 80%)","opacity":"1","animation":"none"},{"transform":"matrix(1, 0, 0, 1, 230.4, 201.6)","gridTransform":"none","mask":"linear-gradient(to right, rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgb(0, 0, 0) 1px, rgba(0, 0, 0, 0) 1px)","gradient":"radial-gradient(circle closest-side, rgba(176, 255, 146, 0.616) 0%, rgba(176, 255, 146, 0.357) 25%, rgba(176, 255, 146, 0.098) 55%, rgba(0, 0, 0, 0) 80%)","opacity":"1","animation":"none"}],"mobile":{"width":390,"documentWidth":390}}
+### Ran Playwright code
+```js
+await (async (page) => {
+  await page.setViewportSize({width: 1280, height: 720});
+  await page.emulateMedia({reducedMotion: 'no-preference'});
+  await page.goto('http://localhost:4322/');
+  await page.waitForTimeout(2000);
+  const sample = () => page.evaluate(() => [...document.querySelectorAll('.eg-spot')].map(el => ({
+    transform: getComputedStyle(el, '::before').transform,
+    gridTransform: getComputedStyle(el).transform,
+    mask: getComputedStyle(el).maskImage,
+    gradient: getComputedStyle(el, '::before').backgroundImage,
+    opacity: getComputedStyle(el, '::before').opacity,
+    animation: getComputedStyle(el, '::before').animationName
+  })));
+  const cdp = await page.context().newCDPSession(page);
+  const events = [];
+  cdp.on('Tracing.dataCollected', chunk => events.push(...chunk.value));
+  await cdp.send('Tracing.start', {categories: 'devtools.timeline,disabled-by-default-devtools.timeline', transferMode: 'ReportEvents'});
+  const start = await sample();
+  await page.waitForTimeout(4000);
+  const end = await sample();
+  const complete = new Promise(resolve => cdp.once('Tracing.tracingComplete', resolve));
+  await cdp.send('Tracing.end');
+  await complete;
+  await cdp.detach();
+  if (start.some((s, i) => s.transform === end[i].transform)) throw new Error('Spotlight did not move');
+  if (end.some(s => s.gridTransform !== 'none')) throw new Error('The grid must remain stationary');
+  if (new Set(end.map(s => s.animation)).size !== 3) throw new Error('Expected three independent paths');
+  if (start.some((s, i) => s.opacity !== '1' || end[i].opacity !== '1')) throw new Error('Unexpected fading');
+  if (start.some((s, i) => s.gradient !== end[i].gradient)) throw new Error('Light gradient changed');
+  if (start.some((s, i) => s.mask !== end[i].mask)) throw new Error('Mask gradient changed');
+  const results = {start, end, paint: events.filter(e => e.name === 'Paint' && e.ph === 'X').length,
+    raster: events.filter(e => e.name === 'RasterTask' && e.ph === 'X').length};
+  await page.emulateMedia({reducedMotion: 'reduce'});
+  results.reduced = await sample();
+  if (results.reduced.some(s => s.animation !== 'none')) throw new Error('Reduced motion failed');
+  await page.setViewportSize({width: 390, height: 844});
+  results.mobile = await page.evaluate(() => ({width: innerWidth, documentWidth: document.documentElement.scrollWidth}));
+  await page.emulateMedia({reducedMotion: 'no-preference'});
+  await page.setViewportSize({width: 1280, height: 720});
+  const hidden = await page.addStyleTag({content: 'body > :not(.bg-energy-grid) {visibility:hidden!important}'});
+  try {
+    await page.screenshot({path: 'output/playwright/spotlights-a.png'});
+    await page.waitForTimeout(5000);
+    await page.screenshot({path: 'output/playwright/spotlights-b.png'});
+  } finally {
+    await hidden.evaluate(el => el.remove());
+  }
+  return results;
+}
+)(page);
+```
+### Events
+- New console entries: .playwright-cli\console-2026-09-10T22-30-52-162Z.log#L13
